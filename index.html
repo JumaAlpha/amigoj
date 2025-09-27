@@ -1113,107 +1113,115 @@
         id="overlay"></div>
 
     <!-- Enhanced Glassmorphism Sidebar -->
-    <div class="sidebar-glass fixed top-0 right-[-420px] w-96 h-full z-[60] transition-all duration-500 flex flex-col"
+    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-96 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto"
         id="sidebar">
+        <!-- Close Button for Mobile -->
+        <div class="absolute top-4 right-4 z-10 sm:hidden">
+            <button
+                class="close-sidebar w-10 h-10 rounded-full bg-dark-800/80 flex items-center justify-center text-white text-lg hover:bg-accent-yellow hover:text-dark-900 transition-all duration-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
         <!-- Profile Section -->
-        <div class="sidebar-profile flex flex-col items-center py-8 px-8 rounded-b-2xl mb-6">
+        <div class="sidebar-profile flex flex-col items-center py-8 px-4 sm:px-8 rounded-b-2xl mb-6 mt-4 sm:mt-0">
             <div
-                class="w-24 h-24 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-3xl shadow-lg shadow-amber-500/40 mb-4">
-                <img src="https://i.ibb.co/4T2SY0X/transparent-person.png" alt="Amigo Johnson" class="rounded-full">
+                class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-2xl sm:text-3xl shadow-lg shadow-amber-500/40 mb-4 overflow-hidden">
+                <img src="aj_img.jpg" alt="Amigo Johnson" class="w-full h-full object-cover rounded-full">
             </div>
-            <h2 class="text-2xl font-bold text-white">Amigo Johnson</h2>
-            <p class="text-accent-yellow font-medium mt-1">Creative Director</p>
+            <h2 class="text-xl sm:text-2xl font-bold text-white text-center px-2">Amigo Johnson</h2>
+            <p class="text-accent-yellow font-medium mt-1 text-sm sm:text-base">Creative Director</p>
             <div class="flex gap-3 mt-4">
                 <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    class="social-icon w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-base sm:text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    class="social-icon w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-base sm:text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
                 <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    class="social-icon w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-base sm:text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
                     <i class="fab fa-twitter"></i>
                 </a>
             </div>
         </div>
 
         <!-- Navigation Links -->
-        <div class="sidebar-links flex flex-col gap-2 flex-1 px-4">
+        <div class="sidebar-links flex flex-col gap-1 sm:gap-2 flex-1 px-2 sm:px-4">
             <a href="#home"
-                class="sidebar-link nav-link text-slate-200 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4 active-sidebar-link"
+                class="sidebar-link nav-link text-slate-200 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4 active-sidebar-link"
                 data-section="home">
-                <i class="fas fa-home text-accent-yellow w-6 text-center"></i>
-                <span>Home</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+                <i class="fas fa-home text-accent-yellow w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">Home</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-xs sm:text-sm"></i>
             </a>
             <a href="#about"
-                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4"
                 data-section="about">
-                <i class="fas fa-user text-accent-indigo w-6 text-center"></i>
-                <span>About</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm ml-auto"></i>
+                <i class="fas fa-user text-accent-indigo w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">About</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-xs sm:text-sm"></i>
             </a>
             <a href="#portfolio"
-                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4"
                 data-section="portfolio">
-                <i class="fas fa-briefcase text-accent-purple w-6 text-center"></i>
-                <span>Portfolio</span>
-                <i class="fas fa-chevron-right text-accent-purple/70 text-sm ml-auto"></i>
+                <i class="fas fa-briefcase text-accent-purple w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">Portfolio</span>
+                <i class="fas fa-chevron-right text-accent-purple/70 text-xs sm:text-sm"></i>
             </a>
             <a href="#services"
-                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4"
                 data-section="services">
-                <i class="fas fa-photo-video text-accent-indigo w-6 text-center"></i>
-                <span>Services</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm ml-auto"></i>
+                <i class="fas fa-photo-video text-accent-indigo w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">Services</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-xs sm:text-sm"></i>
             </a>
             <a href="#testimonials"
-                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4"
                 data-section="testimonials">
-                <i class="fas fa-star text-accent-yellow w-6 text-center"></i>
-                <span>Testimonials</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+                <i class="fas fa-star text-accent-yellow w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">Testimonials</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-xs sm:text-sm"></i>
             </a>
             <a href="#contact"
-                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base sm:text-lg font-medium py-3 sm:py-4 px-4 sm:px-6 rounded-xl transition-all flex items-center gap-3 sm:gap-4"
                 data-section="contact">
-                <i class="fas fa-envelope text-accent-yellow w-6 text-center"></i>
-                <span>Contact</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+                <i class="fas fa-envelope text-accent-yellow w-5 sm:w-6 text-center text-sm sm:text-base"></i>
+                <span class="flex-1">Contact</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-xs sm:text-sm"></i>
             </a>
         </div>
 
         <!-- Role Badges -->
-        <div class="px-4 mt-6 mb-8">
-            <h3 class="text-slate-400 font-semibold text-sm uppercase tracking-wider mb-4 pl-2">Expertise</h3>
-            <div class="role-badges flex flex-wrap gap-3">
+        <div class="px-2 sm:px-4 mt-4 sm:mt-6 mb-6 sm:mb-8">
+            <h3 class="text-slate-400 font-semibold text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4 pl-2">
+                Expertise</h3>
+            <div class="role-badges flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start">
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium border border-indigo-500/30 badge-glow">
                     Stage Director
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium border border-indigo-500/30 badge-glow">
                     Video Editor
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium border border-indigo-500/30 badge-glow">
                     Music Producer
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium border border-indigo-500/30 badge-glow">
                     Sound Engineer
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="border-t border-slate-700/50 mt-auto py-6 px-6">
-            <p class="text-slate-400 text-sm text-center">© 2023 Amigo Johnson. All rights reserved.</p>
+        <div class="border-t border-slate-700/50 mt-auto py-4 sm:py-6 px-4 sm:px-6">
+            <p class="text-slate-400 text-xs sm:text-sm text-center">© 2023 Amigo Johnson. All rights reserved.</p>
         </div>
     </div>
-
     <!-- Scroll to top button -->
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
