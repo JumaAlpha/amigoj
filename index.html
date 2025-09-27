@@ -978,7 +978,7 @@
                 /* center vertically */
                 left: 0;
                 /* flush to left margin */
-                transform: translateY(-50%) rotate(-90deg);
+                /* transform: translateY(-50%) rotate(-90deg); */
                 transform-origin: left center;
                 /* rotate from left edge */
                 font-size: 1.5rem;
@@ -1466,269 +1466,438 @@
             </div>
         </section>
         <!-- Portfolio Section -->
-        <section id="portfolio" class="section">
-            <div class="container max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
+        <section id="portfolio" class="section mt-16 sm:mt-20 lg:mt-24">
+            <div class="container max-w-7xl mx-auto px-3 sm:px-6 h-full flex items-center">
                 <div class="w-full">
-                    <div class="text-center mb-12" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">My Portfolio</h2>
-                        <div class="h-1 w-20 bg-accent-yellow mx-auto"></div>
+                    <div class="text-center mb-8 sm:mb-12" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">My Portfolio</h2>
+                        <div class="h-1 w-16 sm:w-20 bg-accent-yellow mx-auto"></div>
                     </div>
 
-                    <!-- Desktop Layout -->
-                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Unified Responsive Grid - No carousel, always grid layout -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         <!-- Project 1 -->
-                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
                             data-aos-duration="800">
                             <div class="overflow-hidden">
                                 <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                                    alt="Concert Production" class="w-full h-48 sm:h-56 object-cover project-image">
+                                    alt="Concert Production" class="w-full h-40 sm:h-48 object-cover project-image">
                             </div>
-                            <div class="p-4 sm:p-6">
-                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Summer Music Festival</h3>
-                                <p class="text-slate-400 mb-4 text-sm sm:text-base">Stage direction and live production
-                                    for
-                                    a 3-day music
-                                    festival with 20+ artists.</p>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Summer Music Festival
+                                </h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    Stage direction and live production for a 3-day music festival with 20+ artists.
+                                </p>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow text-sm sm:text-base">Live Production</span>
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Live Production</span>
                                     <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
-                                        Project →</a>
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Project 2 -->
-                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
-                            data-aos-duration="800" data-aos-delay="200">
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="100">
                             <div class="overflow-hidden">
                                 <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
-                                    alt="Video Production" class="w-full h-48 sm:h-56 object-cover project-image">
+                                    alt="Video Production" class="w-full h-40 sm:h-48 object-cover project-image">
                             </div>
-                            <div class="p-4 sm:p-6">
-                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Corporate Brand Video</h3>
-                                <p class="text-slate-400 mb-4 text-sm sm:text-base">End-to-end video production for a
-                                    tech
-                                    company's rebranding
-                                    campaign.</p>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Corporate Brand Video
+                                </h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    End-to-end video production for a tech company's rebranding campaign.
+                                </p>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow text-sm sm:text-base">Video Production</span>
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Video Production</span>
                                     <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
-                                        Project →</a>
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Project 3 -->
-                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
-                            data-aos-duration="800" data-aos-delay="400">
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="200">
                             <div class="overflow-hidden">
                                 <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                                    alt="Sound Engineering" class="w-full h-48 sm:h-56 object-cover project-image">
+                                    alt="Sound Engineering" class="w-full h-40 sm:h-48 object-cover project-image">
                             </div>
-                            <div class="p-4 sm:p-6">
-                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Album Production</h3>
-                                <p class="text-slate-400 mb-4 text-sm sm:text-base">Sound engineering and production for
-                                    an
-                                    indie artist's debut
-                                    album.</p>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Album Production</h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    Sound engineering and production for an indie artist's debut album.
+                                </p>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow text-sm sm:text-base">Music Production</span>
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Music Production</span>
                                     <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
-                                        Project →</a>
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="300">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Music Production" class="w-full h-40 sm:h-48 object-cover project-image">
+                            </div>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Live Concert Recording
+                                </h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    Multi-camera live recording and sound engineering for major concert event.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Audio Production</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 5 -->
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="400">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1558603668-6570496b66f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Video Shoot" class="w-full h-40 sm:h-48 object-cover project-image">
+                            </div>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Documentary Series
+                                </h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    Complete video production for 6-part documentary series on local artists.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Documentary</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 6 -->
+                        <div class="project-card glass-effect rounded-xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="500">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
+                                    alt="Theater Production" class="w-full h-40 sm:h-48 object-cover project-image">
+                            </div>
+                            <div class="p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-2 leading-tight">Theater Stage Design
+                                </h3>
+                                <p class="text-slate-400 mb-3 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                    Complete stage direction and design for
+                                     contemporary theater production.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-xs sm:text-sm">Stage Design</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-xs sm:text-sm">
+                                        View →
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mobile Layout - Carousel -->
-                    <div class="md:hidden">
-                        <div class="portfolio-carousel">
-                            <div class="project-card glass-effect rounded-2xl overflow-hidden">
-                                <div class="overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                                        alt="Concert Production" class="w-full h-48 object-cover project-image">
-                                </div>
-                                <div class="p-4">
-                                    <h3 class="text-lg font-semibold mb-2">Summer Music Festival</h3>
-                                    <p class="text-slate-400 mb-4 text-sm">Stage direction and live production for a
-                                        3-day music festival with 20+ artists.</p>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-accent-yellow text-sm">Live Production</span>
-                                        <a href="#"
-                                            class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">View
-                                            Project →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-controls">
-                            <button class="carousel-btn" id="prevBtn" disabled>Previous</button>
-                            <button class="carousel-btn" id="nextBtn">Next</button>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-10 hidden md:block" data-aos="custom-fade-up" data-aos-duration="800">
+                    <!-- View All Button - Always visible -->
+                    <div class="text-center mt-8 sm:mt-10" data-aos="custom-fade-up" data-aos-duration="800">
                         <button
-                            class="btn bg-gradient-to-br from-dark-700 to-dark-800 text-white border border-slate-600 py-3 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-dark-600/50">
+                            class="btn bg-gradient-to-br from-dark-700 to-dark-800 text-white border border-slate-600 py-2 px-6 sm:py-3 sm:px-8 rounded-full text-sm sm:text-base font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-dark-600/50">
                             View All Projects
                         </button>
                     </div>
                 </div>
             </div>
         </section>
+        <style>
+            /* Portfolio grid styles */
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* Project card enhancements */
+            .project-card {
+                transition: all 0.3s ease;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .project-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            }
+
+            .project-image {
+                transition: transform 0.5s ease;
+            }
+
+            .project-card:hover .project-image {
+                transform: scale(1.05);
+            }
+
+            /* Mobile optimizations */
+            @media (max-width: 640px) {
+                #portfolio .project-card {
+                    min-height: 280px;
+                }
+
+                #portfolio .grid {
+                    gap: 0.75rem;
+                }
+
+                #portfolio h2 {
+                    font-size: 1.5rem;
+                }
+            }
+
+            /* Tablet optimizations */
+            @media (min-width: 641px) and (max-width: 1024px) {
+                #portfolio .project-card {
+                    min-height: 300px;
+                }
+            }
+
+            /* Large screen adjustments */
+            @media (min-width: 1280px) {
+                #portfolio .project-card {
+                    min-height: 320px;
+                }
+            }
+
+            /* Ensure consistent image heights */
+            .project-card img {
+                min-height: 160px;
+                object-fit: cover;
+            }
+
+            @media (min-width: 641px) {
+                .project-card img {
+                    min-height: 192px;
+                }
+            }
+
+            /* Button responsiveness */
+            .btn {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Extra small screen adjustments */
+            @media (max-width: 380px) {
+                #portfolio h3 {
+                    font-size: 0.875rem;
+                }
+
+                #portfolio p {
+                    font-size: 0.7rem;
+                    line-height: 1.3;
+                }
+
+                .project-card img {
+                    min-height: 140px;
+                }
+            }
+        </style>
 
         <!-- Services Section -->
         <section id="services" class="section">
-            <div class="container max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
+            <div class="container max-w-7xl mx-auto px-3 sm:px-6 h-full flex items-center">
                 <div class="w-full">
-                    <div class="text-center mb-12" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">My Services</h2>
-                        <div class="h-1 w-20 bg-accent-yellow mx-auto"></div>
+                    <div class="text-center mb-6 sm:mb-8" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3">My Services</h2>
+                        <div class="h-1 w-12 sm:w-16 bg-accent-yellow mx-auto"></div>
                     </div>
 
-                    <!-- Desktop Layout -->
-                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Compact Grid Layout - 2 columns on mobile/tablet, 3 on desktop -->
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                         <!-- Service 1 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-yellow mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-yellow mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-theater-masks"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Stage Direction</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">Creative direction and production management
-                                for
-                                live performances,
-                                concerts, and theatrical productions.</p>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Stage Direction
+                            </h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                Creative direction for live performances and theatrical productions.
+                            </p>
                         </div>
 
                         <!-- Service 2 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="100">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-purple mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-purple mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-film"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Video Editing</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">Professional video editing services for
-                                commercials, music videos,
-                                corporate videos, and social media content.</p>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Video Editing
+                            </h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                Professional editing for commercials, music videos, and social content.
+                            </p>
                         </div>
 
                         <!-- Service 3 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-indigo mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-indigo mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-broadcast-tower"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Live Streaming</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">High-quality live streaming production for
-                                events, concerts, and
-                                corporate broadcasts.</p>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Live Streaming
+                            </h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                High-quality live production for events and corporate broadcasts.
+                            </p>
                         </div>
 
                         <!-- Service 4 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="300">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-yellow mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-yellow mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-music"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Sound Engineering</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">Professional audio engineering for
-                                recordings,
-                                live events, and
-                                post-production.</p>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Sound
+                                Engineering</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                Professional audio engineering for recordings and live events.
+                            </p>
                         </div>
 
                         <!-- Service 5 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="400">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-purple mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-purple mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-video"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Video Production</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">End-to-end video production services from
-                                concept
-                                development to final
-                                delivery.</p>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Video Production
+                            </h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                End-to-end video production from concept to final delivery.
+                            </p>
                         </div>
 
                         <!-- Service 6 -->
-                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                        <div class="glass-effect rounded-xl p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1"
                             data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="500">
                             <div
-                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-indigo mb-4 sm:mb-6">
+                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-sm sm:text-base text-accent-indigo mb-2 sm:mb-3 mx-auto">
                                 <i class="fas fa-lightbulb"></i>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Creative Consulting</h3>
-                            <p class="text-slate-400 text-sm sm:text-base">Strategic creative direction and consulting
-                                for
-                                multimedia projects
-                                and brand campaigns.</p>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Layout - Grid without descriptions -->
-                    <div class="md:hidden services-grid">
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                <i class="fas fa-theater-masks"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Stage Direction</h3>
-                        </div>
-
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl text-accent-purple mb-3">
-                                <i class="fas fa-film"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Video Editing</h3>
-                        </div>
-
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                <i class="fas fa-broadcast-tower"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Live Streaming</h3>
-                        </div>
-
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                <i class="fas fa-music"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Sound Engineering</h3>
-                        </div>
-
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl text-accent-purple mb-3">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Video Production</h3>
-                        </div>
-
-                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h3 class="text-base font-semibold text-center">Creative Consulting</h3>
+                            <h3 class="text-xs sm:text-sm font-semibold mb-2 text-center leading-tight">Creative
+                                Consulting</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed text-center line-clamp-2">
+                                Strategic creative direction for multimedia projects and brands.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <style>
+            /* Compact services grid styles */
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* Ensure consistent card heights */
+            #services .glass-effect {
+                min-height: 140px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            /* Mobile optimizations */
+            @media (max-width: 640px) {
+                #services .glass-effect {
+                    min-height: 120px;
+                    padding: 0.75rem;
+                }
+
+                #services .grid {
+                    gap: 0.5rem;
+                }
+
+                #services h2 {
+                    font-size: 1.25rem;
+                }
+            }
+
+            /* Tablet optimizations */
+            @media (min-width: 641px) and (max-width: 1024px) {
+                #services .glass-effect {
+                    min-height: 130px;
+                }
+            }
+
+            /* Hover effects */
+            #services .glass-effect:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Extra small screen adjustments */
+            @media (max-width: 380px) {
+                #services h3 {
+                    font-size: 0.7rem;
+                }
+
+                #services p {
+                    font-size: 0.65rem;
+                    line-height: 1.2;
+                }
+
+                #services .glass-effect {
+                    padding: 0.5rem;
+                    min-height: 110px;
+                }
+
+                #services .grid {
+                    gap: 0.375rem;
+                }
+            }
+
+            /* Large screen adjustments */
+            @media (min-width: 1280px) {
+                #services .glass-effect {
+                    min-height: 150px;
+                }
+
+                #services .grid {
+                    gap: 1.5rem;
+                }
+            }
+        </style>
         <!-- Testimonials Section -->
         <section id="testimonials" class="section mt-12 sm:mt-16 lg:mt-20">
             <div class="container max-w-6xl mx-auto px-3 sm:px-4 py-4">

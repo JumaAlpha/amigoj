@@ -934,7 +934,7 @@ body {
         /* center vertically */
         left: 0;
         /* flush to left margin */
-        transform: translateY(-50%) rotate(-90deg);
+        /* transform: translateY(-50%) rotate(-90deg); */
         transform-origin: left center;
         /* rotate from left edge */
         font-size: 1.5rem;
