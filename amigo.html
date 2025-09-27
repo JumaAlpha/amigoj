@@ -1,0 +1,3306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigo Johnson - Creative Director</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            yellow: '#f59e0b',
+                            purple: '#8b5cf6',
+                            indigo: '#6366f1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link ref="stylesheet" href="styles.css">
+    <style type="text/css">
+        /* Base styles */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Container for horizontal scrolling */
+        .sections-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Section styles */
+        .section {
+            min-width: 100vw;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s ease-in-out;
+            opacity: 0;
+            transform: translateX(100vw);
+            overflow-y: auto;
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .section.prev {
+            transform: translateX(-100vw);
+            opacity: 0;
+        }
+
+        .section.next {
+            transform: translateX(100vw);
+            opacity: 0;
+        }
+
+        /* Ensure sections are visible for animation */
+        .section:not(.active) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block !important;
+            visibility: visible !important;
+            pointer-events: none;
+        }
+
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-glass {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: -5px 0 40px rgba(0, 0, 0, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .overlay-glass {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Fade animation styles */
+        .fade-wrapper {
+            position: relative;
+            height: 60px;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (min-width: 1024px) {
+            .fade-wrapper {
+                text-align: left;
+            }
+        }
+
+        .fade-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f59e0b;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        @media (min-width: 768px) {
+            .fade-text {
+                font-size: 1.875rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .fade-text {
+                justify-content: flex-start;
+                font-size: 1.875rem;
+            }
+        }
+
+        .fade-text.active {
+            opacity: 1;
+        }
+
+        /* Image container styling */
+        .profile-image-container {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+        }
+
+        /* Sidebar enhancements */
+        .sidebar-profile {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .sidebar-link:hover::before {
+            left: 100%;
+        }
+
+        .active-sidebar-link {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-right: 3px solid #f59e0b;
+        }
+
+        .badge-glow {
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .project-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-image {
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .skill-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f59e0b;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 15px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .testimonial-card {
+            opacity: 0.7;
+            transform: scale(0.9);
+            transition: all 0.5s ease;
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .contact-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #8b5cf6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #f59e0b;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #f59e0b
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Navigation dots */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #f59e0b;
+            transform: scale(1.3);
+        }
+
+        /* Mobile swipe indicators */
+        .swipe-indicator-left {
+            position: fixed;
+            top: 50%;
+            left: 5px;
+            rotate: 270deg;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+            z-index: 100;
+            animation: bounce 2s infinite;
+            display: none;
+        }
+
+        .swipe-indicator-right {
+            position: fixed;
+            top: 53%;
+            right: 5px;
+            rotate: 90deg;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+            z-index: 100;
+            animation: bounce 2s infinite;
+            display: none;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Fix for mobile - Keep horizontal scrolling working */
+        @media (max-width: 768px) {
+
+            html,
+            body {
+                overflow: hidden;
+                height: 100%;
+            }
+
+            .sections-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .section {
+                min-width: 100vw;
+                width: 100vw;
+                height: 100vh;
+                scroll-snap-align: start;
+                flex-shrink: 0;
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+                position: relative !important;
+                display: block !important;
+                visibility: visible !important;
+                overflow-y: auto;
+            }
+
+            .section.active {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+
+            .section.prev,
+            .section.next {
+                display: block !important;
+                opacity: 0;
+                transform: translateX(100vw);
+            }
+
+            .swipe-indicator-left,
+            .swipe-indicator-right {
+                display: block;
+            }
+
+            .section:not(.active) {
+                pointer-events: auto;
+            }
+
+            .nav-dots {
+                display: none;
+            }
+
+            /* Keep the rest of your mobile styles for layout adjustments */
+            .sidebar-glass {
+                width: 100%;
+                right: -100%;
+            }
+
+            .section {
+                padding: 80px 0 30px;
+            }
+
+            .profile-image {
+                height: 300px !important;
+            }
+
+            .fade-text {
+                font-size: 1.25rem;
+            }
+
+            /* Fix for mobile layout issues */
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .profile-text {
+                width: 100% !important;
+                padding-top: 2rem;
+            }
+
+            .profile-image {
+                width: 100% !important;
+                height: 300px !important;
+            }
+
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .grid {
+                gap: 1.5rem;
+            }
+
+            .glass-effect {
+                margin: 0.5rem;
+            }
+
+            .section {
+                min-height: 100vh;
+                height: auto;
+                overflow-y: auto;
+            }
+        }
+
+        /* Fixed navbar styles */
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 0.5rem;
+        }
+
+        .navbar-scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .navbar-container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-text {
+                width: 100% !important;
+                padding-top: 2rem;
+            }
+
+            .profile-image {
+                width: 80% !important;
+                margin: 0 auto;
+            }
+        }
+
+        /* AOS custom animations */
+        [data-aos="custom-fade-up"] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        [data-aos="custom-fade-up"].aos-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        [data-aos="custom-fade-left"] {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        [data-aos="custom-fade-left"].aos-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        [data-aos="custom-fade-right"] {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.6s ease;
+        }
+
+        [data-aos="custom-fade-right"].aos-animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        [data-aos="custom-zoom-in"] {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s ease;
+        }
+
+        [data-aos="custom-zoom-in"].aos-animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Fix for text overflow on small screens */
+        @media (max-width: 480px) {
+            .fade-text {
+                font-size: 1.1rem;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .role-badges {
+                justify-content: center;
+            }
+
+            .sidebar-links {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* Ensure content fits within viewport */
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+        }
+
+        /* NEW RESPONSIVE STYLES FOR MOBILE */
+
+        /* Home Section - Full Screen Image */
+        @media (max-width: 768px) {
+            #home {
+                display: block !important;
+                position: relative;
+            }
+
+            #home .container {
+                padding: 0;
+                height: 100vh;
+                display: block;
+            }
+
+            #home .profile-section {
+                flex-direction: column;
+                height: 100vh;
+                position: relative;
+                padding: 0;
+            }
+
+            #home .profile-image {
+                width: 100% !important;
+                height: 100vh !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+
+            #home .profile-image-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            #home .profile-image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            #home .profile-text {
+                position: absolute;
+                bottom: 10%;
+                right: 5%;
+                z-index: 2;
+                text-align: right;
+                width: auto !important;
+                padding: 0;
+            }
+
+            #home .fade-wrapper {
+                text-align: right;
+                justify-content: flex-end;
+            }
+
+            #home .fade-text {
+                justify-content: flex-end;
+            }
+
+            #home .social-links {
+                justify-content: flex-end;
+            }
+        }
+
+        /* About Section - Circular Progress */
+        @media (max-width: 768px) {
+            #about .container {
+                max-width: 100% !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+                margin: 0 auto;
+            }
+
+            #about .glass-effect {
+                padding: 0.75rem !important;
+                margin: 0.25rem 0;
+            }
+
+            #about .circular-progress-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5px;
+                margin-bottom: 0.25rem;
+            }
+
+            .circular-progress {
+                width: 55px;
+                height: 55px;
+            }
+
+            .circular-progress circle {
+                stroke-width: 5;
+            }
+
+            .progress-value {
+                font-size: 0.8rem;
+            }
+
+            .skill-item {
+                margin-bottom: 0.25rem;
+            }
+
+            .skill-name {
+                font-size: 0.7rem;
+                margin-top: 2px;
+            }
+
+            .counter-container {
+                gap: 5px;
+                margin-top: 0.25rem;
+            }
+
+            .counter-value {
+                font-size: 1rem;
+            }
+
+            .counter-item div:last-child {
+                font-size: 0.7rem;
+            }
+
+            /* Text sizes */
+            #about h2 {
+                font-size: 1.3rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            #about h3 {
+                font-size: 1rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            #about p {
+                font-size: 0.8rem;
+                margin-bottom: 0.25rem;
+                line-height: 1.2;
+            }
+
+            /* Spacing */
+            #about .mb-12 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            #about .mb-6 {
+                margin-bottom: 0.25rem !important;
+            }
+
+            #about .mb-4 {
+                margin-bottom: 0.125rem !important;
+            }
+
+            /* Divider */
+            #about .h-1 {
+                height: 1px;
+                width: 30px;
+            }
+
+            /* Ensure full height utilization */
+            #about .h-full {
+                min-height: auto !important;
+            }
+
+            #about .flex.items-center {
+                align-items: flex-start !important;
+                padding: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #about .container {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+
+            #about .circular-progress-container {
+                gap: 3px;
+            }
+
+            .circular-progress {
+                width: 50px;
+                height: 50px;
+            }
+
+            .progress-value {
+                font-size: 0.7rem;
+            }
+
+            .skill-name {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            #about .container {
+                padding-left: 0.125rem !important;
+                padding-right: 0.125rem !important;
+            }
+
+            .circular-progress {
+                width: 45px;
+                height: 45px;
+            }
+
+            #about .circular-progress-container {
+                gap: 2px;
+            }
+
+            #about h2 {
+                font-size: 1.1rem !important;
+            }
+
+            #about h3 {
+                font-size: 0.9rem !important;
+            }
+
+            #about p {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Portfolio Section - Carousel */
+        @media (max-width: 768px) {
+            #portfolio .grid {
+                display: flex;
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+            }
+
+            .portfolio-carousel {
+                display: flex;
+                transition: transform 0.5s ease;
+                width: 100%;
+            }
+
+            .project-card {
+                min-width: 100%;
+                margin-right: 1rem;
+            }
+
+            .carousel-controls {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .carousel-btn {
+                background: #f59e0b;
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .carousel-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .hidden-projects {
+                display: none;
+            }
+        }
+
+        /* Services Section - Grid without descriptions */
+        @media (max-width: 768px) {
+
+            /* Ensure section is positioning context */
+            #services {
+                position: relative;
+            }
+
+            /* Rotated heading at screen left margin */
+            #services h2 {
+                position: absolute;
+                top: 70%;
+                /* center vertically */
+                left: 0;
+                /* flush to left margin */
+                transform: translateY(-50%) rotate(-90deg);
+                transform-origin: left center;
+                /* rotate from left edge */
+                font-size: 1.5rem;
+                white-space: nowrap;
+                z-index: 10;
+                /* keep visible */
+                margin: 0;
+                /* reset margin */
+                padding: 0;
+                /* no extra padding */
+            }
+
+            /* Hide underline bar */
+            #services .h-1.w-20 {
+                display: none;
+            }
+
+            /* Remove extra spacing */
+            #services .text-center.mb-12 {
+                margin-bottom: 0;
+            }
+
+            /* Service cards grid */
+            #services .services-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+            #services .service-card {
+                padding: 1.2rem;
+                height: auto;
+                text-align: center;
+            }
+
+            #services .service-card h3 {
+                font-size: 1rem;
+                margin-bottom: 0;
+            }
+
+            #services .glass-effect {
+                padding: 1rem;
+                height: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #services .glass-effect p {
+                display: none;
+            }
+
+            #services .glass-effect h3 {
+                font-size: 1rem;
+                margin-bottom: 0;
+                text-align: center;
+            }
+
+            #services .w-14 {
+                width: 3rem;
+                height: 3rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Contact Section - Enhanced for mobile */
+        @media (max-width: 768px) {
+            #contact .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            #contact .glass-effect {
+                padding: 1.5rem;
+            }
+
+            .contact-input {
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-slate-100 antialiased">
+    <!-- Fixed Navbar -->
+    <nav class="navbar-fixed" id="navbar">
+        <div class="navbar-container">
+            <div class="glass-effect flex justify-between items-center py-2 md:py-4 px-4 md:px-8 rounded-xl mt-3 md:mt-5 mx-3 md:mx-5"
+                id="navContent">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 md:w-12 md:h-12 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-sm md:text-xl shadow-lg shadow-amber-500/40">
+                        AJ
+                    </div>
+                    <span class="text-base md:text-lg font-semibold hidden sm:block">Amigo Johnson</span>
+                </div>
+
+                <div class="hamburger flex flex-col justify-between w-6 h-4 md:w-7 md:h-5 cursor-pointer z-50"
+                    id="hamburger">
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all"></span>
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all"></span>
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots" id="navDots">
+        <div class="nav-dot active" data-section="home"></div>
+        <div class="nav-dot" data-section="about"></div>
+        <div class="nav-dot" data-section="portfolio"></div>
+        <div class="nav-dot" data-section="services"></div>
+        <div class="nav-dot" data-section="testimonials"></div>
+        <div class="nav-dot" data-section="contact"></div>
+    </div>
+
+    <!-- Swipe Indicator -->
+    <div class="swipe-indicator-left">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+    <div class="swipe-indicator-right">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay-glass fixed inset-0 z-40 opacity-0 invisible transition-all duration-300 cursor-pointer"
+        id="overlay"></div>
+
+    <!-- Enhanced Glassmorphism Sidebar -->
+    <div class="sidebar-glass fixed top-0 right-[-420px] w-96 h-full z-[60] transition-all duration-500 flex flex-col"
+        id="sidebar">
+        <!-- Profile Section -->
+        <div class="sidebar-profile flex flex-col items-center py-8 px-8 rounded-b-2xl mb-6">
+            <div
+                class="w-24 h-24 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-3xl shadow-lg shadow-amber-500/40 mb-4">
+                <img src="https://i.ibb.co/4T2SY0X/transparent-person.png" alt="Amigo Johnson" class="rounded-full">
+            </div>
+            <h2 class="text-2xl font-bold text-white">Amigo Johnson</h2>
+            <p class="text-accent-yellow font-medium mt-1">Creative Director</p>
+            <div class="flex gap-3 mt-4">
+                <a href="#"
+                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#"
+                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#"
+                    class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="sidebar-links flex flex-col gap-2 flex-1 px-4">
+            <a href="#home"
+                class="sidebar-link nav-link text-slate-200 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4 active-sidebar-link"
+                data-section="home">
+                <i class="fas fa-home text-accent-yellow w-6 text-center"></i>
+                <span>Home</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+            </a>
+            <a href="#about"
+                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="about">
+                <i class="fas fa-user text-accent-indigo w-6 text-center"></i>
+                <span>About</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm ml-auto"></i>
+            </a>
+            <a href="#portfolio"
+                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="portfolio">
+                <i class="fas fa-briefcase text-accent-purple w-6 text-center"></i>
+                <span>Portfolio</span>
+                <i class="fas fa-chevron-right text-accent-purple/70 text-sm ml-auto"></i>
+            </a>
+            <a href="#services"
+                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="services">
+                <i class="fas fa-photo-video text-accent-indigo w-6 text-center"></i>
+                <span>Services</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm ml-auto"></i>
+            </a>
+            <a href="#testimonials"
+                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="testimonials">
+                <i class="fas fa-star text-accent-yellow w-6 text-center"></i>
+                <span>Testimonials</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+            </a>
+            <a href="#contact"
+                class="sidebar-link nav-link text-slate-300 text-lg font-medium py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="contact">
+                <i class="fas fa-envelope text-accent-yellow w-6 text-center"></i>
+                <span>Contact</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm ml-auto"></i>
+            </a>
+        </div>
+
+        <!-- Role Badges -->
+        <div class="px-4 mt-6 mb-8">
+            <h3 class="text-slate-400 font-semibold text-sm uppercase tracking-wider mb-4 pl-2">Expertise</h3>
+            <div class="role-badges flex flex-wrap gap-3">
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    Stage Director
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    Video Editor
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    Music Producer
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-medium border border-indigo-500/30 badge-glow">
+                    Sound Engineer
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-slate-700/50 mt-auto py-6 px-6">
+            <p class="text-slate-400 text-sm text-center">© 2023 Amigo Johnson. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Sections Container -->
+    <div class="sections-container">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
+                <div
+                    class="profile-section flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 w-full">
+                    <!-- Profile image with transparent background -->
+                    <div class="profile-image w-full lg:w-2/5 h-80 lg:h-4/5 relative" data-aos="custom-fade-right"
+                        data-aos-duration="1000">
+                        <div
+                            class="profile-image-container w-full h-full flex items-center justify-center rounded-2xl shadow-xl shadow-black/40 overflow-hidden p-4 floating">
+                            <!-- Real person with transparent background -->
+                            <img src="https://i.ibb.co/4T2SY0X/transparent-person.png" alt="Amigo Johnson"
+                                class="w-full h-full object-contain">
+                        </div>
+                        <div class="absolute -inset-4 border-2 border-accent-yellow rounded-2xl -z-10"></div>
+                    </div>
+
+                    <div class="profile-text w-full lg:w-3/5 flex flex-col justify-center text-center lg:text-left py-4 lg:py-0"
+                        data-aos="custom-fade-left" data-aos-duration="1000">
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-accent-yellow to-amber-400 bg-clip-text text-transparent mb-4">
+                            I am
+                        </h1>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-100 mb-6">
+                            Amigo Johnson
+                        </h2>
+
+                        <div class="fade-animation min-h-[60px] mb-8 flex items-center justify-center lg:justify-start">
+                            <div class="fade-wrapper relative w-full text-xl md:text-2xl lg:text-3xl font-semibold">
+                                <div class="fade-text active" id="text-1">Stage Director</div>
+                                <div class="fade-text" id="text-2">Multimedia Producer</div>
+                                <div class="fade-text" id="text-3">Live Stream Producer</div>
+                                <div class="fade-text" id="text-4">Video Editor</div>
+                                <div class="fade-text" id="text-5">Sound Engineer</div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button
+                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-3 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/50 w-full sm:w-auto">
+                                View Portfolio
+                            </button>
+                            <button
+                                class="btn bg-gradient-to-br from-dark-700 to-dark-800 text-white border border-slate-600 py-3 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-dark-600/50 w-full sm:w-auto">
+                                Contact Me
+                            </button>
+                        </div>
+
+                        <div class="social-links flex gap-4 mt-8 justify-center lg:justify-start">
+                            <a href="#"
+                                class="social-icon w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container max-w-7xl mx-auto px-3 sm:px-4 py-6 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-2xl sm:text-3xl font-bold mb-3">About Me</h2>
+                        <div class="h-1 w-16 bg-accent-yellow mx-auto"></div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="hidden md:grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 items-start">
+                        <div class="relative" data-aos="custom-fade-right" data-aos-duration="1000">
+                            <div class="glass-effect rounded-lg p-3 sm:p-4">
+                                <h3 class="text-base sm:text-lg font-semibold mb-3 text-accent-yellow">My Story</h3>
+                                <p class="text-slate-300 mb-2 text-xs leading-relaxed">
+                                    With over 10 years of experience in multimedia production, I've dedicated my career
+                                    to creating immersive experiences that blend technology and artistry.
+                                </p>
+                                <p class="text-slate-300 mb-3 text-xs leading-relaxed">
+                                    My journey began in music production, which evolved into stage direction and
+                                    eventually expanded to encompass video production, live streaming, and sound
+                                    engineering.
+                                </p>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="text-center">
+                                        <div class="text-lg sm:text-xl font-bold text-accent-yellow">150+</div>
+                                        <div class="text-slate-400 text-xs">Projects</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg sm:text-xl font-bold text-accent-purple">50+</div>
+                                        <div class="text-slate-400 text-xs">Clients</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg sm:text-xl font-bold text-accent-indigo">10+</div>
+                                        <div class="text-slate-400 text-xs">Years</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-lg sm:text-xl font-bold text-accent-yellow">12</div>
+                                        <div class="text-slate-400 text-xs">Awards</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-aos="custom-fade-left" data-aos-duration="1000">
+                            <h3 class="text-base sm:text-lg font-semibold mb-4 text-accent-yellow">My Skills</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Stage Direction</span>
+                                        <span class="text-accent-yellow text-sm">95%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="95%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Video Editing</span>
+                                        <span class="text-accent-yellow text-sm">90%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Sound Engineering</span>
+                                        <span class="text-accent-yellow text-sm">92%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="92%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Live Production</span>
+                                        <span class="text-accent-yellow text-sm">88%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Layout -->
+                    <div class="md:hidden">
+                        <!-- Use the same progress bars as desktop but in grid layout -->
+                        <div class="glass-effect rounded-lg p-4 mb-4">
+                            <h3 class="text-lg font-semibold mb-4 text-accent-yellow text-center">My Skills</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Stage Direction</span>
+                                        <span class="text-accent-yellow text-sm">95%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="95%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Video Editing</span>
+                                        <span class="text-accent-yellow text-sm">90%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Sound Engineering</span>
+                                        <span class="text-accent-yellow text-sm">92%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="92%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-300 text-sm">Live Production</span>
+                                        <span class="text-accent-yellow text-sm">88%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="story-section glass-effect rounded-xl p-4 mb-4">
+                            <h3 class="text-lg font-semibold mb-3 text-accent-yellow">My Story</h3>
+                            <p class="text-slate-300 mb-3 text-sm">
+                                With over 10 years of experience in multimedia production, I've dedicated my career to
+                                creating immersive experiences that blend technology and artistry.
+                            </p>
+                            <p class="text-slate-300 text-sm">
+                                My journey began in music production, which evolved into stage direction and eventually
+                                expanded to encompass video production, live streaming, and sound engineering.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="glass-effect rounded-lg p-3 text-center">
+                                <div class="text-lg font-bold text-accent-yellow">150+</div>
+                                <div class="text-slate-400 text-xs">Projects</div>
+                            </div>
+                            <div class="glass-effect rounded-lg p-3 text-center">
+                                <div class="text-lg font-bold text-accent-purple">50+</div>
+                                <div class="text-slate-400 text-xs">Clients</div>
+                            </div>
+                            <div class="glass-effect rounded-lg p-3 text-center">
+                                <div class="text-lg font-bold text-accent-indigo">10+</div>
+                                <div class="text-slate-400 text-xs">Years</div>
+                            </div>
+                            <div class="glass-effect rounded-lg p-3 text-center">
+                                <div class="text-lg font-bold text-accent-yellow">12</div>
+                                <div class="text-slate-400 text-xs">Awards</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="section">
+            <div class="container max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-12" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">My Portfolio</h2>
+                        <div class="h-1 w-20 bg-accent-yellow mx-auto"></div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Project 1 -->
+                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Concert Production" class="w-full h-48 sm:h-56 object-cover project-image">
+                            </div>
+                            <div class="p-4 sm:p-6">
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Summer Music Festival</h3>
+                                <p class="text-slate-400 mb-4 text-sm sm:text-base">Stage direction and live production
+                                    for
+                                    a 3-day music
+                                    festival with 20+ artists.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-sm sm:text-base">Live Production</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
+                                        Project →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="200">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
+                                    alt="Video Production" class="w-full h-48 sm:h-56 object-cover project-image">
+                            </div>
+                            <div class="p-4 sm:p-6">
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Corporate Brand Video</h3>
+                                <p class="text-slate-400 mb-4 text-sm sm:text-base">End-to-end video production for a
+                                    tech
+                                    company's rebranding
+                                    campaign.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-sm sm:text-base">Video Production</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
+                                        Project →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="project-card glass-effect rounded-2xl overflow-hidden" data-aos="custom-zoom-in"
+                            data-aos-duration="800" data-aos-delay="400">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Sound Engineering" class="w-full h-48 sm:h-56 object-cover project-image">
+                            </div>
+                            <div class="p-4 sm:p-6">
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2">Album Production</h3>
+                                <p class="text-slate-400 mb-4 text-sm sm:text-base">Sound engineering and production for
+                                    an
+                                    indie artist's debut
+                                    album.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow text-sm sm:text-base">Music Production</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm sm:text-base">View
+                                        Project →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Layout - Carousel -->
+                    <div class="md:hidden">
+                        <div class="portfolio-carousel">
+                            <div class="project-card glass-effect rounded-2xl overflow-hidden">
+                                <div class="overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                        alt="Concert Production" class="w-full h-48 object-cover project-image">
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold mb-2">Summer Music Festival</h3>
+                                    <p class="text-slate-400 mb-4 text-sm">Stage direction and live production for a
+                                        3-day music festival with 20+ artists.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-accent-yellow text-sm">Live Production</span>
+                                        <a href="#"
+                                            class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">View
+                                            Project →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-controls">
+                            <button class="carousel-btn" id="prevBtn" disabled>Previous</button>
+                            <button class="carousel-btn" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-10 hidden md:block" data-aos="custom-fade-up" data-aos-duration="800">
+                        <button
+                            class="btn bg-gradient-to-br from-dark-700 to-dark-800 text-white border border-slate-600 py-3 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:bg-dark-600/50">
+                            View All Projects
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section">
+            <div class="container max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-12" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">My Services</h2>
+                        <div class="h-1 w-20 bg-accent-yellow mx-auto"></div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Service 1 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-yellow mb-4 sm:mb-6">
+                                <i class="fas fa-theater-masks"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Stage Direction</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">Creative direction and production management
+                                for
+                                live performances,
+                                concerts, and theatrical productions.</p>
+                        </div>
+
+                        <!-- Service 2 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="100">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-purple mb-4 sm:mb-6">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Video Editing</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">Professional video editing services for
+                                commercials, music videos,
+                                corporate videos, and social media content.</p>
+                        </div>
+
+                        <!-- Service 3 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-indigo mb-4 sm:mb-6">
+                                <i class="fas fa-broadcast-tower"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Live Streaming</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">High-quality live streaming production for
+                                events, concerts, and
+                                corporate broadcasts.</p>
+                        </div>
+
+                        <!-- Service 4 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="300">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-yellow mb-4 sm:mb-6">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Sound Engineering</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">Professional audio engineering for
+                                recordings,
+                                live events, and
+                                post-production.</p>
+                        </div>
+
+                        <!-- Service 5 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="400">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-purple mb-4 sm:mb-6">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Video Production</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">End-to-end video production services from
+                                concept
+                                development to final
+                                delivery.</p>
+                        </div>
+
+                        <!-- Service 6 -->
+                        <div class="glass-effect rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="500">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl sm:text-2xl text-accent-indigo mb-4 sm:mb-6">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-4">Creative Consulting</h3>
+                            <p class="text-slate-400 text-sm sm:text-base">Strategic creative direction and consulting
+                                for
+                                multimedia projects
+                                and brand campaigns.</p>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Layout - Grid without descriptions -->
+                    <div class="md:hidden services-grid">
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl text-accent-yellow mb-3">
+                                <i class="fas fa-theater-masks"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Stage Direction</h3>
+                        </div>
+
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl text-accent-purple mb-3">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Video Editing</h3>
+                        </div>
+
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl text-accent-indigo mb-3">
+                                <i class="fas fa-broadcast-tower"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Live Streaming</h3>
+                        </div>
+
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-full flex items-center justify-center text-xl text-accent-yellow mb-3">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Sound Engineering</h3>
+                        </div>
+
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-full flex items-center justify-center text-xl text-accent-purple mb-3">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Video Production</h3>
+                        </div>
+
+                        <div class="service-card glass-effect rounded-2xl transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-full flex items-center justify-center text-xl text-accent-indigo mb-3">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-center">Creative Consulting</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section mt-12 sm:mt-16 lg:mt-20">
+            <div class="container max-w-6xl mx-auto px-3 sm:px-4 py-4">
+                <div class="w-full">
+                    <div class="text-center mb-4 sm:mb-6" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Client Testimonials</h2>
+                        <div class="h-0.5 sm:h-1 w-10 sm:w-12 bg-accent-yellow mx-auto"></div>
+                    </div>
+
+                    <!-- Testimonials Carousel -->
+                    <div class="max-w-full lg:max-w-3xl mx-auto px-2 sm:px-0 mb-6 sm:mb-8" data-aos="custom-zoom-in"
+                        data-aos-duration="800">
+                        <div class="relative">
+                            <!-- Testimonials Container -->
+                            <div class="testimonials-container overflow-hidden cursor-pointer">
+                                <div class="testimonials-track flex transition-transform duration-500 ease-in-out">
+                                    <!-- Testimonial 1 -->
+                                    <div
+                                        class="testimonial-card glass-effect rounded-lg sm:rounded-xl p-3 sm:p-4 flex-shrink-0 w-full">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <div
+                                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-sm sm:text-base shadow-lg shadow-amber-500/40 mr-2 sm:mr-3">
+                                                SJ
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <h3 class="text-xs sm:text-sm font-semibold truncate">Sarah Johnson</h3>
+                                                <p class="text-slate-400 text-xs truncate">CEO, Creative Solutions Inc.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-slate-300 text-xs sm:text-sm italic leading-relaxed line-clamp-3 sm:line-clamp-none">
+                                            "Amigo's direction of our annual conference was exceptional. His attention
+                                            to detail and creative vision transformed our event."
+                                        </p>
+                                        <div class="flex text-amber-400 mt-2 sm:mt-3 text-xs">
+                                            ★★★★★
+                                        </div>
+                                    </div>
+
+                                    <!-- Testimonial 2 -->
+                                    <div
+                                        class="testimonial-card glass-effect rounded-lg sm:rounded-xl p-3 sm:p-4 flex-shrink-0 w-full">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <div
+                                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-purple to-purple-600 rounded-full flex items-center justify-center font-bold text-white text-sm sm:text-base shadow-lg shadow-purple-500/40 mr-2 sm:mr-3">
+                                                MR
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <h3 class="text-xs sm:text-sm font-semibold truncate">Mike Rodriguez
+                                                </h3>
+                                                <p class="text-slate-400 text-xs truncate">Event Director, Tech Summit
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-slate-300 text-xs sm:text-sm italic leading-relaxed line-clamp-3 sm:line-clamp-none">
+                                            "The live production quality was outstanding. Amigo's team handled
+                                            everything seamlessly, allowing us to focus on our content."
+                                        </p>
+                                        <div class="flex text-amber-400 mt-2 sm:mt-3 text-xs">
+                                            ★★★★★
+                                        </div>
+                                    </div>
+
+                                    <!-- Testimonial 3 -->
+                                    <div
+                                        class="testimonial-card glass-effect rounded-lg sm:rounded-xl p-3 sm:p-4 flex-shrink-0 w-full">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <div
+                                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-accent-indigo to-indigo-600 rounded-full flex items-center justify-center font-bold text-white text-sm sm:text-base shadow-lg shadow-indigo-500/40 mr-2 sm:mr-3">
+                                                ED
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <h3 class="text-xs sm:text-sm font-semibold truncate">Emily Davis</h3>
+                                                <p class="text-slate-400 text-xs truncate">Marketing Director,
+                                                    BrandWorks</p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-slate-300 text-xs sm:text-sm italic leading-relaxed line-clamp-3 sm:line-clamp-none">
+                                            "Working with Amigo on our brand video was a game-changer. His creative
+                                            input and technical expertise exceeded expectations."
+                                        </p>
+                                        <div class="flex text-amber-400 mt-2 sm:mt-3 text-xs">
+                                            ★★★★★
+                                        </div>
+                                    </div>
+
+                                    <!-- Testimonial 4 -->
+                                    <div
+                                        class="testimonial-card glass-effect rounded-lg sm:rounded-xl p-3 sm:p-4 flex-shrink-0 w-full">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <div
+                                                class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center font-bold text-white text-sm sm:text-base shadow-lg shadow-green-500/40 mr-2 sm:mr-3">
+                                                TJ
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <h3 class="text-xs sm:text-sm font-semibold truncate">Thomas Johnson
+                                                </h3>
+                                                <p class="text-slate-400 text-xs truncate">Music Producer, Studio 54</p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-slate-300 text-xs sm:text-sm italic leading-relaxed line-clamp-3 sm:line-clamp-none">
+                                            "The sound engineering for our album was phenomenal. Amigo's attention to
+                                            audio quality brought our music to life."
+                                        </p>
+                                        <div class="flex text-amber-400 mt-2 sm:mt-3 text-xs">
+                                            ★★★★★
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Arrows - Hidden on Mobile -->
+                            <button
+                                class="testimonial-nav testimonial-prev absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3 sm:-translate-x-4 bg-dark-700/80 hover:bg-accent-yellow text-white p-1.5 sm:p-2 rounded-full transition-all duration-300 hidden md:block">
+                                ←
+                            </button>
+                            <button
+                                class="testimonial-nav testimonial-next absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-3 sm:translate-x-4 bg-dark-700/80 hover:bg-accent-yellow text-white p-1.5 sm:p-2 rounded-full transition-all duration-300 hidden md:block">
+                                →
+                            </button>
+                        </div>
+
+                        <!-- Dots Indicator - Hidden on Mobile -->
+                        <div class="flex justify-center mt-3 sm:mt-4 hidden md:flex">
+                            <div class="flex gap-1">
+                                <span
+                                    class="testimonial-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-accent-yellow rounded-full cursor-pointer"
+                                    data-index="0"></span>
+                                <span
+                                    class="testimonial-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-slate-600 rounded-full cursor-pointer"
+                                    data-index="1"></span>
+                                <span
+                                    class="testimonial-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-slate-600 rounded-full cursor-pointer"
+                                    data-index="2"></span>
+                                <span
+                                    class="testimonial-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-slate-600 rounded-full cursor-pointer"
+                                    data-index="3"></span>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Instruction -->
+                        <div class="text-center mt-2 sm:mt-3 md:hidden">
+                            <p class="text-slate-400 text-xs">Double tap to view next testimonial</p>
+                        </div>
+                    </div>
+
+                    <!-- Gospel Bands & Artists Marquee -->
+                    <div class="mt-6 sm:mt-8" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                        <div class="text-center mb-3 sm:mb-4">
+                            <p class="text-slate-400 text-xs sm:text-sm">Featured Collaborations with Gospel Artists &
+                                Bands</p>
+                        </div>
+
+                        <div class="marquee-container overflow-hidden relative">
+                            <div class="marquee-track flex animate-marquee-infinite space-x-4 sm:space-x-6">
+                                <!-- Kenyan & Tanzanian Gospel Bands/Artists -->
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Essence of Worship</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Agape Band</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Neema Gospel Choir</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Reverend John</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Size 8</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Bahati</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Moji Shortbabaa</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Roho Israel</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Christina Shusho</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Baraka the Singer</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Angel Benard</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Jabidii</span>
+                                </div>
+
+                                <!-- Duplicate set for seamless infinite loop -->
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Essence of Worship</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Agape Band</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Neema Gospel Choir</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Reverend John</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Size 8</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Bahati</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Moji Shortbabaa</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Roho Israel</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Christina Shusho</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Baraka the Singer</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Angel Benard</span>
+                                </div>
+                                <div
+                                    class="client-item glass-effect rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Jabidii</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            .testimonials-container {
+                position: relative;
+                width: 100%;
+            }
+
+            .testimonials-track {
+                width: 400%;
+            }
+
+            .testimonial-card {
+                transition: transform 0.3s ease;
+                box-sizing: border-box;
+            }
+
+            .testimonial-card:hover {
+                transform: translateY(-1px);
+            }
+
+            .testimonial-nav {
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                font-size: 0.875rem;
+            }
+
+            .relative:hover .testimonial-nav {
+                opacity: 1;
+            }
+
+            /* Infinite Marquee Animation */
+            .marquee-container {
+                width: 100%;
+                mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+                -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+            }
+
+            .marquee-track {
+                animation-duration: 40s;
+                animation-timing-function: linear;
+                animation-iteration-count: infinite;
+                width: max-content;
+            }
+
+            @keyframes marquee-infinite {
+                0% {
+                    transform: translateX(0);
+                }
+
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            .animate-marquee-infinite {
+                animation-name: marquee-infinite;
+            }
+
+            .client-item {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+
+            .client-item:hover {
+                transform: translateY(-2px);
+                border-color: rgba(245, 158, 11, 0.3);
+                box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+            }
+
+            /* Never pause - continuous motion */
+            .marquee-track {
+                animation-play-state: running !important;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .testimonials-container {
+                    margin: 0 -0.5rem;
+                    width: calc(100% + 1rem);
+                }
+
+                .testimonial-card {
+                    margin: 0 0.5rem;
+                }
+
+                .testimonials-track {
+                    padding: 0 0.5rem;
+                    box-sizing: content-box;
+                }
+
+                .marquee-track {
+                    animation-duration: 30s;
+                }
+
+                .client-item {
+                    padding: 0.5rem 0.75rem !important;
+                }
+
+                .marquee-container {
+                    mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+                    -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+                }
+            }
+
+            @media (max-width: 480px) {
+                .testimonial-card {
+                    padding: 0.75rem !important;
+                }
+
+                .testimonial-card p {
+                    font-size: 0.75rem;
+                    line-height: 1.3;
+                }
+
+                .marquee-track {
+                    animation-duration: 25s;
+                }
+
+                .client-item {
+                    padding: 0.4rem 0.6rem !important;
+                }
+            }
+
+            .line-clamp-3 {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* Touch improvements */
+            @media (max-width: 768px) {
+                .testimonial-card {
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -webkit-tap-highlight-color: transparent;
+                }
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const track = document.querySelector('.testimonials-track');
+                const dots = document.querySelectorAll('.testimonial-dot');
+                const prevBtn = document.querySelector('.testimonial-prev');
+                const nextBtn = document.querySelector('.testimonial-next');
+                const container = document.querySelector('.testimonials-container');
+                const testimonialCards = document.querySelectorAll('.testimonial-card');
+
+                let currentIndex = 0;
+                let autoScrollInterval;
+                let lastTap = 0;
+
+                function updateTestimonial(index) {
+                    currentIndex = index;
+                    const translateX = -currentIndex * 100;
+                    track.style.transform = `translateX(${translateX}%)`;
+
+                    dots.forEach((dot, i) => {
+                        dot.style.backgroundColor = i === currentIndex ? '#f59e0b' : '#475569';
+                    });
+                }
+
+                function nextTestimonial() {
+                    currentIndex = (currentIndex + 1) % testimonialCards.length;
+                    updateTestimonial(currentIndex);
+                }
+
+                function prevTestimonial() {
+                    currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
+                    updateTestimonial(currentIndex);
+                }
+
+                function startAutoScroll() {
+                    autoScrollInterval = setInterval(nextTestimonial, 5000);
+                }
+
+                function stopAutoScroll() {
+                    clearInterval(autoScrollInterval);
+                }
+
+                function handleDoubleTap(event) {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+
+                    if (tapLength < 500 && tapLength > 0) {
+                        event.preventDefault();
+                        stopAutoScroll();
+                        nextTestimonial();
+                        startAutoScroll();
+                    }
+
+                    lastTap = currentTime;
+                }
+
+                function handleClick(event) {
+                    if (!('ontouchstart' in window)) {
+                        stopAutoScroll();
+                        nextTestimonial();
+                        startAutoScroll();
+                    }
+                }
+
+                // Event listeners
+                if (prevBtn && nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        stopAutoScroll();
+                        nextTestimonial();
+                        startAutoScroll();
+                    });
+
+                    prevBtn.addEventListener('click', () => {
+                        stopAutoScroll();
+                        prevTestimonial();
+                        startAutoScroll();
+                    });
+                }
+
+                dots.forEach(dot => {
+                    dot.addEventListener('click', () => {
+                        stopAutoScroll();
+                        updateTestimonial(parseInt(dot.getAttribute('data-index')));
+                        startAutoScroll();
+                    });
+                });
+
+                container.addEventListener('touchend', handleDoubleTap);
+                container.addEventListener('click', handleClick);
+
+                container.addEventListener('mouseenter', stopAutoScroll);
+                container.addEventListener('mouseleave', startAutoScroll);
+
+                let touchStartX = 0;
+                let touchEndX = 0;
+
+                container.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
+                    stopAutoScroll();
+                });
+
+                container.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                    startAutoScroll();
+                });
+
+                function handleSwipe() {
+                    const swipeThreshold = 30;
+                    const diff = touchStartX - touchEndX;
+
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            nextTestimonial();
+                        } else {
+                            prevTestimonial();
+                        }
+                    }
+                }
+
+                // Initialize
+                updateTestimonial(0);
+                startAutoScroll();
+
+                window.addEventListener('resize', function () {
+                    updateTestimonial(currentIndex);
+                });
+            });
+        </script>
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container max-w-4xl mx-auto px-4 py-8">
+                <div class="w-full">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Ready to Create Magic?</h2>
+                        <p class="text-slate-400 text-sm">Let's discuss your next production</p>
+                        <div
+                            class="h-px w-16 bg-gradient-to-r from-transparent via-accent-yellow to-transparent mx-auto mt-3">
+                        </div>
+                    </div>
+
+                    <!-- Contact Info Row - Music Studio Style -->
+                    <div class="glass-effect rounded-xl p-6 mb-8 border border-slate-600/30">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" style="
+    display: flex;
+">
+                            <!-- Email - Sound Mixer Inspired -->
+                            <a href="mailto:hello@amigojohnson.com"
+                                class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-yellow-400/50 transition-all duration-300">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div
+                                            class="w-10 h-10 bg-yellow-500/10 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-envelope text-yellow-400 text-lg"></i>
+                                        </div>
+                                        <div
+                                            class="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse">
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white text-sm font-medium">Email</span>
+                                            <i
+                                                class="fas fa-chevron-right text-yellow-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                        </div>
+                                        <p class="text-yellow-400/80 text-xs mt-1 truncate">hello@amigojohnson.com</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Phone - Volume Knob Inspired -->
+                            <a href="tel:+254700123456"
+                                class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-purple-400/50 transition-all duration-300">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div
+                                            class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-phone text-purple-400 text-lg"></i>
+                                        </div>
+                                        <div
+                                            class="absolute -top-1 -right-1 w-3 h-3 bg-purple-400 rounded-full animate-pulse">
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white text-sm font-medium">Call</span>
+                                            <i
+                                                class="fas fa-chevron-right text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                        </div>
+                                        <p class="text-purple-400/80 text-xs mt-1">+254 700 123 456</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Location - Stage Marker Inspired -->
+                            <div
+                                class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-blue-400/50 transition-all duration-300">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div
+                                            class="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-map-marker-alt text-blue-400 text-lg"></i>
+                                        </div>
+                                        <div
+                                            class="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full animate-pulse">
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white text-sm font-medium">Studio</span>
+                                            <i
+                                                class="fas fa-chevron-right text-blue-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                        </div>
+                                        <p class="text-blue-400/80 text-xs mt-1">Nairobi Sound Lab</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Buttons - Mixer Channel Style -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8"
+                        style="display: flex; justify-content: center;">
+                        <a href="https://wa.me/254700123456"
+                            class="action-btn bg-gradient-to-r from-green-500/10 to-green-600/10 border border-green-500/30 p-3 rounded-lg text-center group hover:scale-105 transition-all relative overflow-hidden">
+                            <!-- Shiny effect inside the a tag -->
+                            <div
+                                class="shiny-overlay absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12">
+                            </div>
+                            <i class="fab fa-whatsapp text-green-400 text-lg mb-1 relative z-20"></i>
+                            <span class="text-white text-xs block relative z-20">WhatsApp</span>
+                        </a>
+
+                        <a href="#"
+                            class="action-btn bg-gradient-to-r from-pink-500/10 to-pink-600/10 border border-pink-500/30 p-3 rounded-lg text-center group hover:scale-105 transition-all relative overflow-hidden">
+                            <!-- Shiny effect inside the a tag -->
+                            <div
+                                class="shiny-overlay absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12">
+                            </div>
+                            <i class="fab fa-instagram text-pink-400 text-lg mb-1 relative z-20"></i>
+                            <span class="text-white text-xs block relative z-20">Instagram</span>
+                        </a>
+
+                        <a href="#"
+                            class="action-btn bg-gradient-to-r from-blue-500/10 to-blue-600/10 border border-blue-500/30 p-3 rounded-lg text-center group hover:scale-105 transition-all relative overflow-hidden">
+                            <!-- Shiny effect inside the a tag -->
+                            <div
+                                class="shiny-overlay absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12">
+                            </div>
+                            <i class="fab fa-linkedin text-blue-400 text-lg mb-1 relative z-20"></i>
+                            <span class="text-white text-xs block relative z-20">LinkedIn</span>
+                        </a>
+
+                        <a href="#"
+                            class="action-btn bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/30 p-3 rounded-lg text-center group hover:scale-105 transition-all relative overflow-hidden">
+                            <!-- Shiny effect inside the a tag -->
+                            <div
+                                class="shiny-overlay absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12">
+                            </div>
+                            <i class="fab fa-youtube text-red-400 text-lg mb-1 relative z-20"></i>
+                            <span class="text-white text-xs block relative z-20">YouTube</span>
+                        </a>
+                    </div>
+
+                    <style>
+                        /* Shiny overlay animation for each individual button */
+                        .shiny-overlay {
+                            animation: shine 3s ease-in-out infinite;
+                            opacity: 0;
+                        }
+
+                        /* Sequential animation delays for each button */
+                        .action-btn:nth-child(1) .shiny-overlay {
+                            animation-delay: 0s;
+                        }
+
+                        .action-btn:nth-child(2) .shiny-overlay {
+                            animation-delay: 0.5s;
+                        }
+
+                        .action-btn:nth-child(3) .shiny-overlay {
+                            animation-delay: 1s;
+                        }
+
+                        .action-btn:nth-child(4) .shiny-overlay {
+                            animation-delay: 1.5s;
+                        }
+
+                        /* Shine animation that moves across each button */
+                        @keyframes shine {
+                            0% {
+                                transform: skewX(-12deg) translateX(-150%);
+                                opacity: 0;
+                            }
+
+                            20% {
+                                opacity: 0.3;
+                            }
+
+                            50% {
+                                transform: skewX(-12deg) translateX(150%);
+                                opacity: 0.6;
+                            }
+
+                            80% {
+                                opacity: 0.3;
+                            }
+
+                            100% {
+                                transform: skewX(-12deg) translateX(150%);
+                                opacity: 0;
+                            }
+                        }
+
+                        /* Enhanced hover effects */
+                        .action-btn {
+                            position: relative;
+                            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        }
+
+                        .action-btn:hover {
+                            transform: scale(1.05) translateY(-2px);
+                            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                        }
+
+                        /* Stronger shine effect on hover */
+                        .action-btn:hover .shiny-overlay {
+                            animation: shineHover 1s ease-out;
+                        }
+
+                        @keyframes shineHover {
+                            0% {
+                                transform: skewX(-12deg) translateX(-100%);
+                                opacity: 0;
+                            }
+
+                            50% {
+                                opacity: 0.8;
+                            }
+
+                            100% {
+                                transform: skewX(-12deg) translateX(100%);
+                                opacity: 0;
+                            }
+                        }
+
+                        /* Platform-specific hover glows */
+                        .action-btn:nth-child(1):hover {
+                            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+                        }
+
+                        .action-btn:nth-child(2):hover {
+                            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.3);
+                        }
+
+                        .action-btn:nth-child(3):hover {
+                            box-shadow: 0 10px 30px rgba(0, 119, 181, 0.3);
+                        }
+
+                        .action-btn:nth-child(4):hover {
+                            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+                        }
+
+                        /* Mobile responsiveness */
+                        @media (max-width: 768px) {
+                            .shiny-overlay {
+                                animation-duration: 4s;
+                            }
+
+                            .action-btn {
+                                padding: 0.75rem;
+                            }
+
+                            .action-btn:nth-child(1) .shiny-overlay {
+                                animation-delay: 0s;
+                            }
+
+                            .action-btn:nth-child(2) .shiny-overlay {
+                                animation-delay: 1s;
+                            }
+
+                            .action-btn:nth-child(3) .shiny-overlay {
+                                animation-delay: 2s;
+                            }
+
+                            .action-btn:nth-child(4) .shiny-overlay {
+                                animation-delay: 3s;
+                            }
+                        }
+
+                        /* Ensure content stays above effects */
+                        .action-btn i,
+                        .action-btn span {
+                            position: relative;
+                            z-index: 30;
+                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+                        }
+                    </style>
+
+                    <script>
+                        // Add interactive effects for each button
+                        document.querySelectorAll('.action-btn').forEach((btn, index) => {
+                            btn.addEventListener('mouseenter', function () {
+                                // Add subtle pulse effect
+                                this.style.transform = 'scale(1.08) translateY(-3px)';
+                            });
+
+                            btn.addEventListener('mouseleave', function () {
+                                this.style.transform = 'scale(1) translateY(0)';
+                            });
+
+                            btn.addEventListener('click', function (e) {
+                                // Create click ripple effect
+                                const ripple = document.createElement('div');
+                                ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleClick 0.6s ease-out;
+            pointer-events: none;
+            z-index: 25;
+        `;
+
+                                const rect = this.getBoundingClientRect();
+                                const size = Math.max(rect.width, rect.height);
+                                const x = e.clientX - rect.left - size / 2;
+                                const y = e.clientY - rect.top - size / 2;
+
+                                ripple.style.width = ripple.style.height = size + 'px';
+                                ripple.style.left = x + 'px';
+                                ripple.style.top = y + 'px';
+
+                                this.appendChild(ripple);
+
+                                setTimeout(() => {
+                                    if (ripple.parentNode) {
+                                        ripple.parentNode.removeChild(ripple);
+                                    }
+                                }, 600);
+                            });
+                        });
+
+                        // Add CSS for ripple animation
+                        const rippleStyle = document.createElement('style');
+                        rippleStyle.textContent = `
+    @keyframes rippleClick {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+                        document.head.appendChild(rippleStyle);
+                    </script>
+                    <!-- Quick Message Form - Soundboard Style -->
+                    <div class="glass-effect rounded-xl p-6 border border-slate-600/30">
+                        <div class="text-center mb-4">
+                            <h3 class="text-white text-lg font-semibold mb-1">Send a Project Brief</h3>
+                            <p class="text-slate-400 text-xs">Describe your vision for the production</p>
+                        </div>
+
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" placeholder="Project Name"
+                                    class="p-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-sm text-white placeholder-slate-400 focus:border-yellow-400/50 focus:outline-none transition-colors">
+
+                                <input type="text" placeholder="Timeline"
+                                    class="p-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-sm text-white placeholder-slate-400 focus:border-yellow-400/50 focus:outline-none transition-colors">
+                            </div>
+
+                            <textarea placeholder="Tell me about your project... (genre, audience, vision)" rows="3"
+                                class="w-full p-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-sm text-white placeholder-slate-400 focus:border-yellow-400/50 focus:outline-none resize-none transition-colors"></textarea>
+
+                            <button type="submit"
+                                class="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-yellow-500/20">
+                                <i class="fas fa-paper-plane mr-2"></i>Send Project Brief
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="text-center mt-6 pt-4 border-t border-slate-600/30">
+                        <p class="text-slate-400 text-xs">© 2024 AmigoJohnson. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            .glass-effect {
+                background: rgba(15, 23, 42, 0.7);
+                backdrop-filter: blur(10px);
+            }
+
+            .contact-item {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .contact-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s;
+            }
+
+            .contact-item:hover::before {
+                left: 100%;
+            }
+
+            .contact-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .action-btn {
+                transition: all 0.3s ease;
+            }
+
+            .action-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Music-themed animations */
+            @keyframes equalizer {
+
+                0%,
+                100% {
+                    transform: scaleY(0.3);
+                }
+
+                50% {
+                    transform: scaleY(1);
+                }
+            }
+
+            .equalizer-bar {
+                animation: equalizer 1s infinite ease-in-out;
+            }
+
+            .equalizer-bar:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+
+            .equalizer-bar:nth-child(3) {
+                animation-delay: 0.2s;
+            }
+
+            .equalizer-bar:nth-child(4) {
+                animation-delay: 0.3s;
+            }
+
+            /* Responsive design */
+            @media (max-width: 768px) {
+                .grid.grid-cols-3 {
+                    grid-template-columns: 1fr;
+                    gap: 2px;
+                }
+
+                .contact-item {
+                    padding: 1rem;
+                }
+
+                .grid.grid-cols-4 {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 1rem;
+                }
+
+                .glass-effect {
+                    padding: 1rem;
+                }
+
+                .contact-item {
+                    padding: 0.75rem;
+                }
+            }
+        </style>
+
+        <script>
+            // Add music-themed interactions
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    if (this.tagName === 'A') {
+                        // Create ripple effect
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.3);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+
+                        ripple.style.width = ripple.style.height = size + 'px';
+                        ripple.style.left = x + 'px';
+                        ripple.style.top = y + 'px';
+
+                        this.style.position = 'relative';
+                        this.appendChild(ripple);
+
+                        setTimeout(() => ripple.remove(), 600);
+                    }
+                });
+            });
+
+            // Form submission with music theme
+            document.querySelector('form').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const button = this.querySelector('button');
+                const originalHTML = button.innerHTML;
+
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+                button.disabled = true;
+
+                // Simulate audio waveform animation
+                button.style.background = 'linear-gradient(to right, #4ade80, #22c55e)';
+
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-check mr-2"></i>Brief Sent!';
+
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.disabled = false;
+                        button.style.background = '';
+                        this.reset();
+                    }, 2000);
+                }, 1500);
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // DOM Elements
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const scrollTop = document.getElementById('scrollTop');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const fadeTexts = document.querySelectorAll('.fade-text');
+        const skillProgresses = document.querySelectorAll('.skill-progress');
+        const navbar = document.getElementById('navbar');
+        const navContent = document.getElementById('navContent');
+
+        // Scroll navigation variables
+        let wheelTimeout;
+        let isScrolling = false;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // Check if mobile device
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('navbar-scrolled');
+                navContent.classList.remove('mt-5');
+                navContent.classList.remove('mx-5');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+                navContent.classList.add('mt-5');
+                navContent.classList.add('mx-5');
+            }
+
+            // Scroll to top button
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('active');
+            } else {
+                scrollTop.classList.remove('active');
+            }
+        });
+
+        // Sidebar toggle
+        hamburger.addEventListener('click', () => {
+            sidebar.style.right = '0';
+            overlay.style.opacity = '1';
+            overlay.style.visibility = 'visible';
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.style.right = '-420px';
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+        });
+
+        // Scroll to top functionality
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Text rotation animation
+        let currentTextIndex = 0;
+
+        function rotateText() {
+            fadeTexts.forEach(text => text.classList.remove('active'));
+            fadeTexts[currentTextIndex].classList.add('active');
+            currentTextIndex = (currentTextIndex + 1) % fadeTexts.length;
+        }
+
+        // Initialize text rotation
+        setInterval(rotateText, 3000);
+
+        // Skill bars animation
+        function animateSkillBars() {
+            skillProgresses.forEach(progress => {
+                const width = progress.getAttribute('data-width');
+                progress.style.width = width;
+            });
+        }
+
+        // Enhanced setActiveSection function with sliding animations
+        function setActiveSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (!target) return;
+
+            const current = document.querySelector('.section.active');
+            if (current === target) return;
+
+            // Get indices for direction detection
+            const currentIndex = Array.from(sections).indexOf(current);
+            const targetIndex = Array.from(sections).indexOf(target);
+
+            // Remove active class from current section
+            if (current) {
+                current.classList.remove('active');
+                // Set direction classes for animation
+                if (targetIndex > currentIndex) {
+                    current.classList.add('prev');
+                } else {
+                    current.classList.add('next');
+                }
+
+                // Remove direction classes after animation
+                setTimeout(() => {
+                    current.classList.remove('prev', 'next');
+                }, 800);
+            }
+
+            // Add active class to target section
+            requestAnimationFrame(() => {
+                target.classList.add('active');
+
+                // Scroll to section for mobile using CSS scroll snap
+                if (isMobile()) {
+                    const sectionsContainer = document.querySelector('.sections-container');
+                    const scrollPosition = targetIndex * window.innerWidth;
+                    sectionsContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+                }
+
+                // Trigger AOS animations for the new section
+                AOS.refresh();
+            });
+
+            // Update navigation dots
+            navDots.forEach(dot => {
+                dot.classList.toggle('active', dot.getAttribute('data-section') === sectionId);
+            });
+
+            // Update sidebar links
+            navLinks.forEach(link => {
+                link.classList.toggle('active-sidebar-link', link.getAttribute('data-section') === sectionId);
+            });
+
+            // Reset scrolling state
+            isScrolling = false;
+            clearTimeout(wheelTimeout);
+        }
+
+        // Handle scroll snap for mobile
+        function handleScrollSnap() {
+            if (!isMobile()) return;
+
+            const sectionsContainer = document.querySelector('.sections-container');
+            const scrollLeft = sectionsContainer.scrollLeft;
+            const sectionWidth = window.innerWidth;
+            const currentIndex = Math.round(scrollLeft / sectionWidth);
+
+            if (currentIndex >= 0 && currentIndex < sections.length) {
+                const currentSection = document.querySelector('.section.active');
+                const targetSection = sections[currentIndex];
+
+                if (currentSection !== targetSection) {
+                    // Remove active class from all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active', 'prev', 'next');
+                    });
+
+                    // Add active class to current section
+                    targetSection.classList.add('active');
+
+                    // Update navigation dots
+                    navDots.forEach(dot => {
+                        dot.classList.toggle('active', dot.getAttribute('data-section') === targetSection.id);
+                    });
+
+                    // Update sidebar links
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active-sidebar-link', link.getAttribute('data-section') === targetSection.id);
+                    });
+
+                    // Trigger AOS animations for the new section
+                    AOS.refresh();
+                }
+            }
+        }
+
+        // MOUSE WHEEL NAVIGATION - Only for desktop
+        document.addEventListener('wheel', (e) => {
+            if (isMobile()) return; // Disable wheel navigation on mobile
+
+            e.preventDefault();
+
+            if (isScrolling) return;
+
+            isScrolling = true;
+            clearTimeout(wheelTimeout);
+
+            const currentSection = document.querySelector('.section.active');
+            const currentIndex = Array.from(sections).indexOf(currentSection);
+            const isScrollingDown = e.deltaY > 0;
+
+            if (isScrollingDown && currentIndex < sections.length - 1) {
+                setActiveSection(sections[currentIndex + 1].id);
+            } else if (!isScrollingDown && currentIndex > 0) {
+                setActiveSection(sections[currentIndex - 1].id);
+            }
+
+            wheelTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 800);
+        }, { passive: false });
+
+        // TOUCH SCROLL NAVIGATION FOR MOBILE
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+            touchStartX = e.changedTouches[0].screenX;
+            isScrolling = false;
+            clearTimeout(wheelTimeout);
+        });
+
+        document.addEventListener('touchmove', e => {
+            // Allow natural scrolling on mobile
+            if (isMobile()) {
+                return;
+            }
+
+            // Prevent default only on desktop for wheel navigation
+            if (!isMobile()) {
+                e.preventDefault();
+            }
+        }, { passive: isMobile() }); // Use passive listeners on mobile
+
+        document.addEventListener('touchend', e => {
+            if (!isMobile()) return; // Only handle touch navigation on mobile
+
+            touchEndY = e.changedTouches[0].screenY;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (!isMobile()) return;
+            if (isScrolling) return;
+
+            const swipeThreshold = 50;
+            const swipeDistanceY = touchEndY - touchStartY;
+            const swipeDistanceX = touchEndX - touchStartX;
+
+            // Only handle horizontal swipes for section navigation
+            if (Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY) && Math.abs(swipeDistanceX) > swipeThreshold) {
+                isScrolling = true;
+
+                const currentSection = document.querySelector('.section.active');
+                const currentIndex = Array.from(sections).indexOf(currentSection);
+
+                if (swipeDistanceX < 0 && currentIndex < sections.length - 1) {
+                    // Swipe left - next section
+                    setActiveSection(sections[currentIndex + 1].id);
+                } else if (swipeDistanceX > 0 && currentIndex > 0) {
+                    // Swipe right - previous section
+                    setActiveSection(sections[currentIndex - 1].id);
+                }
+
+                wheelTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 800);
+            }
+        }
+
+        // Handle scroll events for mobile snap
+        let scrollTimeout;
+        document.querySelector('.sections-container').addEventListener('scroll', () => {
+            if (!isMobile()) return;
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                handleScrollSnap();
+            }, 100);
+        });
+
+        // Navigation dots click event
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.getAttribute('data-section');
+                setActiveSection(sectionId);
+            });
+        });
+
+        // Sidebar navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('data-section');
+                setActiveSection(sectionId);
+
+                // Close sidebar on mobile
+                if (window.innerWidth < 1024) {
+                    sidebar.style.right = '-420px';
+                    overlay.style.opacity = '0';
+                    overlay.style.visibility = 'hidden';
+                }
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', e => {
+            const currentSection = document.querySelector('.section.active');
+            const currentIndex = Array.from(sections).indexOf(currentSection);
+
+            if (e.key === 'ArrowDown' && currentIndex < sections.length - 1) {
+                e.preventDefault();
+                setActiveSection(sections[currentIndex + 1].id);
+            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                e.preventDefault();
+                setActiveSection(sections[currentIndex - 1].id);
+            } else if (e.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+                e.preventDefault();
+                setActiveSection(sections[currentIndex + 1].id);
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                e.preventDefault();
+                setActiveSection(sections[currentIndex - 1].id);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                setActiveSection('home');
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                setActiveSection('contact');
+            }
+        });
+
+        // Initialize animations when page loads
+        window.addEventListener('load', () => {
+            animateSkillBars();
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.project-card, .glass-effect').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if (name && email && message) {
+                alert('Thank you for your message! I will get back to you soon.');
+                this.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Portfolio Carousel for Mobile
+        const portfolioItems = [
+            {
+                title: "Summer Music Festival",
+                description: "Stage direction and live production for a 3-day music festival with 20+ artists.",
+                category: "Live Production",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                title: "Corporate Brand Video",
+                description: "End-to-end video production for a tech company's rebranding campaign.",
+                category: "Video Production",
+                image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
+            },
+            {
+                title: "Album Production",
+                description: "Sound engineering and production for an indie artist's debut album.",
+                category: "Music Production",
+                image: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            }
+        ];
+
+        let currentPortfolioIndex = 0;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const portfolioCarousel = document.querySelector('.portfolio-carousel');
+
+        function updatePortfolioCarousel() {
+            if (!portfolioCarousel) return;
+
+            const project = portfolioItems[currentPortfolioIndex];
+            portfolioCarousel.innerHTML = `
+        <div class="project-card glass-effect rounded-2xl overflow-hidden">
+            <div class="overflow-hidden">
+                <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover project-image">
+            </div>
+            <div class="p-4">
+                <h3 class="text-lg font-semibold mb-2">${project.title}</h3>
+                <p class="text-slate-400 mb-4 text-sm">${project.description}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-accent-yellow text-sm">${project.category}</span>
+                    <a href="#" class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">View Project →</a>
+                </div>
+            </div>
+        </div>
+    `;
+
+            if (prevBtn) prevBtn.disabled = currentPortfolioIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentPortfolioIndex === portfolioItems.length - 1;
+        }
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentPortfolioIndex > 0) {
+                    currentPortfolioIndex--;
+                    updatePortfolioCarousel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPortfolioIndex < portfolioItems.length - 1) {
+                    currentPortfolioIndex++;
+                    updatePortfolioCarousel();
+                }
+            });
+
+            updatePortfolioCarousel();
+        }
+
+        // Counter animation for About section
+        const counters = document.querySelectorAll('.counter-value');
+
+        function animateCounter(counter) {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const increment = target / 100;
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.floor(current) + '+';
+                }
+            }, 20);
+        }
+
+        // Initialize counters when the about section is active
+        const aboutSection = document.getElementById('about');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    counters.forEach(counter => {
+                        animateCounter(counter);
+                    });
+                    counterObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (counters.length > 0) {
+            counterObserver.observe(aboutSection);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            AOS.refresh();
+
+            // Re-initialize mobile scroll behavior on resize
+            if (isMobile()) {
+                const activeSection = document.querySelector('.section.active');
+                if (activeSection) {
+                    const activeIndex = Array.from(sections).indexOf(activeSection);
+                    const sectionsContainer = document.querySelector('.sections-container');
+                    sectionsContainer.scrollLeft = activeIndex * window.innerWidth;
+                }
+            }
+        });
+
+        // Initialize the first section as active
+        setActiveSection('home');
+
+        // Initialize mobile scroll position on load
+        window.addEventListener('load', () => {
+            if (isMobile()) {
+                const sectionsContainer = document.querySelector('.sections-container');
+                sectionsContainer.scrollLeft = 0;
+            }
+        });
+    </script>
+</body>
+
+</html>
