@@ -1240,8 +1240,7 @@
                         <div
                             class="profile-image-container w-full h-full flex items-center justify-center rounded-2xl shadow-xl shadow-black/40 overflow-hidden p-4 floating">
                             <!-- Real person with transparent background -->
-                            <img src="https://i.ibb.co/4T2SY0X/transparent-person.png" alt="Amigo Johnson"
-                                class="w-full h-full object-contain">
+                            <img src="aj_img.jpg" alt="Amigo Johnson" class="w-full h-full object-contain">
                         </div>
                         <div class="absolute -inset-4 border-2 border-accent-yellow rounded-2xl -z-10"></div>
                     </div>
@@ -2265,6 +2264,35 @@
                 });
             });
         </script>
+
+        <script>
+            // Add close button functionality
+            const closeSidebar = document.querySelector('.close-sidebar');
+            if (closeSidebar) {
+                closeSidebar.addEventListener('click', () => {
+                    sidebar.style.right = '-100%';
+                    overlay.style.opacity = '0';
+                    overlay.style.visibility = 'hidden';
+                    document.body.classList.remove('sidebar-open');
+                });
+            }
+
+            // Update hamburger click to handle body scroll
+            hamburger.addEventListener('click', () => {
+                sidebar.style.right = '0';
+                overlay.style.opacity = '1';
+                overlay.style.visibility = 'visible';
+                document.body.classList.add('sidebar-open');
+            });
+
+            // Update overlay click
+            overlay.addEventListener('click', () => {
+                sidebar.style.right = '-100%';
+                overlay.style.opacity = '0';
+                overlay.style.visibility = 'hidden';
+                document.body.classList.remove('sidebar-open');
+            });
+        </script>
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="container max-w-4xl mx-auto px-4 py-8">
@@ -2279,15 +2307,14 @@
                     </div>
 
                     <!-- Contact Info Row - Music Studio Style -->
-                    <div class="glass-effect rounded-xl p-6 mb-8 border border-slate-600/30">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" style="
-    display: flex;
-">
+                    <div class="glass-effect rounded-xl p-6 mb-8 border border-slate-600/30"
+                        style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Email - Sound Mixer Inspired -->
                             <a href="mailto:hello@amigojohnson.com"
                                 class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-yellow-400/50 transition-all duration-300">
                                 <div class="flex items-center space-x-3">
-                                    <div class="relative">
+                                    <div class="relative flex-shrink-0">
                                         <div
                                             class="w-10 h-10 bg-yellow-500/10 rounded-full flex items-center justify-center">
                                             <i class="fas fa-envelope text-yellow-400 text-lg"></i>
@@ -2296,11 +2323,11 @@
                                             class="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse">
                                         </div>
                                     </div>
-                                    <div class="flex-1">
+                                    <div class="flex-1 min-w-0">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-white text-sm font-medium">Email</span>
+                                            <span class="text-white text-sm font-medium truncate">Email</span>
                                             <i
-                                                class="fas fa-chevron-right text-yellow-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                                class="fas fa-chevron-right text-yellow-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2"></i>
                                         </div>
                                         <p class="text-yellow-400/80 text-xs mt-1 truncate">hello@amigojohnson.com</p>
                                     </div>
@@ -2311,7 +2338,7 @@
                             <a href="tel:+254700123456"
                                 class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-purple-400/50 transition-all duration-300">
                                 <div class="flex items-center space-x-3">
-                                    <div class="relative">
+                                    <div class="relative flex-shrink-0">
                                         <div
                                             class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center">
                                             <i class="fas fa-phone text-purple-400 text-lg"></i>
@@ -2320,13 +2347,13 @@
                                             class="absolute -top-1 -right-1 w-3 h-3 bg-purple-400 rounded-full animate-pulse">
                                         </div>
                                     </div>
-                                    <div class="flex-1">
+                                    <div class="flex-1 min-w-0">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-white text-sm font-medium">Call</span>
+                                            <span class="text-white text-sm font-medium truncate">Call</span>
                                             <i
-                                                class="fas fa-chevron-right text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                                class="fas fa-chevron-right text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2"></i>
                                         </div>
-                                        <p class="text-purple-400/80 text-xs mt-1">+254 700 123 456</p>
+                                        <p class="text-purple-400/80 text-xs mt-1 truncate">+254 700 123 456</p>
                                     </div>
                                 </div>
                             </a>
@@ -2335,7 +2362,7 @@
                             <div
                                 class="contact-item group p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-blue-400/50 transition-all duration-300">
                                 <div class="flex items-center space-x-3">
-                                    <div class="relative">
+                                    <div class="relative flex-shrink-0">
                                         <div
                                             class="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center">
                                             <i class="fas fa-map-marker-alt text-blue-400 text-lg"></i>
@@ -2344,19 +2371,18 @@
                                             class="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full animate-pulse">
                                         </div>
                                     </div>
-                                    <div class="flex-1">
+                                    <div class="flex-1 min-w-0">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-white text-sm font-medium">Studio</span>
+                                            <span class="text-white text-sm font-medium truncate">Studio</span>
                                             <i
-                                                class="fas fa-chevron-right text-blue-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                                class="fas fa-chevron-right text-blue-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2"></i>
                                         </div>
-                                        <p class="text-blue-400/80 text-xs mt-1">Nairobi Sound Lab</p>
+                                        <p class="text-blue-400/80 text-xs mt-1 truncate">Nairobi Sound Lab</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Quick Action Buttons - Mixer Channel Style -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8"
                         style="display: flex; justify-content: center;">
