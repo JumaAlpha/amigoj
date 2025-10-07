@@ -19,21 +19,24 @@ const navbar = document.getElementById('navbar');
 const navContent = document.getElementById('navContent');
 const loadingBar = document.getElementById('loadingBar');
 
-// Scroll navigation variables
+// Enhanced scroll variables
 let wheelTimeout;
 let isScrolling = false;
 let touchStartX = 0;
 let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+let scrollStartX = 0;
+let isHorizontalScroll = false;
+let currentScrollLeft = 0;
+const SCROLL_THRESHOLD = 0.9; // 90% threshold
 
 // Check if mobile device
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
-// SIMPLE SECTION MANAGEMENT - This will fix the visibility issue
-// FIXED SECTION MANAGEMENT
-// FIXED SECTION MANAGEMENT
-// SIMPLIFIED SECTION MANAGEMENT
+// Enhanced section management with smooth transitions
 function setActiveSection(sectionId) {
     console.log('Activating section:', sectionId);
 
@@ -71,16 +74,25 @@ function setActiveSection(sectionId) {
         }, 500);
     }
 
-    // Scroll to section (for both desktop and mobile)
+    // Enhanced scroll to section with smooth behavior
     const targetIndex = Array.from(sections).indexOf(targetSection);
     const sectionsContainer = document.querySelector('.sections-container');
     if (sectionsContainer && targetIndex >= 0) {
+        const scrollPosition = targetIndex * window.innerWidth;
+        
         sectionsContainer.scrollTo({
-            left: targetIndex * window.innerWidth,
+            left: scrollPosition,
             behavior: 'smooth'
         });
+        
+        // Update current scroll position
+        currentScrollLeft = scrollPosition;
     }
-}// Helper function to update section positions
+    
+    updateSectionPositions();
+}
+
+// Enhanced section position updates
 function updateSectionPositions() {
     const allSections = Array.from(sections);
     const activeSection = document.querySelector('.section.active');
@@ -95,7 +107,8 @@ function updateSectionPositions() {
         }
     });
 }
-// Scroll to section function
+
+// Enhanced scroll to section function
 function scrollToSection(sectionId) {
     if (sectionId === 'portfolio') {
         openVideoModal();
@@ -111,9 +124,9 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Loading animation
+// Enhanced loading animation
 window.addEventListener('load', function () {
-    console.log('Page loaded, initializing...');
+    console.log('Page loaded, initializing enhanced scroll...');
 
     let width = 1;
     const interval = setInterval(function () {
@@ -121,22 +134,21 @@ window.addEventListener('load', function () {
             clearInterval(interval);
             loadingBar.style.opacity = '0';
             setTimeout(() => loadingBar.style.display = 'none', 300);
+            
+            // Initialize enhanced scroll container
+            initializeEnhancedScroll();
         } else {
             width++;
             loadingBar.style.width = width + '%';
         }
     }, 10);
 
-    // Initialize first section and set up all section positions
+    // Initialize first section
     const allSections = Array.from(sections);
     allSections.forEach((section, index) => {
         section.classList.remove('active', 'prev', 'next');
         if (index === 0) {
             section.classList.add('active');
-        } else if (index < 0) {
-            section.classList.add('prev');
-        } else {
-            section.classList.add('next');
         }
     });
 
@@ -144,13 +156,144 @@ window.addEventListener('load', function () {
     setActiveSection('home');
 });
 
-// Update positions on resize
-window.addEventListener('resize', function () {
-    AOS.refresh();
-    updateSectionPositions();
+// Enhanced scroll container initialization
+function initializeEnhancedScroll() {
+    const sectionsContainer = document.querySelector('.sections-container');
+    if (!sectionsContainer) return;
+
+    // Set initial scroll position
+    sectionsContainer.scrollLeft = 0;
+    currentScrollLeft = 0;
+
+    // Enhanced scroll event with threshold detection
+    sectionsContainer.addEventListener('scroll', function() {
+        clearTimeout(wheelTimeout);
+        
+        const scrollLeft = sectionsContainer.scrollLeft;
+        const sectionWidth = window.innerWidth;
+        const currentIndex = Math.floor(scrollLeft / sectionWidth);
+        const scrollProgress = (scrollLeft % sectionWidth) / sectionWidth;
+        
+        // Determine scroll direction
+        const isScrollingRight = scrollLeft > currentScrollLeft;
+        currentScrollLeft = scrollLeft;
+        
+        // Check if we've passed the 90% threshold
+        if (isScrollingRight && scrollProgress > SCROLL_THRESHOLD) {
+            // Moving to next section
+            if (currentIndex < sections.length - 1) {
+                setActiveSection(sections[currentIndex + 1].id);
+            }
+        } else if (!isScrollingRight && scrollProgress < (1 - SCROLL_THRESHOLD)) {
+            // Moving to previous section
+            if (currentIndex > 0) {
+                setActiveSection(sections[currentIndex - 1].id);
+            }
+        }
+        
+        wheelTimeout = setTimeout(function() {
+            // Snap to nearest section after scrolling stops
+            const nearestIndex = Math.round(scrollLeft / sectionWidth);
+            if (nearestIndex >= 0 && nearestIndex < sections.length) {
+                setActiveSection(sections[nearestIndex].id);
+            }
+        }, 150);
+    });
+}
+
+// Enhanced touch handling for horizontal scroll
+document.addEventListener('touchstart', function (e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    scrollStartX = currentScrollLeft;
+    isHorizontalScroll = false;
 });
 
-// Navbar scroll effect
+document.addEventListener('touchmove', function (e) {
+    if (!isMobile()) return;
+
+    const touchX = e.changedTouches[0].screenX;
+    const touchY = e.changedTouches[0].screenY;
+    
+    // Determine if this is primarily a horizontal scroll
+    const deltaX = Math.abs(touchX - touchStartX);
+    const deltaY = Math.abs(touchY - touchStartY);
+    
+    if (deltaX > deltaY && !isHorizontalScroll) {
+        isHorizontalScroll = true;
+    }
+    
+    if (isHorizontalScroll) {
+        e.preventDefault();
+        
+        const sectionsContainer = document.querySelector('.sections-container');
+        if (sectionsContainer) {
+            const scrollDelta = touchStartX - touchX;
+            sectionsContainer.scrollLeft = scrollStartX + scrollDelta;
+        }
+    }
+}, { passive: false });
+
+document.addEventListener('touchend', function (e) {
+    if (!isMobile() || !isHorizontalScroll) return;
+
+    touchEndX = e.changedTouches[0].screenX;
+    const swipeDistance = touchStartX - touchEndX;
+    const sectionWidth = window.innerWidth;
+    const threshold = sectionWidth * 0.3; // 30% of screen width
+
+    if (Math.abs(swipeDistance) > threshold) {
+        const currentSection = document.querySelector('.section.active');
+        const currentIndex = Array.from(sections).indexOf(currentSection);
+
+        if (swipeDistance > 0 && currentIndex < sections.length - 1) {
+            // Swipe left - next section
+            setActiveSection(sections[currentIndex + 1].id);
+        } else if (swipeDistance < 0 && currentIndex > 0) {
+            // Swipe right - previous section
+            setActiveSection(sections[currentIndex - 1].id);
+        } else {
+            // Return to current section
+            setActiveSection(sections[currentIndex].id);
+        }
+    } else {
+        // Return to current section if swipe wasn't significant
+        const currentSection = document.querySelector('.section.active');
+        const currentIndex = Array.from(sections).indexOf(currentSection);
+        setActiveSection(sections[currentIndex].id);
+    }
+    
+    isHorizontalScroll = false;
+});
+
+// Enhanced mouse wheel navigation for desktop
+document.addEventListener('wheel', function (e) {
+    if (isMobile()) return;
+
+    e.preventDefault();
+
+    if (isScrolling) return;
+    isScrolling = true;
+
+    const sectionsContainer = document.querySelector('.sections-container');
+    if (sectionsContainer) {
+        const delta = e.deltaY;
+        const currentScroll = sectionsContainer.scrollLeft;
+        const sectionWidth = window.innerWidth;
+        
+        // Smooth scroll with momentum
+        sectionsContainer.scrollBy({
+            left: delta * 2,
+            behavior: 'smooth'
+        });
+    }
+
+    setTimeout(() => {
+        isScrolling = false;
+    }, 800);
+}, { passive: false });
+
+// Enhanced navbar scroll effect
 window.addEventListener('scroll', function () {
     if (window.pageYOffset > 50) {
         navbar.classList.add('navbar-scrolled');
@@ -187,21 +330,6 @@ if (overlay) {
     });
 }
 
-// Debug function to check section states
-function debugSections() {
-    console.log('=== SECTION STATES ===');
-    sections.forEach((section, index) => {
-        console.log(`Section ${index} (${section.id}):`, {
-            active: section.classList.contains('active'),
-            prev: section.classList.contains('prev'),
-            next: section.classList.contains('next'),
-            transform: section.style.transform
-        });
-    });
-    console.log('======================');
-}
-
-
 // Scroll to top functionality
 if (scrollTop) {
     scrollTop.addEventListener('click', function () {
@@ -226,56 +354,6 @@ function rotateText() {
 if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
-
-// Mouse wheel navigation for desktop
-document.addEventListener('wheel', function (e) {
-    if (isMobile()) return;
-
-    e.preventDefault();
-
-    if (isScrolling) return;
-    isScrolling = true;
-
-    const currentSection = document.querySelector('.section.active');
-    const currentIndex = Array.from(sections).indexOf(currentSection);
-    const isScrollingDown = e.deltaY > 0;
-
-    if (isScrollingDown && currentIndex < sections.length - 1) {
-        setActiveSection(sections[currentIndex + 1].id);
-    } else if (!isScrollingDown && currentIndex > 0) {
-        setActiveSection(sections[currentIndex - 1].id);
-    }
-
-    setTimeout(() => {
-        isScrolling = false;
-    }, 800);
-}, { passive: false });
-
-// Touch navigation for mobile
-document.addEventListener('touchstart', function (e) {
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener('touchend', function (e) {
-    if (!isMobile()) return;
-
-    touchEndX = e.changedTouches[0].screenX;
-    const swipeThreshold = 50;
-    const swipeDistance = touchEndX - touchStartX;
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-        const currentSection = document.querySelector('.section.active');
-        const currentIndex = Array.from(sections).indexOf(currentSection);
-
-        if (swipeDistance < 0 && currentIndex < sections.length - 1) {
-            // Swipe left - next section
-            setActiveSection(sections[currentIndex + 1].id);
-        } else if (swipeDistance > 0 && currentIndex > 0) {
-            // Swipe right - previous section
-            setActiveSection(sections[currentIndex - 1].id);
-        }
-    }
-});
 
 // Video Modal Functions
 function openVideoModal() {
@@ -350,17 +428,17 @@ navLinks.forEach(link => {
     });
 });
 
-// Keyboard navigation
+// Enhanced keyboard navigation
 document.addEventListener('keydown', function (e) {
     const currentSection = document.querySelector('.section.active');
     const currentIndex = Array.from(sections).indexOf(currentSection);
 
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentIndex < sections.length - 1) {
             setActiveSection(sections[currentIndex + 1].id);
         }
-    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentIndex > 0) {
             setActiveSection(sections[currentIndex - 1].id);
@@ -401,6 +479,11 @@ if (contactForm) {
 // Handle window resize
 window.addEventListener('resize', function () {
     AOS.refresh();
+    // Reset scroll positions on resize
+    const activeSection = document.querySelector('.section.active');
+    if (activeSection) {
+        setActiveSection(activeSection.id);
+    }
 });
 
 // Close sidebar button
@@ -413,26 +496,7 @@ if (closeSidebar) {
     });
 }
 
-// Mobile scroll handling
-if (isMobile()) {
-    const sectionsContainer = document.querySelector('.sections-container');
-    if (sectionsContainer) {
-        sectionsContainer.addEventListener('scroll', function () {
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(function () {
-                const scrollLeft = sectionsContainer.scrollLeft;
-                const sectionWidth = window.innerWidth;
-                const currentIndex = Math.round(scrollLeft / sectionWidth);
-
-                if (currentIndex >= 0 && currentIndex < sections.length) {
-                    setActiveSection(sections[currentIndex].id);
-                }
-            }, 100);
-        });
-    }
-}
-
-// Initialize animations for elements
+// Enhanced animations for elements
 window.addEventListener('load', function () {
     const observerOptions = {
         root: null,
@@ -457,4 +521,24 @@ window.addEventListener('load', function () {
     });
 });
 
-console.log('JavaScript loaded successfully!');
+// Enhanced debug function
+function debugSections() {
+    console.log('=== ENHANCED SECTION STATES ===');
+    sections.forEach((section, index) => {
+        console.log(`Section ${index} (${section.id}):`, {
+            active: section.classList.contains('active'),
+            prev: section.classList.contains('prev'),
+            next: section.classList.contains('next'),
+            visible: section.getBoundingClientRect().width > 0
+        });
+    });
+    
+    const sectionsContainer = document.querySelector('.sections-container');
+    if (sectionsContainer) {
+        console.log('Scroll position:', sectionsContainer.scrollLeft);
+        console.log('Current scroll left:', currentScrollLeft);
+    }
+    console.log('===============================');
+}
+
+console.log('Enhanced JavaScript loaded successfully!');
