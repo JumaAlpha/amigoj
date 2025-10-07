@@ -101,17 +101,15 @@ h4 {
 
 /* SIMPLIFIED SECTION STYLES - FIXED */
 .section {
-  min-width: 100vw;
   width: 100vw;
   height: 100vh;
   position: relative;
-  transition: transform 0.8s ease, opacity 0.8s ease;
-  overflow-y: auto;
   scroll-snap-align: start;
   flex-shrink: 0;
   padding: 2rem;
-  display: block !important;
-  visibility: visible !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .section.active {
