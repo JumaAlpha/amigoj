@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMIJOJI COMPANY LIMITED - Premium Production Services</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Video Modal Styles */
+        .video-modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .video-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            transform: scale(0.7);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .video-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Video Player Customization */
+        #showreelVideo {
+            outline: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 1rem;
+                max-height: 80vh;
+            }
+
+            .modal-footer {
+                padding: 1rem;
+            }
+        }
+
+        /* Enhanced Base Styles */
+        #home {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        /* Video optimization */
+        #home video {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Enhanced gradient overlays */
+        @media (max-width: 1024px) {
+            #home .absolute.inset-0 div:last-child {
+                background: linear-gradient(to bottom,
+                        transparent 0%,
+                        rgba(15, 23, 42, 0.3) 30%,
+                        rgba(15, 23, 42, 0.7) 60%,
+                        rgba(15, 23, 42, 0.95) 100%) !important;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            #home .absolute.inset-0 div:last-child {
+                background: linear-gradient(to right,
+                        rgba(15, 23, 42, 0.95) 0%,
+                        rgba(15, 23, 42, 0.8) 40%,
+                        rgba(15, 23, 42, 0.4) 70%,
+                        transparent 100%) !important;
+            }
+
+            #home video {
+                object-position: right center;
+            }
+        }
+
+        /* Special Name Styling */
+        .special-name {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 25%, #66bb6a 50%, #42a5f5 75%, #ab47bc 100%);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite, typing 2s steps(12) 1s 1 normal both;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Typing Animation - Only Once */
+        .typing-animation {
+            overflow: hidden;
+            border-right: 3px solid transparent;
+            white-space: nowrap;
+            margin: 0;
+            animation: typing 2s steps(12) 1s 1 normal both, blink-caret 0.75s step-end 4;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #ff6b6b
+            }
+        }
+
+        /* Enhanced Rotating Titles with Indentation */
+        .fade-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-text.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Button enhancements */
+        .btn {
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Social icons */
+        .social-icon {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Stats styling */
+        .flex-wrap>div {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        /* Mobile Profile Styles */
+        .mobile-profile {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .mobile-profile {
+            max-width: min(280px, 85vw);
+            padding: clamp(1rem, 4vw, 1.5rem);
+        }
+
+
+        .mobile-profile h2 {
+            font-size: clamp(1.25rem, 5vw, 1.5rem);
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile .text-xs.font-medium {
+            font-size: clamp(0.875rem, 3.5vw, 1rem);
+            line-height: 1.3;
+        }
+
+        /* Description - Improved readability */
+        .mobile-profile .text-xs.leading-relaxed {
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
+            line-height: 1.4;
+        }
+
+        /* Stats numbers - More prominent */
+        .mobile-profile .text-sm {
+            font-size: clamp(0.875rem, 4vw, 1rem);
+        }
+
+        /* Stats labels - Better visibility */
+        .mobile-profile .text-\\[10px\\] {
+            font-size: clamp(0.625rem, 2.5vw, 0.75rem);
+        }
+
+        /* Social icons - Slightly larger for better touch targets */
+        .mobile-profile .w-6 {
+            width: clamp(1.5rem, 6vw, 1.75rem);
+            height: clamp(1.5rem, 6vw, 1.75rem);
+        }
+
+        .mobile-profile .text-\\[10px\\] {
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
+        }
+
+        /* Container sizing for better proportions */
+        .mobile-profile {
+            max-width: min(280px, 85vw);
+            padding: clamp(1rem, 4vw, 1.5rem);
+        }
+
+        .icon-btn {
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+
+        /* Horizontal Scroll Indicator */
+        .horizontal-scroll-indicator {
+            animation: slideInRight 1s ease-out, pulse 2s infinite;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 1024px) {
+            #home .container {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .fade-wrapper {
+                font-size: 1.5rem !important;
+            }
+
+            .flex-wrap {
+                gap: 1rem;
+            }
+
+            .flex-wrap>div {
+                min-width: 70px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 380px) {
+            #home h1 {
+                font-size: 2.5rem !important;
+            }
+
+            .fade-wrapper {
+                font-size: 1.25rem !important;
+            }
+
+            .btn {
+                padding: 0.75rem 1.5rem !important;
+                font-size: 0.9rem;
+            }
+
+            .social-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .mobile-profile {
+                max-width: 250px;
+                padding: 0.75rem;
+            }
+
+            .mobile-profile h2 {
+                font-size: 1.375rem;
+            }
+
+            .mobile-profile .text-sm {
+                font-size: 0.75rem;
+            }
+
+            .mobile-profile .text-xs.font-medium {
+                font-size: 0.9375rem;
+            }
+
+            .mobile-profile .text-xs.leading-relaxed {
+                font-size: 0.8125rem;
+            }
+        }
+
+        /* Animation for mobile profile */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ensure content is properly hidden on mobile */
+        @media (max-width: 1024px) {
+            #home .hidden.lg\\:block {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            #home .lg\\:hidden {
+                display: none !important;
+            }
+        }
+
+        /* Custom styles for the about section */
+        #about {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+        }
+
+        /* Glass effect styles */
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .glass-effect-light {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* Skill bar animations */
+        .skill-progress {
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            #about .absolute.inset-0>div:first-child {
+                width: 100% !important;
+            }
+
+            #about .absolute.inset-0>div:first-child .bg-gradient-to-r {
+                background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.4) 100%) !important;
+            }
+
+            #about .absolute.inset-0>div:last-child {
+                display: none;
+            }
+        }
+
+        /* Animation for skill bars when in view */
+        @media (min-width: 1025px) {
+            #about .skill-progress[data-width="95%"] {
+                width: 95%;
+            }
+
+            #about .skill-progress[data-width="90%"] {
+                width: 90%;
+            }
+
+            #about .skill-progress[data-width="92%"] {
+                width: 92%;
+            }
+
+            #about .skill-progress[data-width="88%"] {
+                width: 88%;
+            }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            #about .container {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+            #about .grid.grid-cols-1 {
+                gap: 2rem;
+            }
+
+            #about .glass-effect {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            #about h2 {
+                font-size: 2rem !important;
+            }
+
+            #about .container {
+                padding-top: 9rem;
+                padding-bottom: 3rem;
+            }
+
+            #about .grid.grid-cols-2 {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            #about .glass-effect {
+                padding: 1rem !important;
+            }
+        }
+
+        /* Enhanced Client Carousel Styles */
+        .clients-carousel-container {
+            mask: linear-gradient(90deg,
+                    transparent,
+                    white 10%,
+                    white 90%,
+                    transparent);
+            -webkit-mask: linear-gradient(90deg,
+                    transparent,
+                    white 10%,
+                    white 90%,
+                    transparent);
+        }
+
+        .clients-carousel-track {
+            animation: scroll 30s linear infinite;
+            width: max-content;
+        }
+
+        .clients-carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-50% - 1rem));
+            }
+        }
+
+        /* Client Card Enhancements */
+        .client-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .client-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent);
+            transition: left 0.6s ease;
+        }
+
+        .client-card:hover::before {
+            left: 100%;
+        }
+
+        .client-icon {
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Navigation Dots */
+        .client-dot {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .client-dot.active {
+            transform: scale(1.2);
+        }
+
+        .client-dot.active::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: var(--accent-yellow);
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.1;
+            }
+        }
+
+        /* Testimonial Enhancements */
+        .testimonial-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, currentColor 0%, transparent 50%);
+            opacity: 0.03;
+            border-bottom-left-radius: 100%;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .clients-carousel-track {
+                animation: scroll-mobile 25s linear infinite;
+            }
+
+            @keyframes scroll-mobile {
+                0% {
+                    transform: translateX(0);
+                }
+
+                100% {
+                    transform: translateX(calc(-50% - 0.5rem));
+                }
+            }
+
+            .client-card {
+                width: 40vw;
+                height: 28vw;
+                padding: 1rem;
+            }
+
+            .client-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .client-card span {
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Specific padding values as requested */
+        .section {
+            padding-top: 25rem;
+            /* 25rem = 400px */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 30rem padding for screens less than 470px */
+        @media (max-width: 470px) {
+            .section {
+                padding-top: 30rem;
+                /* 30rem = 480px */
+            }
+        }
+
+        /* Ensure content is properly spaced */
+        .container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* Additional styles for tab interface */
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ensure skill bars animate properly */
+        .skill-progress {
+            transition: width 1.5s ease-in-out;
+            width: 0;
+        }
+
+        /* Glass effect styles */
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .glass-effect-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 1024px) {
+            .glass-effect {
+                margin: 0.5rem 0;
+            }
+
+            .tab-button {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        /* Extra small screen optimizations */
+        @media (max-width: 480px) {
+            .tab-button .text-xs {
+                font-size: 0.7rem;
+            }
+
+            .glass-effect {
+                padding: 1rem !important;
+            }
+
+            .grid.grid-cols-2 {
+                gap: 0.5rem;
+            }
+        }
+
+        /* Ensure background image covers properly */
+        .absolute.inset-0 img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Adjust container padding for very small screens */
+        @media (max-width: 370px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        /* Fix for horizontal scrolling on mobile */
+        @media (max-width: 768px) {
+            .sections-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .section {
+                min-width: 100vw;
+                width: 100vw;
+                height: 100vh;
+                overflow-y: auto;
+                scroll-snap-align: start;
+            }
+        }
+
+        /* Fix for video modal display */
+        #videoModal {
+            display: none;
+        }
+
+        #videoModal.show {
+            display: flex;
+        }
+
+        /* Fix for sidebar close button */
+        .close-sidebar {
+            cursor: pointer;
+        }
+
+        /* Fix for skill bar animation */
+        .skill-progress.animate {
+            width: var(--skill-width);
+        }
+
+        /* Fix for contact form responsiveness */
+        @media (max-width: 640px) {
+            .contact-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Fix for mobile navigation */
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+        }
+
+        /* Fix for image loading */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Fix for button hover states */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Fix for video autoplay on mobile */
+        video {
+            playsinline: true;
+            webkit-playsinline: true;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            yellow: '#f59e0b',
+                            purple: '#8b5cf6',
+                            indigo: '#6366f1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="text-slate-100 antialiased">
+    <!-- Loading Bar -->
+    <div class="loading-bar" id="loadingBar"></div>
+
+    <!-- Fixed Navbar -->
+    <nav class="navbar-fixed" id="navbar">
+        <div class="navbar-container">
+            <div class="glass-effect flex justify-between items-center py-3 md:py-4 px-4 md:px-8 rounded-2xl mt-4 md:mt-6 mx-3 md:mx-5"
+                id="navContent">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-lg md:text-xl shadow-lg shadow-amber-500/40 glow">
+                        AM
+                    </div>
+                    <div>
+                        <span class="text-lg md:text-xl font-bold hidden sm:block">AMIJOJI COMPANY</span>
+                        <span class="text-accent-yellow text-sm hidden sm:block">Premium Production Services</span>
+                    </div>
+                </div>
+
+                <div class="hamburger flex flex-col justify-between w-7 h-5 md:w-8 md:h-6 cursor-pointer z-50 group"
+                    id="hamburger">
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
+                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots" id="navDots">
+        <div class="nav-dot active" data-section="home"></div>
+        <div class="nav-dot" data-section="about"></div>
+        <div class="nav-dot" data-section="services"></div>
+        <div class="nav-dot" data-section="portfolio"></div>
+        <div class="nav-dot" data-section="clients"></div>
+        <div class="nav-dot" data-section="contact"></div>
+    </div>
+
+    <!-- Swipe Indicator -->
+    <div class="swipe-indicator-left">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+    <div class="swipe-indicator-right">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay-glass fixed inset-0 z-40 opacity-0 invisible transition-all duration-300 cursor-pointer"
+        id="overlay"></div>
+
+    <!-- Enhanced Glassmorphism Sidebar -->
+    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-96 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto"
+        id="sidebar">
+        <!-- Close Button for Mobile -->
+        <div class="absolute top-4 right-4 z-10 sm:hidden">
+            <button
+                class="close-sidebar w-10 h-10 rounded-full bg-dark-800/80 flex items-center justify-center text-white text-lg hover:bg-accent-yellow hover:text-dark-900 transition-all duration-300 glow">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="sidebar-profile flex flex-col items-center py-8 px-4 sm:px-8 rounded-b-2xl mb-6 mt-4 sm:mt-0">
+            <div
+                class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-3xl sm:text-4xl shadow-2xl shadow-amber-500/40 mb-6 overflow-hidden glow floating">
+                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
+                    alt="AMIJOJI COMPANY" class="w-full h-full object-cover rounded-full">
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white text-center px-2 mb-2">AMIJOJI COMPANY LIMITED</h2>
+            <p class="text-accent-yellow font-semibold text-lg mb-4">Visual Storytelling Excellence</p>
+            <div class="flex gap-4">
+                <a href="#"
+                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#"
+                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#"
+                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="sidebar-links flex flex-col gap-2 flex-1 px-4">
+            <a href="#home"
+                class="sidebar-link nav-link text-slate-200 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4 active-sidebar-link"
+                data-section="home">
+                <i class="fas fa-home text-accent-yellow w-6 text-center text-lg"></i>
+                <span class="flex-1">Home</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
+            </a>
+            <a href="#about"
+                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="about">
+                <i class="fas fa-building text-accent-indigo w-6 text-center text-lg"></i>
+                <span class="flex-1">About Us</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
+            </a>
+            <a href="#services"
+                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="services">
+                <i class="fas fa-photo-video text-accent-purple w-6 text-center text-lg"></i>
+                <span class="flex-1">Services</span>
+                <i class="fas fa-chevron-right text-accent-purple/70 text-sm"></i>
+            </a>
+            <a href="#portfolio"
+                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="portfolio">
+                <i class="fas fa-briefcase text-accent-indigo w-6 text-center text-lg"></i>
+                <span class="flex-1">Portfolio</span>
+                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
+            </a>
+            <a href="#clients"
+                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="clients">
+                <i class="fas fa-star text-accent-yellow w-6 text-center text-lg"></i>
+                <span class="flex-1">Our Clients</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
+            </a>
+            <a href="#contact"
+                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                data-section="contact">
+                <i class="fas fa-envelope text-accent-yellow w-6 text-center text-lg"></i>
+                <span class="flex-1">Contact</span>
+                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
+            </a>
+        </div>
+
+        <!-- Expertise Badges -->
+        <div class="px-4 mt-6 mb-8">
+            <h3 class="text-slate-400 font-semibold text-sm uppercase tracking-wider mb-4 pl-2">Our Expertise</h3>
+            <div class="role-badges flex flex-wrap gap-3 justify-center sm:justify-start">
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    Live Coverage
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    Content Creation
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    TV Commercials
+                </div>
+                <div
+                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    Event Coverage
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-slate-700/50 mt-auto py-6 px-6">
+            <p class="text-slate-400 text-sm text-center">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence
+                since 2016.</p>
+        </div>
+    </div>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Sections Container -->
+    <div class="sections-container">
+        <!-- Home Section -->
+        <section id="home" class="section active relative min-h-screen">
+            <!-- Video Background with Gradient Overlay -->
+            <div class="absolute inset-0 z-0">
+                <!-- Video Background -->
+                <div class="w-full h-full">
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover"
+                        poster="aj_img.jpg" id="hero-video">
+                        <source src="hero-video.mp4" type="video/mp4">
+                        <source src="hero-video.webm" type="video/webm">
+                        <img src="aj_img.jpg" alt="Amigo Johnson">
+                    </video>
+                </div>
+                <!-- Enhanced Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
+                    lg:bg-gradient-to-r lg:from-dark-900 lg:via-dark-900/80 lg:to-transparent"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
+                <div class="w-full">
+                    <!-- Main Content - Hidden on mobile -->
+                    <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1000">
+                        <!-- Welcome Text with Unique Typing Effect -->
+                        <div class="mb-4">
+                            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">
+                                <span class="typing-container">
+                                    <span class="text-slate-100">I'm </span>
+                                    <span class="special-name typing-animation">Amigo Johnson</span>
+                                </span>
+                            </h1>
+                        </div>
+
+                        <!-- Enhanced Rotating Titles with Indentation -->
+                        <div class="fade-animation min-h-[60px] mb-6 sm:mb-8 ml-8">
+                            <div
+                                class="fade-wrapper relative w-full text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-100">
+                                <div class="fade-text active flex items-center gap-3" id="text-1">
+                                    <i class="fas fa-palette text-accent-yellow"></i>
+                                    Creative Director
+                                </div>
+                                <div class="fade-text flex items-center gap-3" id="text-2">
+                                    <i class="fas fa-theater-masks text-accent-purple"></i>
+                                    Stage Director
+                                </div>
+                                <div class="fade-text flex items-center gap-3" id="text-3">
+                                    <i class="fas fa-video text-accent-indigo"></i>
+                                    Video Producer
+                                </div>
+                                <div class="fade-text flex items-center gap-3" id="text-4">
+                                    <i class="fas fa-volume-up text-accent-yellow"></i>
+                                    Sound Engineer
+                                </div>
+                                <div class="fade-text flex items-center gap-3" id="text-5">
+                                    <i class="fas fa-broadcast-tower text-accent-purple"></i>
+                                    Live Stream Producer
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-slate-300 text-lg sm:text-xl mb-8 max-w-xl leading-relaxed ml-8">
+                            Crafting unforgettable experiences through stage direction, video production,
+                            and sound engineering. Bringing creative visions to life with technical excellence.
+                        </p>
+
+                        <!-- Stats -->
+                        <div class="flex flex-wrap gap-6 sm:gap-8 mb-8 ml-8">
+                            <div class="text-center">
+                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">150+</div>
+                                <div class="text-slate-400 text-sm">Projects</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl sm:text-3xl font-bold text-accent-purple">50+</div>
+                                <div class="text-slate-400 text-sm">Clients</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl sm:text-3xl font-bold text-accent-indigo">10+</div>
+                                <div class="text-slate-400 text-sm">Years</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">12</div>
+                                <div class="text-slate-400 text-sm">Awards</div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 mb-8 ml-8">
+                            <button onclick="openVideoModal()"
+                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/50 flex items-center justify-center gap-2">
+                                <i class="fas fa-play-circle"></i>
+                                View Portfolio
+                            </button>
+                            <button onclick="scrollToSection('contact')"
+                                class="btn bg-transparent text-white border border-slate-500 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 flex items-center justify-center gap-2">
+                                <i class="fas fa-envelope"></i>
+                                Contact Me
+                            </button>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="social-links flex gap-4 ml-8">
+                            <a href="#"
+                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Mobile Profile Section - Bottom Right -->
+            <div class="lg:hidden absolute bottom-20 right-4 z-20">
+                <div
+                    class="mobile-profile glass-effect rounded-2xl p-4 backdrop-blur-lg border border-white/10 max-w-[280px]">
+                    <!-- Minimal Name & Title -->
+                    <div class="text-right mb-4">
+                        <h2 class="text-lg font-bold text-white mb-1">Amigo Johnson</h2>
+                        <p class="text-accent-yellow text-xs font-medium mb-3">Creative Director</p>
+
+                        <!-- Compact Description -->
+                        <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                            Crafting unforgettable experiences through stage direction, video production, and sound
+                            engineering.
+                        </p>
+                    </div>
+
+                    <!-- Icon-only Buttons -->
+                    <div class="flex justify-end gap-3 mb-4">
+                        <button onclick="openVideoModal()"
+                            class="icon-btn w-9 h-9 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-indigo-500/40"
+                            aria-label="View Portfolio">
+                            <i class="fas fa-play-circle text-xs"></i>
+                        </button>
+                        <button onclick="scrollToSection('contact')"
+                            class="icon-btn w-9 h-9 rounded-full bg-white/20 text-white border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-110"
+                            aria-label="Contact Me">
+                            <i class="fas fa-envelope text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Minimal Stats - Compact Layout -->
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <div class="text-center p-2 rounded-lg bg-white/5">
+                            <div class="font-bold text-accent-yellow text-sm">150+</div>
+                            <div class="text-slate-400 text-[10px] mt-1">Projects</div>
+                        </div>
+                        <div class="text-center p-2 rounded-lg bg-white/5">
+                            <div class="font-bold text-accent-purple text-sm">50+</div>
+                            <div class="text-slate-400 text-[10px] mt-1">Clients</div>
+                        </div>
+                        <div class="text-center p-2 rounded-lg bg-white/5">
+                            <div class="font-bold text-accent-indigo text-sm">10+</div>
+                            <div class="text-slate-400 text-[10px] mt-1">Years</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Social Links -->
+                    <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-white/10">
+                        <a href="#"
+                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
+                            aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
+                            aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#"
+                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
+                            aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontal Scroll Indicator -->
+            <div class="absolute bottom-8 right-8 z-20 hidden lg:flex items-center gap-3 text-slate-300">
+                <div class="flex items-center gap-2 animate-pulse">
+                    <span class="text-sm font-medium">Scroll horizontally</span>
+                    <i class="fas fa-arrow-right text-accent-yellow"></i>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator (Vertical - for other sections) -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+                <div class="animate-bounce text-accent-yellow">
+                    <i class="fas fa-chevron-down text-xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section relative">
+            <!-- Enhanced Background with Mobile Optimization -->
+            <div class="absolute inset-0 z-0">
+                <!-- Background Image with Responsive Overlay -->
+                <div class="w-full h-full relative">
+                    <img src="story.jpg" alt="About Us Background"
+                        class="w-full h-full object-cover lg:object-[center_30%]">
+                    <!-- Responsive Gradient Overlays -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90 
+                        lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/80 lg:to-dark-800/90"></div>
+                </div>
+            </div>
+
+            <!-- Content with specific top padding -->
+            <div class="container max-w-7xl mx-auto px-4 pt-40 pb-8 lg:py-16 h-full flex items-center relative z-10">
+                <div class="w-full">
+                    <!-- Header Section -->
+                    <div class="text-center mb-8 lg:mb-12" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl mb-3 font-bold text-white">Our Story & Values</h2>
+                        <p class="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto">
+                            Founded in 2016 by Johnson Jimmy Sangu, we've been at the forefront of visual storytelling
+                            in Tanzania.
+                        </p>
+                    </div>
+
+                    <!-- Mobile Tabs -->
+                    <div class="lg:hidden">
+                        <!-- Tab Headers -->
+                        <div class="flex border-b border-white/20 mb-6">
+                            <button
+                                class="tab-button active flex-1 py-3 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300"
+                                data-tab="story">
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-history text-lg mb-1"></i>
+                                    <span class="text-xs">Our Story</span>
+                                </div>
+                            </button>
+                            <button
+                                class="tab-button flex-1 py-3 text-center font-semibold text-slate-400 transition-all duration-300"
+                                data-tab="values">
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-star text-lg mb-1"></i>
+                                    <span class="text-xs">Our Values</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content active" id="story-tab">
+                            <div class="glass-effect rounded-xl p-4 sm:p-6 backdrop-blur-lg border border-white/10"
+                                data-aos="custom-fade-up" data-aos-duration="800">
+                                <h3 class="text-accent-yellow text-lg sm:text-xl mb-3 font-semibold">Our Journey</h3>
+                                <div class="space-y-3 text-sm sm:text-base text-slate-300">
+                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
+                                        production services, Johnson Jimmy Sangu embarked on a journey to create a
+                                        production company that would set new standards in the industry.</p>
+                                    <p>Since its inception, AMIJOJI COMPANY LIMITED has steadily grown in reputation and
+                                        expertise, earning a strong presence in the production industry in Dar es
+                                        Salaam, Tanzania.</p>
+                                    <p>We've continuously evolved and adapted to the ever-changing landscape of
+                                        production, investing in state-of-the-art equipment and embracing emerging
+                                        technologies.</p>
+                                </div>
+
+                                <!-- Stats Grid for Mobile -->
+                                <div class="grid grid-cols-2 gap-3 mt-4">
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="text-xl sm:text-2xl font-bold text-accent-yellow">150+</div>
+                                        <div class="text-xs text-slate-400">Projects</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="text-xl sm:text-2xl font-bold text-accent-purple">50+</div>
+                                        <div class="text-xs text-slate-400">Clients</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="text-xl sm:text-2xl font-bold text-accent-indigo">7+</div>
+                                        <div class="text-xs text-slate-400">Years</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="text-xl sm:text-2xl font-bold text-accent-yellow">12</div>
+                                        <div class="text-xs text-slate-400">Awards</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content hidden" id="values-tab">
+                            <div class="glass-effect rounded-xl p-4 sm:p-6 backdrop-blur-lg border border-white/10"
+                                data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                                <h3 class="text-accent-yellow text-lg sm:text-xl mb-4 font-semibold">Our Core Values
+                                </h3>
+                                <div class="space-y-4">
+                                    <!-- Creativity -->
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 sm:p-4 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Creativity</h4>
+                                            <span class="text-accent-yellow font-bold text-sm sm:text-base">95%</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-slate-300 mb-2">We foster a culture of
+                                            creativity, constantly pushing boundaries and exploring new ways to tell
+                                            stories.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                                data-width="95%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Excellence -->
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 sm:p-4 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Excellence</h4>
+                                            <span class="text-accent-yellow font-bold text-sm sm:text-base">90%</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-slate-300 mb-2">We strive for excellence in
+                                            every aspect of our work, ensuring the highest standards of quality.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                                data-width="90%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Collaboration -->
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 sm:p-4 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Collaboration</h4>
+                                            <span class="text-accent-yellow font-bold text-sm sm:text-base">92%</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-slate-300 mb-2">We value collaboration and
+                                            believe that the best results are achieved through teamwork.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                                data-width="92%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Innovation -->
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 sm:p-4 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Innovation</h4>
+                                            <span class="text-accent-yellow font-bold text-sm sm:text-base">88%</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-slate-300 mb-2">We embrace innovation and stay
+                                            updated with the latest trends and technologies.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                                data-width="88%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Layout -->
+                    <div class="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                        <!-- Story Section -->
+                        <div class="relative" data-aos="custom-fade-right" data-aos-duration="1000">
+                            <div class="glass-effect rounded-xl p-6 md:p-8 backdrop-blur-lg border border-white/10">
+                                <h3 class="text-accent-yellow text-xl md:text-2xl mb-4 font-semibold">Our Journey</h3>
+                                <div class="space-y-4 text-body text-sm md:text-base text-slate-300">
+                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
+                                        production services, Johnson Jimmy Sangu embarked on a journey to create a
+                                        production company that would set new standards in the industry.</p>
+                                    <p>Since its inception, AMIJOJI COMPANY LIMITED has steadily grown in reputation and
+                                        expertise, earning a strong presence in the production industry in Dar es
+                                        Salaam, Tanzania.</p>
+                                    <p>We've continuously evolved and adapted to the ever-changing landscape of
+                                        production, investing in state-of-the-art equipment and embracing emerging
+                                        technologies.</p>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 mt-6">
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-4 backdrop-blur-md border border-white/5">
+                                        <div class="text-2xl md:text-3xl font-bold text-accent-yellow mb-1">150+</div>
+                                        <div class="text-xs md:text-sm text-slate-400">Projects</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-4 backdrop-blur-md border border-white/5">
+                                        <div class="text-2xl md:text-3xl font-bold text-accent-purple mb-1">50+</div>
+                                        <div class="text-xs md:text-sm text-slate-400">Clients</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-4 backdrop-blur-md border border-white/5">
+                                        <div class="text-2xl md:text-3xl font-bold text-accent-indigo mb-1">7+</div>
+                                        <div class="text-xs md:text-sm text-slate-400">Years</div>
+                                    </div>
+                                    <div
+                                        class="text-center glass-effect-light rounded-lg p-4 backdrop-blur-md border border-white/5">
+                                        <div class="text-2xl md:text-3xl font-bold text-accent-yellow mb-1">12</div>
+                                        <div class="text-xs md:text-sm text-slate-400">Awards</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Values Section -->
+                        <div data-aos="custom-fade-left" data-aos-duration="1000">
+                            <h3 class="text-accent-yellow text-xl md:text-2xl mb-6 font-semibold">Our Core Values</h3>
+                            <div class="space-y-5">
+                                <div class="glass-effect rounded-xl p-5 backdrop-blur-lg border border-white/10">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="text-lg md:text-xl font-semibold text-white">Creativity</h4>
+                                        <span class="text-accent-yellow font-bold text-base md:text-lg">95%</span>
+                                    </div>
+                                    <p class="text-sm md:text-base text-slate-300 mb-3">We foster a culture of
+                                        creativity, constantly pushing boundaries and exploring new ways to tell
+                                        stories.</p>
+                                    <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                            data-width="95%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="glass-effect rounded-xl p-5 backdrop-blur-lg border border-white/10">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="text-lg md:text-xl font-semibold text-white">Excellence</h4>
+                                        <span class="text-accent-yellow font-bold text-base md:text-lg">90%</span>
+                                    </div>
+                                    <p class="text-sm md:text-base text-slate-300 mb-3">We strive for excellence in
+                                        every aspect of our work, ensuring the highest standards of quality.</p>
+                                    <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                            data-width="90%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="glass-effect rounded-xl p-5 backdrop-blur-lg border border-white/10">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="text-lg md:text-xl font-semibold text-white">Collaboration</h4>
+                                        <span class="text-accent-yellow font-bold text-base md:text-lg">92%</span>
+                                    </div>
+                                    <p class="text-sm md:text-base text-slate-300 mb-3">We value collaboration and
+                                        believe that the best results are achieved through teamwork.</p>
+                                    <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                            data-width="92%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="glass-effect rounded-xl p-5 backdrop-blur-lg border border-white/10">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="text-lg md:text-xl font-semibold text-white">Innovation</h4>
+                                        <span class="text-accent-yellow font-bold text-base md:text-lg">88%</span>
+                                    </div>
+                                    <p class="text-sm md:text-base text-slate-300 mb-3">We embrace innovation and stay
+                                        updated with the latest trends and technologies.</p>
+                                    <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                            data-width="88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section">
+            <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-3xl md:text-4xl mb-3">Our Premium Services</h2>
+                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">We offer a comprehensive range of
+                            production services tailored to meet your unique needs and objectives.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                        <!-- Service 1 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
+                                    <i class="fas fa-broadcast-tower"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Live Coverage Production</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Seamless live streaming for conferences,
+                                    concerts, sports events, and seminars. Capture every important moment.</p>
+                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 2 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="100">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
+                                    <i class="fas fa-film"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Content Creation</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Engaging and impactful videos tailored to
+                                    meet specific objectives. From promotional videos to branded storytelling.</p>
+                                <div class="flex items-center text-accent-purple font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 3 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="200">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
+                                    <i class="fas fa-tv"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">TVC Production</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Effective TV commercials that leave a
+                                    lasting impact. We develop concepts, storyboard ideas, and maximize brand
+                                    visibility.</p>
+                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 4 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="300">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Event Coverage</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Comprehensive coverage for corporate
+                                    events, cultural celebrations, and conferences. We capture the essence and emotions.
+                                </p>
+                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 5 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="400">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Digital Videos</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Engaging videos optimized for social
+                                    media, websites, and online campaigns. We craft content that enhances brand
+                                    engagement.</p>
+                                <div class="flex items-center text-accent-purple font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 6 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="500">
+                            <div class="p-4 md:p-5">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Photography</h3>
+                                <p class="text-body text-sm md:text-base mb-3">Visually stunning images for products,
+                                    corporate portraits, and events. We ensure every shot meets highest quality
+                                    standards.</p>
+                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="section">
+            <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-3xl md:text-4xl mb-3">Our Creative Portfolio</h2>
+                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Explore our diverse range of projects
+                            that showcase our expertise in visual storytelling and production excellence.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-8">
+                        <!-- Project 1 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
+                            <div class="overflow-hidden rounded-t-xl">
+                                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Concert Production" class="project-image w-full h-32 md:h-36 object-cover">
+                            </div>
+                            <div class="project-content p-4">
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Summer Music Festival</h3>
+                                <p class="text-body text-sm md:text-base mb-3 flex-grow">Live coverage and production
+                                    for a 3-day music festival featuring 20+ artists, delivering seamless streaming.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow font-semibold text-sm">Live Production</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
+                                        View Case Study →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="100">
+                            <div class="overflow-hidden rounded-t-xl">
+                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
+                                    alt="Corporate Video" class="project-image w-full h-32 md:h-36 object-cover">
+                            </div>
+                            <div class="project-content p-4">
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Corporate Brand Video</h3>
+                                <p class="text-body text-sm md:text-base mb-3 flex-grow">End-to-end video production for
+                                    a tech company's rebranding campaign, creating compelling visual narratives.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow font-semibold text-sm">Content Creation</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
+                                        View Case Study →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
+                            data-aos-delay="200">
+                            <div class="overflow-hidden rounded-t-xl">
+                                <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                    alt="Documentary" class="project-image w-full h-32 md:h-36 object-cover">
+                            </div>
+                            <div class="project-content p-4">
+                                <h3 class="text-lg md:text-xl font-semibold mb-2">Cultural Documentary</h3>
+                                <p class="text-body text-sm md:text-base mb-3 flex-grow">Thought-provoking documentary
+                                    exploring Tanzanian cultural heritage with research and captivating visuals.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accent-yellow font-semibold text-sm">Documentary</span>
+                                    <a href="#"
+                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
+                                        View Case Study →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center" data-aos="custom-fade-up" data-aos-duration="800">
+                        <a href="#" class="btn btn-primary text-sm md:text-base">
+                            <i class="fas fa-images"></i>
+                            View Complete Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section id="clients" class="section">
+            <div class="container max-w-6xl mx-auto px-4 py-4 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h2 class="text-3xl md:text-4xl mb-3">Our Valued Partners</h2>
+                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Collaborating with industry leaders to
+                            deliver exceptional results across Tanzania</p>
+                    </div>
+
+                    <!-- Enhanced Clients Carousel -->
+                    <div class="relative mb-12" data-aos="custom-fade-up" data-aos-duration="800">
+                        <!-- Carousel Container -->
+                        <div class="clients-carousel-container relative overflow-hidden">
+                            <div class="clients-carousel-track flex gap-4 md:gap-6 py-4 animate-scroll">
+                                <!-- Client 1 - Clouds Media -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Clouds" alt="Clouds Media"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Clouds
+                                        Media</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 2 - Wasafi -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Wasafi" alt="Wasafi"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Wasafi</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 3 - Azam TV -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Azam" alt="Azam TV"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Azam
+                                        TV</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 4 - Airtel -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Airtel" alt="Airtel"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Airtel</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 5 - NBC Bank -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=NBC" alt="NBC Bank"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">NBC
+                                        Bank</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 6 - Infinix -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Infinix" alt="Infinix"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Infinix</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 7 - CHEKA TU -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=CHEKA" alt="CHEKA TU"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">CHEKA
+                                        TU</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 8 - Univalent -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Univalent" alt="Univalent"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Univalent</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 9 - Eunice Njeri -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Eunice" alt="Eunice Njeri"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Eunice
+                                        Njeri</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 10 - Nyash Goloma -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Nyash" alt="Nyasha Goloma"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Nyasha
+                                        Goloma</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 11 - Agape Band -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Agape" alt="Agape Band"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Agape
+                                        Band</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Client 12 - Neema Gospel Choir -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Neema" alt="Neema Gospel Choir"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Neema
+                                        Gospel Choir</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+
+                                <!-- Duplicate for seamless loop -->
+                                <div
+                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
+                                    <div
+                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
+                                        <img src="https://via.placeholder.com/48x48?text=Clouds" alt="Clouds Media"
+                                            class="w-10 h-10 object-contain">
+                                    </div>
+                                    <span
+                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Clouds
+                                        Media</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gradient Overlays -->
+                        <div
+                            class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-dark-900 to-transparent z-10 pointer-events-none">
+                        </div>
+                        <div
+                            class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-dark-900 to-transparent z-10 pointer-events-none">
+                        </div>
+
+                    </div>
+
+                    <!-- Enhanced Testimonials -->
+                    <div class="mt-8" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                        <div class="text-center mb-6">
+                            <h3 class="text-xl md:text-2xl font-semibold mb-2">Client Success Stories</h3>
+                            <p class="text-body text-sm md:text-base">Hear what our partners have to say about working
+                                with us</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                            <!-- Testimonial 1 -->
+                            <div
+                                class="testimonial-card glass-effect rounded-xl p-4 md:p-5 group hover-lift transition-all duration-300 border-l-4 border-accent-yellow">
+                                <div class="testimonial-content">
+                                    <div class="flex items-start mb-3">
+                                        <div
+                                            class="w-10 h-10 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-base shadow-lg shadow-amber-500/40 mr-3 flex-shrink-0">
+                                            CT
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-base">Clouds Media Team</h4>
+                                            <p class="text-small text-slate-400 text-xs">Broadcasting Company</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-body text-sm md:text-base italic">"AMIJOJI's live production for our
+                                        music festival reached over 50,000 viewers globally. Their technical expertise
+                                        and creative vision made it an unforgettable experience."</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <div class="flex text-accent-yellow text-sm">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="text-accent-yellow text-xl opacity-50">
+                                            <i class="fas fa-quote-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Testimonial 2 -->
+                            <div
+                                class="testimonial-card glass-effect rounded-xl p-4 md:p-5 group hover-lift transition-all duration-300 border-l-4 border-accent-purple">
+                                <div class="testimonial-content">
+                                    <div class="flex items-start mb-3">
+                                        <div
+                                            class="w-10 h-10 bg-gradient-to-br from-accent-purple to-purple-600 rounded-full flex items-center justify-center font-bold text-white text-base shadow-lg shadow-purple-500/40 mr-3 flex-shrink-0">
+                                            AT
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-base">Airtel Marketing</h4>
+                                            <p class="text-small text-slate-400 text-xs">Telecommunications</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-body text-sm md:text-base italic">"Our brand engagement increased by
+                                        65% after AMIJOJI produced our TV campaign. Their strategic approach and
+                                        creative execution delivered outstanding results."</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <div class="flex text-accent-yellow text-sm">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="text-accent-purple text-xl opacity-50">
+                                            <i class="fas fa-quote-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section py-12">
+            <div class="container max-w-7xl mx-auto px-4 py-6 h-full flex items-center">
+                <div class="w-full">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl md:text-3xl mb-3 font-bold">Let's Create Something Amazing</h2>
+                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Ready to bring your vision to life? Get
+                            in touch with us to discuss your next production project.</p>
+                    </div>
+
+                    <!-- Contact Content Row -->
+                    <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
+                        <!-- Contact Info - 40% width -->
+                        <div class="lg:w-2/5" data-aos="custom-fade-up" data-aos-duration="800">
+                            <div class="glass-effect rounded-xl p-4 md:p-5 h-full">
+                                <div class="space-y-3">
+                                    <!-- Email -->
+                                    <a href="mailto:info@amijojicompany.com"
+                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-yellow-400/50 transition-all duration-300 hover-lift block">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="relative flex-shrink-0">
+                                                <div
+                                                    class="w-8 h-8 md:w-9 md:h-9 bg-yellow-500/10 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-envelope text-yellow-400 text-base md:text-lg"></i>
+                                                </div>
+                                                <div
+                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse">
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <span class="text-white font-semibold text-sm truncate">Email
+                                                        Us</span>
+                                                    <i
+                                                        class="fas fa-chevron-right text-yellow-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
+                                                </div>
+                                                <p class="text-yellow-400/80 text-xs mt-1 truncate">
+                                                    info@amijojicompany.com</p>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <!-- Phone -->
+                                    <a href="tel:+255716311744"
+                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-purple-400/50 transition-all duration-300 hover-lift block">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="relative flex-shrink-0">
+                                                <div
+                                                    class="w-8 h-8 md:w-9 md:h-9 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-phone text-purple-400 text-base md:text-lg"></i>
+                                                </div>
+                                                <div
+                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-purple-400 rounded-full animate-pulse">
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <span class="text-white font-semibold text-sm truncate">Call
+                                                        Us</span>
+                                                    <i
+                                                        class="fas fa-chevron-right text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
+                                                </div>
+                                                <p class="text-purple-400/80 text-xs mt-1 truncate">+255 716 311 744</p>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <!-- Location -->
+                                    <div
+                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-blue-400/50 transition-all duration-300 hover-lift">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="relative flex-shrink-0">
+                                                <div
+                                                    class="w-8 h-8 md:w-9 md:h-9 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                                                    <i
+                                                        class="fas fa-map-marker-alt text-blue-400 text-base md:text-lg"></i>
+                                                </div>
+                                                <div
+                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full animate-pulse">
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <span class="text-white font-semibold text-sm truncate">Visit
+                                                        Us</span>
+                                                    <i
+                                                        class="fas fa-chevron-right text-blue-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
+                                                </div>
+                                                <p class="text-blue-400/80 text-xs mt-1 truncate">Dar es Salaam,
+                                                    Tanzania</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form - 60% width -->
+                        <div class="lg:w-3/5" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                            <div class="glass-effect rounded-xl p-4 md:p-5 h-full">
+                                <div class="text-center mb-4">
+                                    <h3 class="text-lg md:text-xl font-semibold mb-2">Start Your Project</h3>
+                                    <p class="text-body text-sm">Tell us about your vision and we'll bring it to life
+                                        with our expertise.</p>
+                                </div>
+
+                                <form class="space-y-4 md:space-y-5 contact-form-grid">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                        <div>
+                                            <input type="text" placeholder="Your Name"
+                                                class="contact-input w-full text-sm py-2">
+                                        </div>
+                                        <div>
+                                            <input type="email" placeholder="Your Email"
+                                                class="contact-input w-full text-sm py-2">
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                        <div>
+                                            <input type="text" placeholder="Project Type"
+                                                class="contact-input w-full text-sm py-2">
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="Timeline"
+                                                class="contact-input w-full text-sm py-2">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <textarea
+                                            placeholder="Tell us about your project vision, goals, and any specific requirements..."
+                                            rows="3" class="contact-input w-full text-sm py-2"></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-full py-2 md:py-3 text-sm">
+                                        <i class="fas fa-paper-plane mr-2"></i>
+                                        Send Project Brief
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="text-center mt-6 pt-4 border-t border-slate-700/50">
+                        <p class="text-small text-xs">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence since
+                            2016. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js" defer></script>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeVideoModal()"></div>
+
+        <div class="modal-container relative w-full h-full flex items-center justify-center p-4">
+            <div class="modal-content glass-effect rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+                data-aos="zoom-in">
+                <!-- Modal Header -->
+                <div class="modal-header flex justify-between items-center p-4 md:p-6 border-b border-slate-700/50">
+                    <h3 class="text-xl md:text-2xl font-bold text-white">Our Showreel</h3>
+                    <button onclick="closeVideoModal()"
+                        class="close-btn w-10 h-10 rounded-full bg-slate-800/50 hover:bg-accent-yellow hover:text-dark-900 flex items-center justify-center transition-all duration-300">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Video Player -->
+                <div class="video-player aspect-video bg-black">
+                    <video id="showreelVideo" class="w-full h-full" controls
+                        poster="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80">
+                        <source
+                            src="https://assets.mixkit.co/videos/preview/mixkit-showreel-of-a-film-editor-41505-large.mp4"
+                            type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <!-- Video Info -->
+                <div class="modal-footer p-4 md:p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-accent-yellow font-semibold mb-2">AMIJOJI Showreel 2024</h4>
+                            <p class="text-slate-300 text-sm">A compilation of our best work showcasing live events, TV
+                                commercials, and creative productions from the past year.</p>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-2 text-slate-400 text-sm">
+                                <i class="fas fa-clock text-accent-yellow"></i>
+                                <span>Duration: 2:30</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400 text-sm">
+                                <i class="fas fa-calendar text-accent-yellow"></i>
+                                <span>Latest Update: January 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 100
+                });
+            }
+
+            // Tab functionality for mobile
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Update active tab button
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'text-accent-yellow', 'border-accent-yellow');
+                        btn.classList.add('text-slate-400');
+                    });
+                    this.classList.add('active', 'text-accent-yellow', 'border-accent-yellow');
+                    this.classList.remove('text-slate-400');
+
+                    // Show target tab content
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${targetTab}-tab`).classList.remove('hidden');
+                    document.getElementById(`${targetTab}-tab`).classList.add('active');
+
+                    // Refresh AOS animations for the new content
+                    if (typeof AOS !== 'undefined') {
+                        AOS.refresh();
+                    }
+                });
+            });
+
+            // Animate skill bars when values tab becomes active
+            function animateSkillBars() {
+                const skillProgresses = document.querySelectorAll('.skill-progress');
+                skillProgresses.forEach(progress => {
+                    const width = progress.getAttribute('data-width');
+                    progress.style.width = width;
+                });
+            }
+
+            // Observe when values tab becomes active
+            const valuesTab = document.getElementById('values-tab');
+            if (valuesTab) {
+                const observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                            if (valuesTab.classList.contains('active')) {
+                                setTimeout(animateSkillBars, 300);
+                            }
+                        }
+                    });
+                });
+
+                observer.observe(valuesTab, { attributes: true });
+            }
+
+            // Animate skill bars on desktop load
+            if (window.innerWidth >= 1024) {
+                setTimeout(animateSkillBars, 1000);
+            }
+
+            // Video modal functions
+            window.openVideoModal = function () {
+                const modal = document.getElementById('videoModal');
+                modal.classList.remove('hidden');
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeVideoModal = function () {
+                const modal = document.getElementById('videoModal');
+                modal.classList.remove('show');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                
+                const video = document.getElementById('showreelVideo');
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            };
+
+            // Scroll to section function
+            window.scrollToSection = function (sectionId) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+        });
+    </script>
+</body>
+
+</html>
