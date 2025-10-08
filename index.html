@@ -617,23 +617,35 @@
             }
         }
 
-        /* Specific padding values as requested */
         .section {
-            padding-top: 25rem;
-            /* 25rem = 400px */
-            min-height: 100vh;
+            transition: opacity 0.3s ease;
+        }
+
+        .section:not(:target) {
+            opacity: 0.95;
+        }
+
+        .section:target {
+            opacity: 1;
+        }
+
+        /* Specific padding values as requested */
+        /* .section {
+            padding-top: 25rem; */
+        /* 25rem = 400px */
+        /* min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
+        } */
 
         /* 30rem padding for screens less than 470px */
-        @media (max-width: 470px) {
-            .section {
-                padding-top: 30rem;
-                /* 30rem = 480px */
-            }
-        }
+        /* @media (max-width: 470px) { */
+        /* .section { */
+        /* padding-top: 30rem; */
+        /* 30rem = 480px */
+        /* } */
+        /* } */
 
         /* Ensure content is properly spaced */
         .container {
