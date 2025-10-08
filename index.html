@@ -1597,7 +1597,8 @@
                             production services tailored to meet your unique needs and objectives.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                    <!-- Desktop Grid Layout (hidden on mobile) -->
+                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                         <!-- Service 1 -->
                         <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
                             <div class="p-4 md:p-5">
@@ -1709,10 +1710,624 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Mobile Accordion Layout (hidden on desktop) -->
+                    <div class="md:hidden space-y-2">
+                        <!-- Service 1 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
+                                        <i class="fas fa-broadcast-tower"></i>
+                                    </div>
+                                    <h3 class="font-semibold">Live Coverage Production</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Seamless live streaming for conferences, concerts,
+                                    sports events, and seminars. Capture every important moment.</p>
+                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 2 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
+                            data-aos-delay="100">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
+                                        <i class="fas fa-film"></i>
+                                    </div>
+                                    <h3 class="font-semibold">Content Creation</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Engaging and impactful videos tailored to meet
+                                    specific objectives. From promotional videos to branded storytelling.</p>
+                                <div class="flex items-center text-accent-purple font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 3 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
+                            data-aos-delay="200">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
+                                        <i class="fas fa-tv"></i>
+                                    </div>
+                                    <h3 class="font-semibold">TVC Production</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Effective TV commercials that leave a lasting impact.
+                                    We develop concepts, storyboard ideas, and maximize brand visibility.</p>
+                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 4 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
+                            data-aos-delay="300">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <h3 class="font-semibold">Event Coverage</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Comprehensive coverage for corporate events, cultural
+                                    celebrations, and conferences. We capture the essence and emotions.</p>
+                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 5 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
+                            data-aos-delay="400">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
+                                        <i class="fas fa-video"></i>
+                                    </div>
+                                    <h3 class="font-semibold">Digital Videos</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Engaging videos optimized for social media, websites,
+                                    and online campaigns. We craft content that enhances brand engagement.</p>
+                                <div class="flex items-center text-accent-purple font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 6 Accordion -->
+                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
+                            data-aos-delay="500">
+                            <button class="service-accordion-header">
+                                <div class="flex">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
+                                        <i class="fas fa-camera"></i>
+                                    </div>
+                                    <h3 class="font-semibold">Photography</h3>
+                                </div>
+                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
+                            </button>
+                            <div class="service-accordion-content">
+                                <p class="text-body text-sm mb-3">Visually stunning images for products, corporate
+                                    portraits, and events. We ensure every shot meets highest quality standards.</p>
+                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
+                                    <span>Learn More</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const accordionHeaders = document.querySelectorAll('.service-accordion-header');
+
+                accordionHeaders.forEach(header => {
+                    header.addEventListener('click', function () {
+                        // Toggle active class on header
+                        this.classList.toggle('active');
+
+                        // Get the content element
+                        const content = this.nextElementSibling;
+
+                        // Toggle content visibility with animation
+                        if (content.classList.contains('show')) {
+                            content.classList.remove('show');
+                            setTimeout(() => {
+                                content.style.display = 'none';
+                            }, 300);
+                        } else {
+                            content.style.display = 'block';
+                            // Trigger reflow
+                            content.offsetHeight;
+                            content.classList.add('show');
+                        }
+
+                        // Close other accordions when one opens
+                        accordionHeaders.forEach(otherHeader => {
+                            if (otherHeader !== this && otherHeader.classList.contains('active')) {
+                                otherHeader.classList.remove('active');
+                                const otherContent = otherHeader.nextElementSibling;
+                                otherContent.classList.remove('show');
+                                setTimeout(() => {
+                                    otherContent.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    });
+                });
+
+                // Initialize all content as hidden
+                document.querySelectorAll('.service-accordion-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+
+                // Add touch feedback for mobile
+                accordionHeaders.forEach(header => {
+                    header.addEventListener('touchstart', function () {
+                        this.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                    });
+
+                    header.addEventListener('touchend', function () {
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 150);
+                    });
+                });
+            });
+        </script>
+        <style>
+            :root {
+                --accent-yellow: #ffd166;
+                --accent-purple: #a78bfa;
+                --accent-indigo: #818cf8;
+                --text-body: #c0c0d0;
+                --bg-dark: #0f0f1a;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                color: #fff;
+                min-height: 100vh;
+                line-height: 1.6;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+
+            .max-w-7xl {
+                max-width: 80rem;
+            }
+
+            .max-w-2xl {
+                max-width: 42rem;
+            }
+
+            .mx-auto {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .px-4 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .py-4 {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            .h-full {
+                height: 100%;
+            }
+
+            .flex {
+                display: flex;
+            }
+
+            .items-center {
+                align-items: center;
+            }
+
+            .w-full {
+                width: 100%;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .mb-3 {
+                margin-bottom: 0.75rem;
+            }
+
+            .mb-8 {
+                margin-bottom: 2rem;
+            }
+
+            .text-3xl {
+                font-size: 1.875rem;
+            }
+
+            .text-4xl {
+                font-size: 2.25rem;
+            }
+
+            .font-semibold {
+                font-weight: 600;
+            }
+
+            .lead {
+                font-size: 1.125rem;
+                color: var(--text-body);
+            }
+
+            .text-sm {
+                font-size: 0.875rem;
+            }
+
+            .text-base {
+                font-size: 1rem;
+            }
+
+            .text-lg {
+                font-size: 1.125rem;
+            }
+
+            .text-xl {
+                font-size: 1.25rem;
+            }
+
+            /* Glass Effect */
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            /* Project Card */
+            .project-card {
+                border-radius: 12px;
+                transition: all 0.3s ease;
+            }
+
+            .project-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            .p-4 {
+                padding: 1rem;
+            }
+
+            .p-5 {
+                padding: 1.25rem;
+            }
+
+            .mb-2 {
+                margin-bottom: 0.5rem;
+            }
+
+            .mb-3 {
+                margin-bottom: 0.75rem;
+            }
+
+            .text-body {
+                color: var(--text-body);
+            }
+
+            .ml-2 {
+                margin-left: 0.5rem;
+            }
+
+            /* Icon Styles */
+            .w-12 {
+                width: 3rem;
+            }
+
+            .h-12 {
+                height: 3rem;
+            }
+
+            .rounded-xl {
+                border-radius: 0.75rem;
+            }
+
+            .flex-shrink-0 {
+                flex-shrink: 0;
+            }
+
+            /* Color Classes */
+            .text-accent-yellow {
+                color: var(--accent-yellow);
+            }
+
+            .text-accent-purple {
+                color: var(--accent-purple);
+            }
+
+            .text-accent-indigo {
+                color: var(--accent-indigo);
+            }
+
+            .from-accent-yellow\/20 {
+                background-color: rgba(255, 209, 102, 0.2);
+            }
+
+            .to-amber-600\/20 {
+                background-color: rgba(245, 158, 11, 0.2);
+            }
+
+            .from-accent-purple\/20 {
+                background-color: rgba(167, 139, 250, 0.2);
+            }
+
+            .to-purple-600\/20 {
+                background-color: rgba(147, 51, 234, 0.2);
+            }
+
+            .from-accent-indigo\/20 {
+                background-color: rgba(129, 140, 248, 0.2);
+            }
+
+            .to-indigo-600\/20 {
+                background-color: rgba(79, 70, 229, 0.2);
+            }
+
+            /* Grid Layout */
+            .grid {
+                display: grid;
+            }
+
+            .grid-cols-1 {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .gap-4 {
+                gap: 1rem;
+            }
+
+            .gap-5 {
+                gap: 1.25rem;
+            }
+
+            /* Accordion Styles */
+            .space-y-2>*+* {
+                margin-top: 0.5rem;
+            }
+
+            .service-accordion {
+                border-radius: 12px;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .service-accordion:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .service-accordion-header {
+                width: 100%;
+                padding: 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+                background: transparent;
+                color: inherit;
+                border: none;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .service-accordion-header:active {
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            .service-accordion-header.active {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .service-accordion-header .flex {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .service-accordion-header i.fa-chevron-down {
+                transition: transform 0.3s ease;
+                color: var(--accent-yellow);
+            }
+
+            .service-accordion-header.active i.fa-chevron-down {
+                transform: rotate(180deg);
+            }
+
+            .service-accordion-content {
+                padding: 0 1.25rem 1.25rem;
+                color: var(--text-body);
+                font-size: 0.95rem;
+                line-height: 1.5;
+                display: none;
+            }
+
+            .service-accordion-content p {
+                margin-bottom: 1rem;
+            }
+
+            .learn-more {
+                display: flex;
+                align-items: center;
+                color: var(--accent-yellow);
+                font-weight: 600;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                padding: 0.5rem 0;
+            }
+
+            .learn-more:active {
+                transform: translateX(5px);
+            }
+
+            .learn-more i {
+                margin-left: 0.5rem;
+                transition: transform 0.2s ease;
+            }
+
+            .learn-more:active i {
+                transform: translateX(3px);
+            }
+
+            /* Animation for accordion content */
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .service-accordion-content.show {
+                display: block;
+                animation: fadeIn 0.3s ease forwards;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 767px) {
+                .md\:hidden {
+                    display: block;
+                }
+
+                .hidden {
+                    display: none;
+                }
+
+                .section {
+                    padding: 2rem 0;
+                }
+
+                .container {
+                    padding: 0 0.5rem;
+                }
+            }
+
+            @media (min-width: 768px) {
+                .md\:hidden {
+                    display: none !important;
+                }
+
+                .hidden {
+                    display: none;
+                }
+
+                .md\:grid {
+                    display: grid;
+                }
+
+                .md\:grid-cols-2 {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .md\:p-5 {
+                    padding: 1.25rem;
+                }
+
+                .md\:text-4xl {
+                    font-size: 2.25rem;
+                }
+
+                .md\:text-base {
+                    font-size: 1rem;
+                }
+
+                .md\:text-xl {
+                    font-size: 1.25rem;
+                }
+
+                .md\:gap-5 {
+                    gap: 1.25rem;
+                }
+            }
+
+            @media (min-width: 1024px) {
+                .lg\:grid-cols-3 {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+
+            /* Mobile-specific optimizations */
+            @media (max-width: 480px) {
+                .service-accordion-header {
+                    padding: 1rem;
+                }
+
+                .service-accordion-header h3 {
+                    font-size: 1rem;
+                }
+
+                .service-accordion-content {
+                    padding: 0 1rem 1rem;
+                    font-size: 0.9rem;
+                }
+            }
+        </style>
         <!-- Portfolio Section -->
         <section id="portfolio" class="section">
             <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
