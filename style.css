@@ -125,14 +125,6 @@ h4 {
 }
 
 /* Hide non-active sections */
-.section.prev,
-.section.next,
-.section:not(.active) {
-  position: relative !important;
-  opacity: 1 !important;
-  transform: none !important;
-  pointer-events: all !important;
-}
 
 /* Glassmorphism Effects */
 .glass-effect {
