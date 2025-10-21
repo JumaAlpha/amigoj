@@ -20,20 +20,53 @@ const navContent = document.getElementById('navContent');
 const loadingBar = document.getElementById('loadingBar');
 
 // Scroll navigation variables
-let wheelTimeout;
 let isScrolling = false;
 let touchStartX = 0;
 let touchEndX = 0;
+let scrollTimeout;
 
 // Check if mobile device
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
-// SIMPLE SECTION MANAGEMENT - This will fix the visibility issue
-// FIXED SECTION MANAGEMENT
-// FIXED SECTION MANAGEMENT
-// SIMPLIFIED SECTION MANAGEMENT
+// Smooth scroll to section
+function smoothScrollToSection(sectionId) {
+    if (isScrolling) return;
+    
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
+
+    isScrolling = true;
+
+    if (isMobile()) {
+        // Mobile: Use horizontal scroll with smooth behavior
+        const sectionsContainer = document.querySelector('.sections-container');
+        const sectionIndex = Array.from(sections).indexOf(targetSection);
+        
+        if (sectionsContainer && sectionIndex >= 0) {
+            sectionsContainer.scrollTo({
+                left: sectionIndex * window.innerWidth,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Set active section after scroll
+        setTimeout(() => {
+            setActiveSection(sectionId);
+            isScrolling = false;
+        }, 300);
+    } else {
+        // Desktop: Use vertical scroll
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        setActiveSection(sectionId);
+        setTimeout(() => {
+            isScrolling = false;
+        }, 800);
+    }
+}
+
+// Set active section
 function setActiveSection(sectionId) {
     console.log('Activating section:', sectionId);
 
@@ -70,38 +103,15 @@ function setActiveSection(sectionId) {
             });
         }, 500);
     }
-
-    // Scroll to section (for both desktop and mobile)
-    const targetIndex = Array.from(sections).indexOf(targetSection);
-    const sectionsContainer = document.querySelector('.sections-container');
-    if (sectionsContainer && targetIndex >= 0) {
-        sectionsContainer.scrollTo({
-            left: targetIndex * window.innerWidth,
-            behavior: 'smooth'
-        });
-    }
-}// Helper function to update section positions
-function updateSectionPositions() {
-    const allSections = Array.from(sections);
-    const activeSection = document.querySelector('.section.active');
-    const activeIndex = allSections.indexOf(activeSection);
-
-    allSections.forEach((section, index) => {
-        section.classList.remove('prev', 'next');
-        if (index < activeIndex) {
-            section.classList.add('prev');
-        } else if (index > activeIndex) {
-            section.classList.add('next');
-        }
-    });
 }
+
 // Scroll to section function
 function scrollToSection(sectionId) {
     if (sectionId === 'portfolio') {
         openVideoModal();
         return;
     }
-    setActiveSection(sectionId);
+    smoothScrollToSection(sectionId);
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -127,16 +137,11 @@ window.addEventListener('load', function () {
         }
     }, 10);
 
-    // Initialize first section and set up all section positions
-    const allSections = Array.from(sections);
-    allSections.forEach((section, index) => {
-        section.classList.remove('active', 'prev', 'next');
+    // Initialize first section
+    sections.forEach((section, index) => {
+        section.classList.remove('active');
         if (index === 0) {
             section.classList.add('active');
-        } else if (index < 0) {
-            section.classList.add('prev');
-        } else {
-            section.classList.add('next');
         }
     });
 
@@ -144,14 +149,10 @@ window.addEventListener('load', function () {
     setActiveSection('home');
 });
 
-// Update positions on resize
-window.addEventListener('resize', function () {
-    AOS.refresh();
-    updateSectionPositions();
-});
-
 // Navbar scroll effect
 window.addEventListener('scroll', function () {
+    if (isMobile()) return; // Don't affect navbar on mobile horizontal scroll
+    
     if (window.pageYOffset > 50) {
         navbar.classList.add('navbar-scrolled');
         navContent.classList.remove('mt-6');
@@ -186,21 +187,6 @@ if (overlay) {
         overlay.style.visibility = 'hidden';
     });
 }
-
-// Debug function to check section states
-function debugSections() {
-    console.log('=== SECTION STATES ===');
-    sections.forEach((section, index) => {
-        console.log(`Section ${index} (${section.id}):`, {
-            active: section.classList.contains('active'),
-            prev: section.classList.contains('prev'),
-            next: section.classList.contains('next'),
-            transform: section.style.transform
-        });
-    });
-    console.log('======================');
-}
-
 
 // Scroll to top functionality
 if (scrollTop) {
@@ -241,9 +227,9 @@ document.addEventListener('wheel', function (e) {
     const isScrollingDown = e.deltaY > 0;
 
     if (isScrollingDown && currentIndex < sections.length - 1) {
-        setActiveSection(sections[currentIndex + 1].id);
+        smoothScrollToSection(sections[currentIndex + 1].id);
     } else if (!isScrollingDown && currentIndex > 0) {
-        setActiveSection(sections[currentIndex - 1].id);
+        smoothScrollToSection(sections[currentIndex - 1].id);
     }
 
     setTimeout(() => {
@@ -251,8 +237,9 @@ document.addEventListener('wheel', function (e) {
     }, 800);
 }, { passive: false });
 
-// Touch navigation for mobile
+// Enhanced Touch navigation for mobile with smooth scrolling
 document.addEventListener('touchstart', function (e) {
+    if (!isMobile()) return;
     touchStartX = e.changedTouches[0].screenX;
 });
 
@@ -263,19 +250,38 @@ document.addEventListener('touchend', function (e) {
     const swipeThreshold = 50;
     const swipeDistance = touchEndX - touchStartX;
 
-    if (Math.abs(swipeDistance) > swipeThreshold) {
+    if (Math.abs(swipeDistance) > swipeThreshold && !isScrolling) {
         const currentSection = document.querySelector('.section.active');
         const currentIndex = Array.from(sections).indexOf(currentSection);
 
         if (swipeDistance < 0 && currentIndex < sections.length - 1) {
             // Swipe left - next section
-            setActiveSection(sections[currentIndex + 1].id);
+            smoothScrollToSection(sections[currentIndex + 1].id);
         } else if (swipeDistance > 0 && currentIndex > 0) {
             // Swipe right - previous section
-            setActiveSection(sections[currentIndex - 1].id);
+            smoothScrollToSection(sections[currentIndex - 1].id);
         }
     }
 });
+
+// Mobile scroll detection for updating active section
+if (isMobile()) {
+    const sectionsContainer = document.querySelector('.sections-container');
+    if (sectionsContainer) {
+        sectionsContainer.addEventListener('scroll', function () {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(function () {
+                const scrollLeft = sectionsContainer.scrollLeft;
+                const sectionWidth = window.innerWidth;
+                const currentIndex = Math.round(scrollLeft / sectionWidth);
+
+                if (currentIndex >= 0 && currentIndex < sections.length && !isScrolling) {
+                    setActiveSection(sections[currentIndex].id);
+                }
+            }, 100);
+        });
+    }
+}
 
 // Video Modal Functions
 function openVideoModal() {
@@ -330,7 +336,7 @@ document.addEventListener('keydown', function (e) {
 navDots.forEach(dot => {
     dot.addEventListener('click', function () {
         const sectionId = this.getAttribute('data-section');
-        setActiveSection(sectionId);
+        smoothScrollToSection(sectionId);
     });
 });
 
@@ -339,7 +345,7 @@ navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
         const sectionId = this.getAttribute('data-section');
-        setActiveSection(sectionId);
+        smoothScrollToSection(sectionId);
 
         // Close sidebar on mobile
         if (window.innerWidth < 1024) {
@@ -352,25 +358,27 @@ navLinks.forEach(link => {
 
 // Keyboard navigation
 document.addEventListener('keydown', function (e) {
+    if (isScrolling) return;
+    
     const currentSection = document.querySelector('.section.active');
     const currentIndex = Array.from(sections).indexOf(currentSection);
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault();
         if (currentIndex < sections.length - 1) {
-            setActiveSection(sections[currentIndex + 1].id);
+            smoothScrollToSection(sections[currentIndex + 1].id);
         }
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         e.preventDefault();
         if (currentIndex > 0) {
-            setActiveSection(sections[currentIndex - 1].id);
+            smoothScrollToSection(sections[currentIndex - 1].id);
         }
     } else if (e.key === 'Home') {
         e.preventDefault();
-        setActiveSection('home');
+        smoothScrollToSection('home');
     } else if (e.key === 'End') {
         e.preventDefault();
-        setActiveSection('contact');
+        smoothScrollToSection('contact');
     }
 });
 
@@ -413,25 +421,6 @@ if (closeSidebar) {
     });
 }
 
-// Mobile scroll handling
-if (isMobile()) {
-    const sectionsContainer = document.querySelector('.sections-container');
-    if (sectionsContainer) {
-        sectionsContainer.addEventListener('scroll', function () {
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(function () {
-                const scrollLeft = sectionsContainer.scrollLeft;
-                const sectionWidth = window.innerWidth;
-                const currentIndex = Math.round(scrollLeft / sectionWidth);
-
-                if (currentIndex >= 0 && currentIndex < sections.length) {
-                    setActiveSection(sections[currentIndex].id);
-                }
-            }, 100);
-        });
-    }
-}
-
 // Initialize animations for elements
 window.addEventListener('load', function () {
     const observerOptions = {
@@ -457,99 +446,41 @@ window.addEventListener('load', function () {
     });
 });
 
-// Add this to your existing JavaScript
-class ServicesCarousel {
-    constructor() {
-        this.track = document.querySelector('.services-carousel-track');
-        this.dots = document.querySelectorAll('.service-dot');
-        this.cards = document.querySelectorAll('.services-carousel-track .project-card');
-        this.currentIndex = 0;
-        
-        if (this.track) {
-            this.init();
-        }
-    }
-
-    init() {
-        this.bindEvents();
-        this.updateDots();
-    }
-
-    bindEvents() {
-        // Dot navigation
-        this.dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                this.scrollToIndex(index);
-            });
-        });
-
-        // Scroll event to update dots
-        this.track.addEventListener('scroll', () => {
-            this.updateActiveDot();
-        });
-
-        // Touch/swipe support
+// Enhanced mobile scrolling with momentum
+if (isMobile()) {
+    const sectionsContainer = document.querySelector('.sections-container');
+    if (sectionsContainer) {
         let startX = 0;
         let scrollLeft = 0;
+        let isDragging = false;
 
-        this.track.addEventListener('touchstart', (e) => {
+        sectionsContainer.addEventListener('touchstart', (e) => {
+            isDragging = true;
             startX = e.touches[0].pageX;
-            scrollLeft = this.track.scrollLeft;
+            scrollLeft = sectionsContainer.scrollLeft;
         }, { passive: true });
 
-        this.track.addEventListener('touchmove', (e) => {
-            if (!startX) return;
+        sectionsContainer.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
             const x = e.touches[0].pageX;
-            const walk = (x - startX) * 2;
-            this.track.scrollLeft = scrollLeft - walk;
-        }, { passive: true });
-    }
+            const walk = (x - startX);
+            sectionsContainer.scrollLeft = scrollLeft - walk;
+        }, { passive: false });
 
-    scrollToIndex(index) {
-        if (index < 0 || index >= this.cards.length) return;
-        
-        const card = this.cards[index];
-        const container = this.track.getBoundingClientRect();
-        const cardRect = card.getBoundingClientRect();
-        
-        this.track.scrollTo({
-            left: this.track.scrollLeft + (cardRect.left - container.left) - (container.width - cardRect.width) / 2,
-            behavior: 'smooth'
-        });
-        
-        this.currentIndex = index;
-        this.updateDots();
-    }
-
-    updateActiveDot() {
-        const container = this.track.getBoundingClientRect();
-        let closestIndex = 0;
-        let closestDistance = Infinity;
-
-        this.cards.forEach((card, index) => {
-            const cardRect = card.getBoundingClientRect();
-            const distance = Math.abs(cardRect.left - container.left);
+        sectionsContainer.addEventListener('touchend', () => {
+            isDragging = false;
             
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestIndex = index;
+            // Snap to nearest section
+            const scrollLeft = sectionsContainer.scrollLeft;
+            const sectionWidth = window.innerWidth;
+            const currentIndex = Math.round(scrollLeft / sectionWidth);
+            
+            if (currentIndex >= 0 && currentIndex < sections.length) {
+                smoothScrollToSection(sections[currentIndex].id);
             }
-        });
-
-        this.currentIndex = closestIndex;
-        this.updateDots();
-    }
-
-    updateDots() {
-        this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
         });
     }
 }
 
-// Initialize the carousel
-document.addEventListener('DOMContentLoaded', () => {
-    new ServicesCarousel();
-});
-
-console.log('JavaScript loaded successfully!');
+console.log('JavaScript loaded successfully with enhanced mobile scrolling!');
