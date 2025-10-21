@@ -1664,7 +1664,6 @@
         </section>
 
         <!-- Live Recording Packages Section -->
-        <!-- Live Recording Packages Section -->
 <!-- Live Recording Packages Section -->
 <section id="packages" class="section relative">
     <!-- Background -->
@@ -1700,11 +1699,11 @@
                         <ul class="space-y-4 text-left">
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Professional Video Directing</span>
+                                <span>13-Camera Video Capturing</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Multi-Camera Video Capturing</span>
+                                <span>Professional Video Directing</span>
                             </li>
                             <li class="flex items-center text-slate-400">
                                 <i class="fas fa-times text-slate-500 mr-3"></i>
@@ -1735,11 +1734,11 @@
                         <ul class="space-y-4 text-left">
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Advanced Video Directing</span>
+                                <span>22-Camera Video Capturing</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Multi-Camera Video Capturing</span>
+                                <span>Advanced Video Directing</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
@@ -1766,11 +1765,11 @@
                         <ul class="space-y-4 text-left">
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Premium Video Directing</span>
+                                <span>22-Camera Video Capturing</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span>Multi-Camera Video Capturing</span>
+                                <span>Premium Video Directing</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check text-accent-yellow mr-3"></i>
@@ -1845,10 +1844,10 @@
             </div>
         </div>
     </div>
-</section> 
-        <script>
-            // Package Modal Functions
-// Package Modal Functions
+</section>
+
+<script>
+    // Package Modal Functions
 let selectedPackage = '';
 
 function openPackageModal(packageType) {
@@ -1882,15 +1881,16 @@ function setPackageDetails(packageType) {
             price: '$3,800',
             description: 'Professional live recording with comprehensive 13-camera coverage for basic to medium events.',
             features: [
-                'Professional Video Directing',
                 '13-Camera Video Capturing',
+                'Professional Video Directing',
                 'Multi-Angle Coverage',
                 'Basic Audio Recording',
                 'Professional Camera Operators',
                 '1080p HD Quality',
                 '8 Hours Coverage',
                 'Standard Equipment Setup',
-                'Live Switching Capability'
+                'Live Switching Capability',
+                'Direct Monitoring'
             ],
             audience: 'Church services, small concerts, corporate events, conferences, basic live productions'
         },
@@ -1899,8 +1899,8 @@ function setPackageDetails(packageType) {
             price: '$5,700',
             description: 'Advanced production with extensive 22-camera coverage for high-quality live events and broadcasts.',
             features: [
-                'Advanced Video Directing',
                 '22-Camera Video Capturing',
+                'Advanced Video Directing',
                 'Comprehensive Multi-Angle Coverage',
                 'Professional Audio Recording',
                 'Expert Camera Operators + Director',
@@ -1909,7 +1909,8 @@ function setPackageDetails(packageType) {
                 'Live Streaming Setup',
                 '12 Hours Coverage',
                 'Professional Lighting Setup',
-                'Real-time Video Mixing'
+                'Real-time Video Mixing',
+                'Audio Post-Processing'
             ],
             audience: 'Large church events, concerts, conferences, weddings, broadcast-quality productions'
         },
@@ -1918,8 +1919,8 @@ function setPackageDetails(packageType) {
             price: '$7,600',
             description: 'Broadcast-grade production with comprehensive 22-camera coverage and full post-production suite.',
             features: [
-                'Premium Video Directing',
                 '22-Camera Video Capturing',
+                'Premium Video Directing',
                 'Extensive Multi-Angle Coverage',
                 'Professional Audio Engineering',
                 'Expert Camera Operators + Director',
@@ -1930,7 +1931,8 @@ function setPackageDetails(packageType) {
                 'Dedicated Project Manager',
                 '16 Hours Coverage',
                 'Cinematic Lighting Setup',
-                'Broadcast-Quality Output'
+                'Broadcast-Quality Output',
+                'Custom Graphics Package'
             ],
             audience: 'Major concerts, festivals, large church events, corporate broadcasts, professional productions'
         }
@@ -1971,9 +1973,9 @@ function proceedWithPackage() {
                 projectTypeField.value = `${packageName} - Live Recording`;
             }
             
-            // Optional: Show success message
+            // Show success message
             const successMessage = document.createElement('div');
-            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
             successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
             document.body.appendChild(successMessage);
             
@@ -1984,13 +1986,27 @@ function proceedWithPackage() {
     }, 300);
 }
 
-// Add to existing Escape key handler
+// Add package modal to existing Escape key handler
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         closePackageModal();
         closeVideoModal(); // Keep existing video modal functionality
     }
-});        </script>
+});
+
+// Add fade-in animation for success message
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 0.3s ease-out;
+    }
+`;
+document.head.appendChild(style);
+</script>
         <!-- Portfolio Section -->
         <section id="portfolio" class="section">
             <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
@@ -2592,6 +2608,7 @@ document.addEventListener('keydown', function (e) {
         </div>
     </div>
     <!-- Package Details Modal -->
+<!-- Package Details Modal -->
 <div id="packageModal" class="video-modal fixed inset-0 z-50 hidden">
     <div class="modal-overlay absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
 
@@ -2615,7 +2632,7 @@ document.addEventListener('keydown', function (e) {
                         <div class="mb-6">
                             <div class="text-3xl md:text-4xl font-bold text-accent-yellow mb-2" id="packagePrice">$3,800</div>
                             <h4 class="text-xl md:text-2xl font-semibold mb-3" id="packageName">Essential Package</h4>
-                            <p class="text-slate-300" id="packageDescription">Perfect for basic live recording needs with professional quality.</p>
+                            <p class="text-slate-300" id="packageDescription">Professional live recording with comprehensive 13-camera coverage for basic to medium events.</p>
                         </div>
 
                         <div class="mb-6">
@@ -2639,7 +2656,7 @@ document.addEventListener('keydown', function (e) {
 
                         <div class="glass-effect-light rounded-xl p-4 md:p-5">
                             <h5 class="text-lg font-semibold mb-3 text-accent-yellow">Recommended For</h5>
-                            <p class="text-slate-300" id="packageAudience">Small events, corporate meetings, basic live streams</p>
+                            <p class="text-slate-300" id="packageAudience">Church services, small concerts, corporate events, conferences, basic live productions</p>
                         </div>
                     </div>
                 </div>
@@ -2650,7 +2667,7 @@ document.addEventListener('keydown', function (e) {
                 <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
                     <div class="text-slate-400 text-sm">
                         <i class="fas fa-info-circle text-accent-yellow mr-2"></i>
-                        All packages include equipment and crew
+                        All packages include professional equipment and experienced crew
                     </div>
                     <div class="flex gap-3">
                         <button onclick="closePackageModal()" 
@@ -2668,7 +2685,6 @@ document.addEventListener('keydown', function (e) {
         </div>
     </div>
 </div>
-
     <script>
         // Initialize AOS
         document.addEventListener('DOMContentLoaded', function () {
