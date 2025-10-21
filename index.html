@@ -1685,246 +1685,236 @@
             <div class="absolute inset-0 z-0">
                 <div class="w-full h-full relative">
                     <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90 
-                lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/80 lg:to-dark-800/90"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90">
+                    </div>
                 </div>
             </div>
 
             <!-- Content -->
-            <div class="container max-w-7xl mx-auto px-4 py-12 md:py-20 h-full flex items-center relative z-10">
-                <div class="w-full mt-4 md:mt-8 mb-4 md:mb-8">
+            <div class="container max-w-7xl mx-auto px-3 py-8 h-full flex items-center relative z-10">
+                <div class="w-full">
                     <!-- Section Header -->
-                    <div class="text-center mb-12 md:mb-16 aos-init aos-animate" data-aos="custom-fade-up"
+                    <div class="text-center mb-8 aos-init aos-animate" data-aos="custom-fade-up"
                         data-aos-duration="800">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl mb-3 md:mb-4 font-bold">Live Recording Packages</h2>
-                        <p class="lead max-w-2xl mx-auto text-base md:text-lg px-2">Professional video packages for live
-                            events & performances</p>
+                        <h2 class="text-xl font-bold mb-2">Live Recording Packages</h2>
+                        <p class="text-sm text-slate-300 max-w-xs mx-auto">Professional video packages for live events
+                        </p>
                     </div>
 
-                    <!-- Pricing Table -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
-                        <!-- Package C - Essential -->
-                        <div class="package-card glass-effect rounded-xl md:rounded-2xl p-5 md:p-8 text-center hover-lift transition-all duration-500 aos-init aos-animate"
-                            data-aos="custom-zoom-in" data-aos-duration="800"
-                            style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                            <div class="package-header mb-6 md:mb-8">
-                                <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">Essential</h3>
-                                <div class="price text-3xl md:text-5xl font-bold text-accent-yellow mb-2 md:mb-3">$3,800
+                    <!-- Package Cards - Stacked for Mobile -->
+                    <div class="space-y-4 mb-8">
+                        <!-- Essential Package -->
+                        <div class="package-card glass-effect rounded-lg p-4 hover-lift transition-all duration-300 aos-init aos-animate"
+                            data-aos="custom-fade-up" data-aos-duration="800">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="text-base font-bold">Essential</h3>
+                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$3,800</div>
                                 </div>
-                                <p class="text-slate-400 text-xs md:text-sm">USD</p>
+                                <span class="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">USD</span>
                             </div>
 
-                            <div class="package-features mb-6 md:mb-8">
-                                <ul class="space-y-3 md:space-y-4 text-left">
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">13-Camera Setup</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Professional Directing</span>
-                                    </li>
-                                    <li class="flex items-center text-slate-400">
-                                        <i class="fas fa-times text-slate-500 mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Post Production</span>
-                                    </li>
-                                </ul>
+                            <div class="package-features mb-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">13 Cameras</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">Pro Directing</span>
+                                    </div>
+                                    <div class="flex items-center text-slate-500">
+                                        <i class="fas fa-times text-slate-500 text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">No Post Production</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <button onclick="openPackageModal('essential')"
-                                class="btn w-full bg-transparent border border-slate-500 text-white py-3 md:py-4 rounded-lg md:rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 text-sm md:text-base">
+                                class="btn w-full bg-transparent border border-slate-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-white/5 transition-all">
                                 Select Package
                             </button>
                         </div>
 
-                        <!-- Package B - Professional (Most Popular) -->
-                        <div class="package-card glass-effect rounded-xl md:rounded-2xl p-5 md:p-8 text-center hover-lift transition-all duration-500 border-2 border-accent-yellow relative aos-init aos-animate transform scale-105 md:scale-100"
-                            data-aos="custom-zoom-in" data-aos-duration="800" data-aos-delay="100"
-                            style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <!-- Professional Package (Most Popular) -->
+                        <div class="package-card glass-effect rounded-lg p-4 border-2 border-accent-yellow relative hover-lift transition-all duration-300 aos-init aos-animate"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="100">
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
                                 <span
-                                    class="bg-accent-yellow text-dark-900 px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold">Most
+                                    class="bg-accent-yellow text-dark-900 px-2 py-1 rounded-full text-xs font-bold">Most
                                     Popular</span>
                             </div>
 
-                            <div class="package-header mb-6 md:mb-8">
-                                <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">Professional</h3>
-                                <div class="price text-3xl md:text-5xl font-bold text-accent-yellow mb-2 md:mb-3">$5,700
+                            <div class="flex justify-between items-start mb-3 mt-2">
+                                <div>
+                                    <h3 class="text-base font-bold">Professional</h3>
+                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$5,700</div>
                                 </div>
-                                <p class="text-slate-400 text-xs md:text-sm">USD</p>
+                                <span class="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">USD</span>
                             </div>
 
-                            <div class="package-features mb-6 md:mb-8">
-                                <ul class="space-y-3 md:space-y-4 text-left">
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">22-Camera Setup</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Advanced Directing</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Basic Post Production</span>
-                                    </li>
-                                </ul>
+                            <div class="package-features mb-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">22 Cameras</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">Advanced Directing</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">Basic Post Production</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <button onclick="openPackageModal('professional')"
-                                class="btn w-full bg-gradient-to-br from-accent-yellow to-amber-600 text-white py-3 md:py-4 rounded-lg md:rounded-xl font-semibold hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-amber-500/40 text-sm md:text-base">
+                                class="btn w-full bg-gradient-to-br from-accent-yellow to-amber-600 text-white py-2 rounded-lg font-semibold text-xs hover:-translate-y-0.5 transition-all shadow-lg shadow-amber-500/30">
                                 Select Package
                             </button>
                         </div>
 
-                        <!-- Package A - Premium -->
-                        <div class="package-card glass-effect rounded-xl md:rounded-2xl p-5 md:p-8 text-center hover-lift transition-all duration-500 aos-init aos-animate"
-                            data-aos="custom-zoom-in" data-aos-duration="800" data-aos-delay="200"
-                            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
-                            <div class="package-header mb-6 md:mb-8">
-                                <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">Premium</h3>
-                                <div class="price text-3xl md:text-5xl font-bold text-accent-yellow mb-2 md:mb-3">$7,600
+                        <!-- Premium Package -->
+                        <div class="package-card glass-effect rounded-lg p-4 hover-lift transition-all duration-300 aos-init aos-animate"
+                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="text-base font-bold">Premium</h3>
+                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$7,600</div>
                                 </div>
-                                <p class="text-slate-400 text-xs md:text-sm">USD</p>
+                                <span class="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">USD</span>
                             </div>
 
-                            <div class="package-features mb-6 md:mb-8">
-                                <ul class="space-y-3 md:space-y-4 text-left">
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">22-Camera Setup</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Premium Directing</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i
-                                            class="fas fa-check text-accent-yellow mr-2 md:mr-3 text-sm md:text-base"></i>
-                                        <span class="text-sm md:text-base">Full Post Production</span>
-                                    </li>
-                                </ul>
+                            <div class="package-features mb-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">22 Cameras</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">Premium Directing</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow text-xs mr-2 w-4"></i>
+                                        <span class="text-xs">Full Post Production</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <button onclick="openPackageModal('premium')"
-                                class="btn w-full bg-transparent border border-slate-500 text-white py-3 md:py-4 rounded-lg md:rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 text-sm md:text-base">
+                                class="btn w-full bg-transparent border border-slate-600 text-white py-2 rounded-lg font-semibold text-xs hover:bg-white/5 transition-all">
                                 Select Package
                             </button>
                         </div>
                     </div>
 
-                    <!-- Package Comparison Table for Mobile -->
-                    <div class="md:hidden mb-8 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800">
-                        <div class="glass-effect rounded-xl p-5">
-                            <h3 class="text-xl font-bold mb-4 text-center">Package Comparison</h3>
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                    <span class="text-sm">Cameras</span>
-                                    <div class="flex space-x-4">
-                                        <span
-                                            class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">13</span>
-                                        <span
-                                            class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">22</span>
-                                        <span
-                                            class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">22</span>
-                                    </div>
+                    <!-- Quick Comparison for Mobile -->
+                    <div class="glass-effect rounded-lg p-4 mb-8 aos-init aos-animate" data-aos="custom-fade-up"
+                        data-aos-duration="800">
+                        <h3 class="text-sm font-bold mb-3 text-center">Quick Compare</h3>
+                        <div class="space-y-3">
+                            <!-- Cameras Row -->
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-400 w-20">Cameras:</span>
+                                <div class="flex-1 flex justify-between">
+                                    <span
+                                        class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">13</span>
+                                    <span
+                                        class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">22</span>
+                                    <span
+                                        class="text-xs bg-accent-yellow/20 text-accent-yellow px-2 py-1 rounded">22</span>
                                 </div>
-                                <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                    <span class="text-sm">Directing</span>
-                                    <div class="flex space-x-4">
-                                        <span class="text-xs">Basic</span>
-                                        <span class="text-xs">Advanced</span>
-                                        <span class="text-xs">Premium</span>
-                                    </div>
+                            </div>
+                            <!-- Directing Row -->
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-400 w-20">Directing:</span>
+                                <div class="flex-1 flex justify-between">
+                                    <span class="text-xs">Basic</span>
+                                    <span class="text-xs">Advanced</span>
+                                    <span class="text-xs">Premium</span>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm">Post Production</span>
-                                    <div class="flex space-x-4">
-                                        <i class="fas fa-times text-slate-500"></i>
-                                        <i class="fas fa-check text-accent-yellow"></i>
-                                        <i class="fas fa-check text-accent-yellow"></i>
-                                    </div>
+                            </div>
+                            <!-- Post Production Row -->
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-400 w-20">Post Prod:</span>
+                                <div class="flex-1 flex justify-between">
+                                    <i class="fas fa-times text-red-400 text-xs"></i>
+                                    <i class="fas fa-check text-green-400 text-xs"></i>
+                                    <i class="fas fa-check text-green-400 text-xs"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Additional Services -->
-                    <div class="glass-effect rounded-xl md:rounded-2xl p-6 md:p-10 mb-12 md:mb-16 aos-init aos-animate"
-                        data-aos="custom-fade-up" data-aos-duration="800"
-                        style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
-                        <div class="text-center mb-6 md:mb-8">
-                            <h3 class="text-xl md:text-2xl font-bold mb-3 md:mb-4">Additional Services</h3>
-                            <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-lg px-2">Enhance your recording
-                                with professional post-production</p>
+                    <div class="glass-effect rounded-lg p-4 mb-8 aos-init aos-animate" data-aos="custom-fade-up"
+                        data-aos-duration="800">
+                        <div class="text-center mb-4">
+                            <h3 class="text-sm font-bold mb-2">Add-On Services</h3>
+                            <p class="text-xs text-slate-400">Enhance your recording</p>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                        <div class="grid grid-cols-2 gap-3">
                             <div
-                                class="service-item text-center p-4 md:p-5 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover-lift transition-all duration-300">
+                                class="service-item text-center p-3 rounded-lg bg-white/5 border border-white/10 hover-lift transition-all">
                                 <div
-                                    class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg md:rounded-xl flex items-center justify-center text-xl md:text-2xl text-accent-purple mx-auto mb-3 md:mb-4">
+                                    class="w-8 h-8 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2">
                                     <i class="fas fa-edit"></i>
                                 </div>
-                                <h4 class="font-semibold mb-2 md:mb-3 text-base md:text-lg">Video Editing</h4>
-                                <p class="text-slate-400 text-xs md:text-sm">Professional editing</p>
+                                <h4 class="font-semibold text-xs mb-1">Editing</h4>
+                                <p class="text-slate-400 text-xs">Video Edit</p>
                             </div>
 
                             <div
-                                class="service-item text-center p-4 md:p-5 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover-lift transition-all duration-300">
+                                class="service-item text-center p-3 rounded-lg bg-white/5 border border-white/10 hover-lift transition-all">
                                 <div
-                                    class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg md:rounded-xl flex items-center justify-center text-xl md:text-2xl text-accent-indigo mx-auto mb-3 md:mb-4">
+                                    class="w-8 h-8 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-sm text-accent-indigo mx-auto mb-2">
                                     <i class="fas fa-palette"></i>
                                 </div>
-                                <h4 class="font-semibold mb-2 md:mb-3 text-base md:text-lg">Color Grading</h4>
-                                <p class="text-slate-400 text-xs md:text-sm">Cinematic colors</p>
+                                <h4 class="font-semibold text-xs mb-1">Color Grade</h4>
+                                <p class="text-slate-400 text-xs">Color Correction</p>
                             </div>
 
                             <div
-                                class="service-item text-center p-4 md:p-5 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover-lift transition-all duration-300">
+                                class="service-item text-center p-3 rounded-lg bg-white/5 border border-white/10 hover-lift transition-all">
                                 <div
-                                    class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg md:rounded-xl flex items-center justify-center text-xl md:text-2xl text-accent-yellow mx-auto mb-3 md:mb-4">
+                                    class="w-8 h-8 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-sm text-accent-yellow mx-auto mb-2">
                                     <i class="fas fa-film"></i>
                                 </div>
-                                <h4 class="font-semibold mb-2 md:mb-3 text-base md:text-lg">Graphics & Titles</h4>
-                                <p class="text-slate-400 text-xs md:text-sm">Custom animations</p>
+                                <h4 class="font-semibold text-xs mb-1">Graphics</h4>
+                                <p class="text-slate-400 text-xs">Titles & Effects</p>
                             </div>
 
                             <div
-                                class="service-item text-center p-4 md:p-5 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover-lift transition-all duration-300">
+                                class="service-item text-center p-3 rounded-lg bg-white/5 border border-white/10 hover-lift transition-all">
                                 <div
-                                    class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg md:rounded-xl flex items-center justify-center text-xl md:text-2xl text-accent-purple mx-auto mb-3 md:mb-4">
+                                    class="w-8 h-8 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2">
                                     <i class="fas fa-music"></i>
                                 </div>
-                                <h4 class="font-semibold mb-2 md:mb-3 text-base md:text-lg">Per Song</h4>
-                                <div class="price text-2xl md:text-3xl font-bold text-accent-yellow my-1 md:my-2">$115
-                                </div>
-                                <p class="text-slate-400 text-xs md:text-sm">Complete post-production</p>
+                                <h4 class="font-semibold text-xs mb-1">Per Song</h4>
+                                <div class="price text-sm font-bold text-accent-yellow my-1">$115</div>
+                                <p class="text-slate-400 text-xs">Full Production</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- CTA Section -->
-                    <div class="text-center mt-12 md:mt-16 aos-init" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Ready to Capture Your Event?</h3>
-                        <p class="text-slate-400 mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-lg px-2">Contact us for
-                            custom packages tailored to your needs</p>
-                        <div class="flex flex-col sm:flex-row gap-4 md:gap-5 justify-center">
+                    <div class="text-center aos-init" data-aos="custom-fade-up" data-aos-duration="800">
+                        <h3 class="text-sm font-bold mb-3">Ready to Start?</h3>
+                        <p class="text-xs text-slate-400 mb-4 max-w-xs mx-auto">Contact us for custom packages</p>
+                        <div class="flex flex-col gap-3">
                             <button onclick="scrollToSection('contact')"
-                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white py-3 md:py-4 px-6 md:px-10 rounded-full font-semibold hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-indigo-500/40 text-sm md:text-lg">
-                                <i class="fas fa-envelope mr-2 md:mr-3"></i>
-                                Get a Quote
+                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white py-2 px-4 rounded-full font-semibold text-xs hover:-translate-y-0.5 transition-all shadow-lg shadow-indigo-500/30">
+                                <i class="fas fa-envelope mr-2"></i>
+                                Get Quote
                             </button>
                             <button onclick="openVideoModal()"
-                                class="btn bg-transparent border border-slate-500 text-white py-3 md:py-4 px-6 md:px-10 rounded-full font-semibold hover:bg-white/10 transition-all duration-300 text-sm md:text-lg">
-                                <i class="fas fa-play-circle mr-2 md:mr-3"></i>
+                                class="btn bg-transparent border border-slate-600 text-white py-2 px-4 rounded-full font-semibold text-xs hover:bg-white/5 transition-all">
+                                <i class="fas fa-play-circle mr-2"></i>
                                 View Samples
                             </button>
                         </div>
@@ -1934,43 +1924,164 @@
         </section>
 
         <style>
-            /* Responsive margin-top for small screens only */
+            /* Base styles optimized for 320px screens */
+            .container {
+                margin-top: 0 !important;
+            }
+
             @media (max-width: 500px) {
                 .container.max-w-7xl.mx-auto {
-                    margin-top: 400px !important;
+                    margin-top: 300px !important;
                 }
             }
 
-            /* Package card hover effects */
-            .package-card:hover {
-                transform: translateY(-5px);
+            /* Package card styling */
+            .package-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
             }
 
             .hover-lift:hover {
-                transform: translateY(-3px);
+                transform: translateY(-2px);
             }
 
-            /* Glass effect styling */
-            .glass-effect {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Text sizes optimized for small screens */
+            .text-xs {
+                font-size: 0.7rem;
+                line-height: 1.1;
             }
 
-            /* Mobile-specific adjustments */
-            @media (max-width: 768px) {
+            .text-sm {
+                font-size: 0.8rem;
+                line-height: 1.2;
+            }
+
+            .text-base {
+                font-size: 0.9rem;
+                line-height: 1.3;
+            }
+
+            .text-xl {
+                font-size: 1.1rem;
+                line-height: 1.3;
+            }
+
+            .text-2xl {
+                font-size: 1.4rem;
+                line-height: 1.2;
+            }
+
+            /* Button styling for small screens */
+            .btn {
+                font-size: 0.7rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            /* Spacing adjustments */
+            .space-y-2>*+* {
+                margin-top: 0.4rem;
+            }
+
+            .space-y-3>*+* {
+                margin-top: 0.6rem;
+            }
+
+            .space-y-4>*+* {
+                margin-top: 0.8rem;
+            }
+
+            /* Grid gaps */
+            .gap-3 {
+                gap: 0.6rem;
+            }
+
+            .gap-4 {
+                gap: 0.8rem;
+            }
+
+            /* Padding adjustments */
+            .p-3 {
+                padding: 0.6rem;
+            }
+
+            .p-4 {
+                padding: 0.8rem;
+            }
+
+            /* Margin adjustments */
+            .mb-2 {
+                margin-bottom: 0.4rem;
+            }
+
+            .mb-3 {
+                margin-bottom: 0.6rem;
+            }
+
+            .mb-4 {
+                margin-bottom: 0.8rem;
+            }
+
+            .mb-8 {
+                margin-bottom: 1.5rem;
+            }
+
+            /* Responsive adjustments for larger screens */
+            @media (min-width: 640px) {
+                .container {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                }
+
+                .text-xs {
+                    font-size: 0.75rem;
+                }
+
+                .text-sm {
+                    font-size: 0.875rem;
+                }
+
+                .text-base {
+                    font-size: 1rem;
+                }
+
+                .text-xl {
+                    font-size: 1.25rem;
+                }
+
+                .text-2xl {
+                    font-size: 1.5rem;
+                }
+            }
+
+            @media (min-width: 768px) {
+                #packages .container {
+                    padding-top: 3rem;
+                    padding-bottom: 3rem;
+                }
+
+                /* Switch to grid layout for tablets and up */
+                .space-y-4 {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1rem;
+                    space-y: 0;
+                }
+
                 .package-card {
-                    margin-bottom: 1rem;
-                }
-
-                .transform.scale-105 {
-                    transform: scale(1.02) !important;
+                    padding: 1.5rem;
                 }
             }
 
-            /* Ensure proper spacing on all screens */
-            .section {
-                overflow: hidden;
+            @media (min-width: 1024px) {
+                #packages .container {
+                    padding-top: 5rem;
+                    padding-bottom: 5rem;
+                }
+
+                .package-card {
+                    padding: 2rem;
+                }
             }
         </style>
         <script>
