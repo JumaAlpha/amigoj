@@ -1848,6 +1848,7 @@
 </section> 
         <script>
             // Package Modal Functions
+// Package Modal Functions
 let selectedPackage = '';
 
 function openPackageModal(packageType) {
@@ -1879,53 +1880,59 @@ function setPackageDetails(packageType) {
         essential: {
             name: 'Essential Package',
             price: '$3,800',
-            description: 'Perfect for basic live recording needs with professional quality.',
+            description: 'Professional live recording with comprehensive 13-camera coverage for basic to medium events.',
             features: [
                 'Professional Video Directing',
-                'Multi-Camera Video Capturing',
+                '13-Camera Video Capturing',
+                'Multi-Angle Coverage',
                 'Basic Audio Recording',
-                '2 Camera Operators',
+                'Professional Camera Operators',
                 '1080p HD Quality',
                 '8 Hours Coverage',
-                'Basic Equipment Setup'
+                'Standard Equipment Setup',
+                'Live Switching Capability'
             ],
-            audience: 'Small events, corporate meetings, basic live streams, interviews'
+            audience: 'Church services, small concerts, corporate events, conferences, basic live productions'
         },
         professional: {
             name: 'Professional Package',
             price: '$5,700',
-            description: 'Comprehensive coverage for medium-sized events with enhanced production quality.',
+            description: 'Advanced production with extensive 22-camera coverage for high-quality live events and broadcasts.',
             features: [
                 'Advanced Video Directing',
-                'Multi-Camera Video Capturing',
+                '22-Camera Video Capturing',
+                'Comprehensive Multi-Angle Coverage',
                 'Professional Audio Recording',
-                '3 Camera Operators + Director',
+                'Expert Camera Operators + Director',
                 '4K Ultra HD Quality',
                 'Basic Post Production',
                 'Live Streaming Setup',
                 '12 Hours Coverage',
-                'Professional Lighting'
+                'Professional Lighting Setup',
+                'Real-time Video Mixing'
             ],
-            audience: 'Concerts, conferences, weddings, medium-sized events, product launches'
+            audience: 'Large church events, concerts, conferences, weddings, broadcast-quality productions'
         },
         premium: {
             name: 'Premium Package',
             price: '$7,600',
-            description: 'Full-scale production for large events with complete post-production services.',
+            description: 'Broadcast-grade production with comprehensive 22-camera coverage and full post-production suite.',
             features: [
                 'Premium Video Directing',
-                'Multi-Camera Video Capturing',
+                '22-Camera Video Capturing',
+                'Extensive Multi-Angle Coverage',
                 'Professional Audio Engineering',
-                '4 Camera Operators + Director',
+                'Expert Camera Operators + Director',
                 '4K Ultra HD Quality + Drone Footage',
                 'Full Post Production Suite',
                 'Live Streaming + Recording',
                 'Color Grading & Graphics',
                 'Dedicated Project Manager',
                 '16 Hours Coverage',
-                'Cinematic Lighting Setup'
+                'Cinematic Lighting Setup',
+                'Broadcast-Quality Output'
             ],
-            audience: 'Large concerts, festivals, corporate events, broadcast productions, major launches'
+            audience: 'Major concerts, festivals, large church events, corporate broadcasts, professional productions'
         }
     };
 
@@ -1983,8 +1990,7 @@ document.addEventListener('keydown', function (e) {
         closePackageModal();
         closeVideoModal(); // Keep existing video modal functionality
     }
-});
-        </script>
+});        </script>
         <!-- Portfolio Section -->
         <section id="portfolio" class="section">
             <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
