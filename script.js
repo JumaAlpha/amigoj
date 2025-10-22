@@ -32,6 +32,8 @@ let velocity = 0;
 let lastX = 0;
 let lastTime = 0;
 let sectionsContainer;
+let sectionsWrapper;
+let rafID;
 
 // Check if mobile device
 function isMobile() {
@@ -58,7 +60,6 @@ function initSwiper() {
         .sections-wrapper {
             display: flex;
             height: 100%;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;
         }
         
@@ -66,8 +67,6 @@ function initSwiper() {
             flex: 0 0 100%;
             width: 100%;
             height: 100%;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                       opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, opacity;
         }
         
@@ -77,95 +76,36 @@ function initSwiper() {
         }
         
         .section.prev {
-            opacity: 0.6;
-            transform: translateX(-10%) scale(0.95);
+            opacity: 0.7;
+            transform: translateX(-5%) scale(0.98);
         }
         
         .section.next {
-            opacity: 0.6;
-            transform: translateX(10%) scale(0.95);
+            opacity: 0.7;
+            transform: translateX(5%) scale(0.98);
         }
         
         .section:not(.active):not(.prev):not(.next) {
-            opacity: 0.3;
-            transform: scale(0.9);
+            opacity: 0.4;
+            transform: scale(0.95);
         }
         
-        /* Swipe indicators */
-        .swipe-indicator-left,
-        .swipe-indicator-right {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 90;
-            opacity: 0;
-            transition: all 0.3s ease;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Smooth transitions */
+        .sections-wrapper {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .swipe-indicator-left {
-            left: 20px;
+        .section {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .swipe-indicator-right {
-            right: 20px;
+        /* Disable transitions during drag */
+        .sections-wrapper.no-transition {
+            transition: none;
         }
         
-        .swipe-indicator-left.show,
-        .swipe-indicator-right.show {
-            opacity: 1;
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        /* Progress indicator during drag */
-        .swipe-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
-            z-index: 1000;
-            transition: width 0.1s ease;
-        }
-        
-        /* Card animations */
-        .card-slide-in {
-            animation: cardSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        .card-slide-up {
-            animation: cardSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        @keyframes cardSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        @keyframes cardSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .section.no-transition {
+            transition: none;
         }
         
         /* Navigation dots */
@@ -206,17 +146,12 @@ function initSwiper() {
             .nav-dots {
                 display: none;
             }
-            
-            .swipe-indicator-left,
-            .swipe-indicator-right {
-                display: none;
-            }
         }
     `;
     document.head.appendChild(style);
 
     // Create wrapper for sections
-    const sectionsWrapper = document.createElement('div');
+    sectionsWrapper = document.createElement('div');
     sectionsWrapper.className = 'sections-wrapper';
     
     // Move all sections into wrapper
@@ -226,73 +161,20 @@ function initSwiper() {
     
     sectionsContainer.appendChild(sectionsWrapper);
     
-    // Add progress indicator
-    const progressBar = document.createElement('div');
-    progressBar.className = 'swipe-progress';
-    document.body.appendChild(progressBar);
-
     setupTouchEvents();
-    setupSwipeIndicators();
     
     // Initialize sections
     initializeSections();
 }
 
-// Setup swipe indicators
-function setupSwipeIndicators() {
-    const leftIndicator = document.querySelector('.swipe-indicator-left');
-    const rightIndicator = document.querySelector('.swipe-indicator-right');
-    
-    if (leftIndicator) {
-        leftIndicator.addEventListener('click', () => {
-            if (currentSectionIndex > 0) {
-                slideToSection(currentSectionIndex - 1, 'left');
-            }
-        });
-    }
-    
-    if (rightIndicator) {
-        rightIndicator.addEventListener('click', () => {
-            if (currentSectionIndex < sections.length - 1) {
-                slideToSection(currentSectionIndex + 1, 'right');
-            }
-        });
-    }
-    
-    updateSwipeIndicators();
-}
-
-// Update swipe indicators visibility
-function updateSwipeIndicators() {
-    const leftIndicator = document.querySelector('.swipe-indicator-left');
-    const rightIndicator = document.querySelector('.swipe-indicator-right');
-    
-    if (leftIndicator) {
-        if (currentSectionIndex > 0) {
-            leftIndicator.classList.add('show');
-        } else {
-            leftIndicator.classList.remove('show');
-        }
-    }
-    
-    if (rightIndicator) {
-        if (currentSectionIndex < sections.length - 1) {
-            rightIndicator.classList.add('show');
-        } else {
-            rightIndicator.classList.remove('show');
-        }
-    }
-}
-
 // Setup touch events for swiper-like behavior
 function setupTouchEvents() {
     if (!sectionsContainer) return;
-
-    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
     
     sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
     sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    sectionsContainer.addEventListener('touchcancel', handleTouchEnd, { passive: true });
     
     // Mouse events for desktop testing
     sectionsContainer.addEventListener('mousedown', handleMouseDown);
@@ -314,12 +196,7 @@ function handleTouchMove(e) {
     if (!isMobile() || !isDragging) return;
     
     e.preventDefault();
-    const currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
-    
-    if (Math.abs(diff) > 10) { // Minimum drag threshold
-        updateDrag(currentX);
-    }
+    updateDragPosition(e.touches[0].clientX);
 }
 
 // Touch end handler
@@ -335,8 +212,6 @@ function handleMouseDown(e) {
     
     e.preventDefault();
     startDrag(e.clientX);
-    
-    // Add active state for visual feedback
     sectionsContainer.style.cursor = 'grabbing';
 }
 
@@ -345,7 +220,7 @@ function handleMouseMove(e) {
     if (!isMobile() || !isDragging) return;
     
     e.preventDefault();
-    updateDrag(e.clientX);
+    updateDragPosition(e.clientX);
 }
 
 // Mouse up handler
@@ -364,88 +239,100 @@ function startDrag(clientX) {
     lastX = clientX;
     lastTime = Date.now();
     velocity = 0;
+    prevTranslate = currentSectionIndex * -100;
     
-    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
-    prevTranslate = currentTranslate;
+    // Disable transitions during drag
+    sectionsWrapper.classList.add('no-transition');
+    sections.forEach(section => section.classList.add('no-transition'));
     
     // Cancel any ongoing animation
-    cancelAnimationFrame(animationID);
-    
-    // Show progress bar
-    document.querySelector('.swipe-progress').style.width = '0%';
+    cancelAnimationFrame(rafID);
 }
 
-// Update drag position
-function updateDrag(clientX) {
+// Update drag position with requestAnimationFrame
+function updateDragPosition(clientX) {
     if (!isDragging) return;
     
     currentX = clientX;
+    
+    // Use requestAnimationFrame for smooth updates
+    if (!rafID) {
+        rafID = requestAnimationFrame(updatePosition);
+    }
+}
+
+// Smooth position update using requestAnimationFrame
+function updatePosition() {
+    if (!isDragging) return;
+    
     const diff = currentX - startX;
-    const maxDrag = window.innerWidth * 0.3; // Maximum drag distance
+    const maxDrag = window.innerWidth * 0.4; // Maximum drag distance
     
     // Calculate velocity
     const currentTime = Date.now();
-    const deltaTime = currentTime - lastTime;
+    const deltaTime = Math.max(currentTime - lastTime, 1);
     const deltaX = currentX - lastX;
     
-    if (deltaTime > 0) {
-        velocity = deltaX / deltaTime;
-    }
-    
+    velocity = deltaX / deltaTime;
     lastX = currentX;
     lastTime = currentTime;
     
     // Apply resistance and boundaries
     let dragDistance = diff;
-    if (Math.abs(diff) > maxDrag) {
-        dragDistance = diff > 0 ? maxDrag : -maxDrag;
-    }
     
-    // Apply resistance when at boundaries
+    // Strong resistance at boundaries
     if ((currentSectionIndex === 0 && diff > 0) || 
         (currentSectionIndex === sections.length - 1 && diff < 0)) {
-        dragDistance *= 0.3; // Strong resistance at boundaries
+        dragDistance *= 0.2;
+    }
+    // Normal resistance
+    else if (Math.abs(diff) > maxDrag) {
+        const excess = Math.abs(diff) - maxDrag;
+        dragDistance = diff > 0 ? maxDrag + excess * 0.3 : -maxDrag - excess * 0.3;
     }
     
-    currentTranslate = prevTranslate + dragDistance;
+    currentTranslate = prevTranslate + (dragDistance / window.innerWidth) * 100;
     
     // Update wrapper position
-    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
-    sectionsWrapper.style.transform = `translateX(calc(-${currentSectionIndex * 100}% + ${dragDistance}px))`;
+    sectionsWrapper.style.transform = `translateX(${currentTranslate}%)`;
     
-    // Update progress bar
-    const progress = Math.min(Math.abs(diff) / (window.innerWidth * 0.5), 1);
-    document.querySelector('.swipe-progress').style.width = `${progress * 100}%`;
+    // Update section states
+    updateSectionStates(dragDistance);
     
-    // Update section states during drag
-    updateSectionStatesDuringDrag(diff);
+    // Continue animation frame
+    rafID = requestAnimationFrame(updatePosition);
 }
 
 // Update section states during drag
-function updateSectionStatesDuringDrag(diff) {
+function updateSectionStates(diff) {
     const progress = Math.min(Math.abs(diff) / (window.innerWidth * 0.5), 1);
     const direction = diff > 0 ? 'right' : 'left';
     
     sections.forEach((section, index) => {
+        const distance = Math.abs(index - currentSectionIndex);
+        
         if (index === currentSectionIndex) {
             // Current section
-            const opacity = 1 - progress * 0.4;
-            const scale = 1 - progress * 0.05;
+            const opacity = 1 - progress * 0.3;
+            const scale = 1 - progress * 0.02;
             section.style.opacity = opacity;
-            section.style.transform = `scale(${scale})`;
-        } else if (
-            (direction === 'right' && index === currentSectionIndex - 1) ||
-            (direction === 'left' && index === currentSectionIndex + 1)
-        ) {
-            // Adjacent section
-            const opacity = 0.6 + progress * 0.4;
-            const scale = 0.95 + progress * 0.05;
+            section.style.transform = `translateX(0) scale(${scale})`;
+        } else if (index === currentSectionIndex - 1 && direction === 'right') {
+            // Previous section (swiping right)
+            const opacity = 0.7 + progress * 0.3;
+            const translateX = -5 + progress * 5;
             section.style.opacity = opacity;
-            section.style.transform = `scale(${scale})`;
+            section.style.transform = `translateX(${translateX}%) scale(${0.98 + progress * 0.02})`;
+        } else if (index === currentSectionIndex + 1 && direction === 'left') {
+            // Next section (swiping left)
+            const opacity = 0.7 + progress * 0.3;
+            const translateX = 5 - progress * 5;
+            section.style.opacity = opacity;
+            section.style.transform = `translateX(${translateX}%) scale(${0.98 + progress * 0.02})`;
         } else {
             // Other sections
-            section.style.opacity = '0.3';
-            section.style.transform = 'scale(0.9)';
+            section.style.opacity = '0.4';
+            section.style.transform = 'scale(0.95)';
         }
     });
 }
@@ -455,67 +342,61 @@ function endDrag() {
     if (!isDragging) return;
     
     isDragging = false;
+    cancelAnimationFrame(rafID);
+    rafID = null;
+    
     const diff = currentX - startX;
-    const threshold = window.innerWidth * 0.15; // 15% threshold for snap
+    const diffPercentage = (diff / window.innerWidth) * 100;
     const absVelocity = Math.abs(velocity);
     
     let targetIndex = currentSectionIndex;
     
-    // Determine target section based on drag and velocity
-    if (Math.abs(diff) > threshold || absVelocity > 0.5) {
-        if (diff > 0 && currentSectionIndex > 0) {
-            // Swipe right - go to previous section
+    // Determine target section based on drag distance and velocity
+    const snapThreshold = 25; // 25% of screen width
+    const velocityThreshold = 0.3;
+    
+    if (Math.abs(diffPercentage) > snapThreshold || absVelocity > velocityThreshold) {
+        if ((diffPercentage > 0 || velocity > velocityThreshold) && currentSectionIndex > 0) {
             targetIndex = currentSectionIndex - 1;
-        } else if (diff < 0 && currentSectionIndex < sections.length - 1) {
-            // Swipe left - go to next section
+        } else if ((diffPercentage < 0 || velocity < -velocityThreshold) && currentSectionIndex < sections.length - 1) {
             targetIndex = currentSectionIndex + 1;
         }
     }
     
-    // Apply momentum based on velocity
-    if (absVelocity > 1.0) {
-        if (velocity > 0 && currentSectionIndex > 0) {
-            targetIndex = currentSectionIndex - 1;
-        } else if (velocity < 0 && currentSectionIndex < sections.length - 1) {
-            targetIndex = currentSectionIndex + 1;
-        }
-    }
+    // Re-enable transitions
+    sectionsWrapper.classList.remove('no-transition');
+    sections.forEach(section => section.classList.remove('no-transition'));
     
-    // Snap to target section
-    slideToSection(targetIndex, diff > 0 ? 'right' : 'left');
+    // Smooth snap to target section
+    smoothSnapToSection(targetIndex);
     
-    // Hide progress bar
-    document.querySelector('.swipe-progress').style.width = '0%';
+    sectionsContainer.style.cursor = '';
 }
 
-// Slide to specific section
-function slideToSection(targetIndex, direction) {
+// Smooth snap to section
+function smoothSnapToSection(targetIndex) {
     if (isScrolling || targetIndex < 0 || targetIndex >= sections.length) return;
     
     isScrolling = true;
     
-    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
-    
     // Animate to target position
-    sectionsWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     sectionsWrapper.style.transform = `translateX(-${targetIndex * 100}%)`;
     
     // Update current index and activate section
     currentSectionIndex = targetIndex;
     setActiveSection(sections[targetIndex].id);
     
-    // Reset wrapper transition after animation
+    // Reset after animation
     setTimeout(() => {
-        sectionsWrapper.style.transition = '';
         isScrolling = false;
-    }, 600);
+        currentTranslate = -targetIndex * 100;
+        prevTranslate = currentTranslate;
+    }, 500);
 }
 
 // Initialize sections
 function initializeSections() {
-    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
     sectionsWrapper.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
-    
     setActiveSection(sections[currentSectionIndex].id);
 }
 
@@ -524,6 +405,8 @@ function setActiveSection(sectionId) {
     // Remove active class from all sections
     sections.forEach(section => {
         section.classList.remove('active', 'prev', 'next');
+        section.style.opacity = '';
+        section.style.transform = '';
     });
 
     // Add active class to target section
@@ -544,7 +427,6 @@ function setActiveSection(sectionId) {
     // Update navigation
     updateNavDots(sectionId);
     updateSidebarLinks(sectionId);
-    updateSwipeIndicators();
 
     // Refresh AOS animations
     AOS.refresh();
@@ -599,7 +481,7 @@ function animateCardsInSection(section) {
         
         setTimeout(() => {
             card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
-        }, index * 150);
+        }, index * 100);
     });
     
     // Animate mobile profile if exists
@@ -608,7 +490,7 @@ function animateCardsInSection(section) {
         void profile.offsetWidth;
         setTimeout(() => {
             profile.classList.add('profile-slide-in');
-        }, 300);
+        }, 200);
     }
 }
 
@@ -623,8 +505,7 @@ function scrollToSection(sectionId) {
     if (!targetSection) return;
     
     const targetIndex = Array.from(sections).indexOf(targetSection);
-    const direction = targetIndex > currentSectionIndex ? 'right' : 'left';
-    slideToSection(targetIndex, direction);
+    smoothSnapToSection(targetIndex);
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -662,7 +543,7 @@ window.addEventListener('load', function () {
 });
 
 // Rest of your existing code remains the same...
-// [Keep all the existing code for navbar, sidebar, modals, mouse wheel, keyboard navigation, etc.]
+// [Keep all the existing code for navbar, sidebar, modals, etc.]
 
 // Navbar scroll effect (desktop only)
 window.addEventListener('scroll', function () {
@@ -705,7 +586,7 @@ if (overlay) {
 if (scrollTop) {
     scrollTop.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        slideToSection(0);
+        smoothSnapToSection(0);
     });
 }
 
@@ -739,14 +620,14 @@ document.addEventListener('wheel', function (e) {
     const isScrollingDown = e.deltaY > 0;
 
     if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        slideToSection(currentSectionIndex + 1, 'right');
+        smoothSnapToSection(currentSectionIndex + 1);
     } else if (!isScrollingDown && currentSectionIndex > 0) {
-        slideToSection(currentSectionIndex - 1, 'left');
+        smoothSnapToSection(currentSectionIndex - 1);
     }
 
     setTimeout(() => {
         isScrolling = false;
-    }, 800);
+    }, 600);
 }, { passive: false });
 
 // Enhanced keyboard navigation
@@ -756,19 +637,19 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentSectionIndex < sections.length - 1) {
-            slideToSection(currentSectionIndex + 1, 'right');
+            smoothSnapToSection(currentSectionIndex + 1);
         }
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentSectionIndex > 0) {
-            slideToSection(currentSectionIndex - 1, 'left');
+            smoothSnapToSection(currentSectionIndex - 1);
         }
     } else if (e.key === 'Home') {
         e.preventDefault();
-        slideToSection(0);
+        smoothSnapToSection(0);
     } else if (e.key === 'End') {
         e.preventDefault();
-        slideToSection(sections.length - 1);
+        smoothSnapToSection(sections.length - 1);
     }
 });
 
@@ -872,4 +753,3 @@ if (closeSidebarBtn) {
         closeSidebar();
     });
 }
-
