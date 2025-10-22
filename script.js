@@ -569,10 +569,72 @@ window.addEventListener('load', function () {
     }, 1000);
 });
 
-// Rest of the code remains the same (navbar, sidebar, modals, etc.)
-// ... [Keep all the existing code for navbar, sidebar, modals, etc.]
+// Navbar scroll effect (desktop only)
+window.addEventListener('scroll', function () {
+    if (isMobile()) return;
+    
+    if (window.pageYOffset > 50) {
+        navbar.classList.add('navbar-scrolled');
+        navContent.classList.remove('mt-6');
+        navContent.classList.remove('mx-5');
+    } else {
+        navbar.classList.remove('navbar-scrolled');
+        navContent.classList.add('mt-6');
+        navContent.classList.add('mx-5');
+    }
 
-// Mouse wheel navigation for desktop
+    // Scroll to top button
+    if (window.pageYOffset > 300) {
+        scrollTop.classList.add('active');
+    } else {
+        scrollTop.classList.remove('active');
+    }
+});
+
+// Sidebar toggle
+if (hamburger) {
+    hamburger.addEventListener('click', function () {
+        sidebar.style.right = '0';
+        overlay.style.opacity = '1';
+        overlay.style.visibility = 'visible';
+    });
+}
+
+if (overlay) {
+    overlay.addEventListener('click', function () {
+        sidebar.style.right = '-420px';
+        overlay.style.opacity = '0';
+        overlay.style.visibility = 'hidden';
+    });
+}
+
+// Scroll to top functionality
+if (scrollTop) {
+    scrollTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothScrollToIndex(0);
+    });
+}
+
+// Text rotation animation
+let currentTextIndex = 0;
+
+function rotateText() {
+    if (fadeTexts.length > 0) {
+        fadeTexts.forEach(text => {
+            text.classList.remove('active');
+        });
+        fadeTexts[currentTextIndex].classList.add('active');
+        currentTextIndex = (currentTextIndex + 1) % fadeTexts.length;
+    }
+}
+
+// Initialize text rotation
+if (fadeTexts.length > 0) {
+    setInterval(rotateText, 3000);
+}
+
+// Mouse wheel navigation for desktop - ADDED BACK
 document.addEventListener('wheel', function (e) {
     if (isMobile()) return;
 
@@ -734,4 +796,27 @@ if (closeSidebar) {
     });
 }
 
-console.log('JavaScript loaded successfully with desktop-like slide transitions!');
+// Initialize animations for elements
+window.addEventListener('load', function () {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.project-card, .glass-effect').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+});
