@@ -1165,57 +1165,60 @@
             </div>
 
             <!-- Content -->
-            <div class="container max-w-7xl mx-auto px-3 sm:px-4 pt-20 sm:pt-24 pb-6 lg:py-12 h-full flex items-center relative z-10"
-                style="
-    margin-top: 0;
-">
+            <div
+                class="container max-w-7xl mx-auto px-3 sm:px-4 pt-20 sm:pt-24 pb-6 lg:py-12 h-full flex items-center relative z-10">
                 <div class="w-full">
                     <!-- Header Section -->
-                    <div class="text-center mb-4 sm:mb-6 lg:mb-8 aos-init aos-animate" data-aos="custom-fade-up"
-                        data-aos-duration="800">
-                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2 font-bold text-white">Our Story &amp;
+                    <div class="text-center mb-4 sm:mb-6 lg:mb-8">
+                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2 font-bold text-white">Our Story &
                             Values</h2>
                         <p class="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl mx-auto px-2">
-                            Founded in 2016 by Johnson Jimmy Sangu, we've been at the forefront of visual storytelling
-                            in Tanzania.
+                            Founded in 2016, we lead visual storytelling in Tanzania with passion and innovation.
                         </p>
                     </div>
 
                     <!-- Mobile Tabs -->
                     <div class="lg:hidden">
-                        <!-- Tab Headers -->
+                        <!-- Tab Headers with Navigation Indicators -->
                         <div class="flex border-b border-white/20 mb-3 sm:mb-4">
                             <button
-                                class="tab-button active flex-1 py-2 px-1 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300"
+                                class="tab-button active flex-1 py-3 px-1 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300 relative"
                                 data-tab="story">
                                 <div class="flex flex-col items-center">
                                     <i class="fas fa-history text-sm sm:text-base mb-1"></i>
                                     <span class="text-xs">Our Story</span>
                                 </div>
+                                <!-- Navigation Indicator -->
+                                <div
+                                    class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-accent-yellow text-xs animate-bounce">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
                             </button>
                             <button
-                                class="tab-button flex-1 py-2 px-1 text-center font-semibold text-slate-400 transition-all duration-300"
+                                class="tab-button flex-1 py-3 px-1 text-center font-semibold text-slate-400 transition-all duration-300 relative"
                                 data-tab="values">
                                 <div class="flex flex-col items-center">
                                     <i class="fas fa-star text-sm sm:text-base mb-1"></i>
                                     <span class="text-xs">Our Values</span>
+                                </div>
+                                <!-- Navigation Indicator -->
+                                <div
+                                    class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-slate-400 text-xs opacity-0">
+                                    <i class="fas fa-chevron-down"></i>
                                 </div>
                             </button>
                         </div>
 
                         <!-- Tab Content -->
                         <div class="tab-content active" id="story-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10 aos-init aos-animate"
-                                data-aos="custom-fade-up" data-aos-duration="800"
-                                style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10">
                                 <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-2 font-semibold">Our
                                     Journey</h3>
                                 <div class="space-y-2 text-xs sm:text-sm text-slate-300">
-                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
-                                        production services, Johnson Jimmy Sangu created a company that would set new
-                                        standards in the industry.</p>
-                                    <p>Since 2016, AMIJOJI COMPANY LIMITED has grown in reputation and expertise,
-                                        earning a strong presence in Tanzania's production industry.</p>
+                                    <p>Founded by Johnson Jimmy Sangu, we set new standards in production services
+                                        through visual storytelling excellence.</p>
+                                    <p>Since 2016, we've built a strong reputation as Tanzania's leading production
+                                        company.</p>
                                 </div>
 
                                 <!-- Stats Grid for Mobile -->
@@ -1249,70 +1252,56 @@
                         </div>
 
                         <div class="tab-content hidden" id="values-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10 aos-init aos-animate"
-                                data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10">
                                 <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-3 font-semibold">Our
-                                    Core Values
-                                </h3>
-                                <div class="space-y-2 sm:space-y-3">
-                                    <!-- Creativity -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
+                                    Values</h3>
+                                <div class="space-y-2">
+                                    <!-- Reduced size value items -->
+                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
                                         <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">95%</span>
+                                            <h4 class="text-xs font-semibold text-white">Creativity</h4>
+                                            <span class="text-accent-yellow font-bold text-xs">95%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Pushing boundaries in visual
-                                            storytelling.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <p class="text-xs text-slate-300 mb-1">Pushing storytelling boundaries</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="95%" style="width: 95%;"></div>
+                                                data-width="95%"></div>
                                         </div>
                                     </div>
 
-                                    <!-- Excellence -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
+                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
                                         <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">90%</span>
+                                            <h4 class="text-xs font-semibold text-white">Excellence</h4>
+                                            <span class="text-accent-yellow font-bold text-xs">90%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Highest standards of quality in all work.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <p class="text-xs text-slate-300 mb-1">Highest quality standards</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="90%" style="width: 90%;"></div>
+                                                data-width="90%"></div>
                                         </div>
                                     </div>
 
-                                    <!-- Collaboration -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
+                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
                                         <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">92%</span>
+                                            <h4 class="text-xs font-semibold text-white">Collaboration</h4>
+                                            <span class="text-accent-yellow font-bold text-xs">92%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Achieving best results through teamwork.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <p class="text-xs text-slate-300 mb-1">Teamwork for best results</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="92%" style="width: 92%;"></div>
+                                                data-width="92%"></div>
                                         </div>
                                     </div>
 
-                                    <!-- Innovation -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
+                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
                                         <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">88%</span>
+                                            <h4 class="text-xs font-semibold text-white">Innovation</h4>
+                                            <span class="text-accent-yellow font-bold text-xs">88%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Embracing latest trends and technologies.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                        <p class="text-xs text-slate-300 mb-1">Embracing new technologies</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="88%" style="width: 88%;"></div>
+                                                data-width="88%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1323,20 +1312,16 @@
                     <!-- Desktop Layout -->
                     <div class="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8 items-start">
                         <!-- Story Section -->
-                        <div class="relative aos-init aos-animate" data-aos="custom-fade-right"
-                            data-aos-duration="1000">
-                            <div class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                        <div class="relative">
+                            <div
+                                class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full">
                                 <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 font-semibold">Our Journey</h3>
                                 <div class="space-y-3 text-sm xl:text-base text-slate-300">
-                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
-                                        production services, Johnson Jimmy Sangu created a company that would set new
-                                        standards in the industry.</p>
-                                    <p>Since 2016, AMIJOJI COMPANY LIMITED has grown in reputation and expertise,
-                                        earning a strong presence in Tanzania's production industry.</p>
-                                    <p>We've continuously evolved and adapted to the ever-changing landscape of
-                                        production, investing in state-of-the-art equipment and embracing emerging
-                                        technologies.</p>
+                                    <p>Founded by Johnson Jimmy Sangu, we've set new standards in production services
+                                        through exceptional visual storytelling.</p>
+                                    <p>Since 2016, we've grown into Tanzania's premier production company, known for
+                                        quality and innovation.</p>
+                                    <p>We continuously evolve with cutting-edge equipment and emerging technologies.</p>
                                 </div>
 
                                 <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4 mt-5 xl:mt-6">
@@ -1364,71 +1349,64 @@
                             </div>
                         </div>
 
-                        <!-- Values Section -->
-                        <div data-aos="custom-fade-left" data-aos-duration="1000" class="h-full aos-init aos-animate">
-                            <div class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 xl:mb-5 font-semibold">Our Core
-                                    Values</h3>
-                                <div class="space-y-4 xl:space-y-5">
+                        <!-- Values Section - Reduced Size -->
+                        <div class="h-full">
+                            <div
+                                class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full">
+                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 font-semibold">Our Values</h3>
+                                <div class="space-y-3">
                                     <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">95%</span>
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-base font-semibold text-white">Creativity</h4>
+                                            <span class="text-accent-yellow font-bold text-sm">95%</span>
                                         </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We foster a culture
-                                            of
-                                            creativity, constantly pushing boundaries and exploring new ways to tell
-                                            stories.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <p class="text-sm text-slate-300 mb-2">Pushing boundaries in visual
+                                            storytelling.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="95%" style="width: 95%;"></div>
+                                                data-width="95%"></div>
                                         </div>
                                     </div>
 
                                     <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">90%</span>
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-base font-semibold text-white">Excellence</h4>
+                                            <span class="text-accent-yellow font-bold text-sm">90%</span>
                                         </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We strive for
-                                            excellence in
-                                            every aspect of our work, ensuring the highest standards of quality.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <p class="text-sm text-slate-300 mb-2">Maintaining highest quality standards.
+                                        </p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="90%" style="width: 90%;"></div>
+                                                data-width="90%"></div>
                                         </div>
                                     </div>
 
                                     <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">92%</span>
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-base font-semibold text-white">Collaboration</h4>
+                                            <span class="text-accent-yellow font-bold text-sm">92%</span>
                                         </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We value
-                                            collaboration and
-                                            believe that the best results are achieved through teamwork.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <p class="text-sm text-slate-300 mb-2">Achieving excellence through teamwork.
+                                        </p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="92%" style="width: 92%;"></div>
+                                                data-width="92%"></div>
                                         </div>
                                     </div>
 
                                     <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">88%</span>
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-base font-semibold text-white">Innovation</h4>
+                                            <span class="text-accent-yellow font-bold text-sm">88%</span>
                                         </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We embrace
-                                            innovation and stay
-                                            updated with the latest trends and technologies.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                        <p class="text-sm text-slate-300 mb-2">Embracing latest technologies.</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
                                             <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="88%" style="width: 88%;"></div>
+                                                data-width="88%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1439,6 +1417,114 @@
             </div>
         </section>
 
+        <style>
+            /* Ensure full-screen background on mobile */
+            #about .absolute.inset-0 {
+                position: fixed !important;
+                height: 100vh !important;
+            }
+
+            #about .absolute.inset-0 img {
+                height: 100vh !important;
+                object-fit: cover !important;
+            }
+
+            /* Mobile navigation indicators */
+            .tab-button.active .fa-chevron-down {
+                animation: bounce 2s infinite;
+            }
+
+            @keyframes bounce {
+
+                0%,
+                20%,
+                50%,
+                80%,
+                100% {
+                    transform: translateY(0);
+                }
+
+                40% {
+                    transform: translateY(-5px);
+                }
+
+                60% {
+                    transform: translateY(-3px);
+                }
+            }
+
+            /* Reduced value section sizes */
+            .glass-effect-light {
+                padding: 0.5rem !important;
+            }
+
+            .skill-bar {
+                height: 0.5rem !important;
+            }
+
+            /* Mobile-specific adjustments */
+            @media (max-width: 1023px) {
+                #about .container {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .tab-button {
+                    position: relative;
+                }
+            }
+
+            /* Desktop adjustments */
+            @media (min-width: 1024px) {
+                #about .absolute.inset-0 {
+                    position: absolute !important;
+                    height: 100% !important;
+                }
+
+                #about .absolute.inset-0 img {
+                    height: 100% !important;
+                }
+            }
+        </style>
+
+        <script>
+            // Tab functionality for mobile
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const tabId = this.getAttribute('data-tab');
+
+                        // Update active tab button
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove('active', 'text-accent-yellow', 'border-accent-yellow');
+                            btn.classList.add('text-slate-400');
+                            // Hide all navigation indicators
+                            btn.querySelector('.fa-chevron-down').classList.add('opacity-0');
+                            btn.querySelector('.fa-chevron-down').classList.remove('animate-bounce');
+                        });
+
+                        this.classList.add('active', 'text-accent-yellow', 'border-accent-yellow');
+                        this.classList.remove('text-slate-400');
+                        // Show navigation indicator for active tab
+                        this.querySelector('.fa-chevron-down').classList.remove('opacity-0');
+                        this.querySelector('.fa-chevron-down').classList.add('animate-bounce');
+
+                        // Update active tab content
+                        tabContents.forEach(content => {
+                            content.classList.add('hidden');
+                            content.classList.remove('active');
+                        });
+
+                        document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                        document.getElementById(`${tabId}-tab`).classList.add('active');
+                    });
+                });
+            });
+        </script>
         <!-- Services Section -->
         <section id="services" class="section">
             <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
@@ -1707,311 +1793,128 @@
         </section>
 
         <!-- Live Recording Packages Section -->
-        <section id="packages" class="section relative next active">
+        <section id="packages" class="section relative">
             <!-- Background -->
             <div class="absolute inset-0 z-0">
-                <div class="w-full h-full relative">
-                    <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90">
-                    </div>
-                    <!-- Subtle pattern overlay -->
-                    <div class="absolute inset-0 opacity-5 bg-repeat"
-                        style="background-image: url('data:image/svg+xml,%3Csvg width=\" 20\" height=\"20\" viewBox=\"0
-                        0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"
-                        fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3Ccircle cx=\"13\" cy=\"13\"
-                        r=\"3\"/%3E%3C/g%3E%3C/svg%3E');"></div>
-                </div>
+                <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90"></div>
             </div>
 
             <!-- Content -->
-            <div class="container max-w-7xl mx-auto px-3 py-8 h-full flex items-center relative z-10">
+            <div class="container max-w-7xl mx-auto px-4 py-20 h-full flex items-center relative z-10">
                 <div class="w-full">
                     <!-- Section Header -->
-                    <div class="text-center mb-10 aos-init aos-animate" data-aos="custom-fade-up"
-                        data-aos-duration="800">
-                        <div
-                            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-yellow/20 mb-3">
-                            <i class="fas fa-camera text-accent-yellow text-sm"></i>
-                        </div>
-                        <h2
-                            class="text-xl font-bold mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-                            Live Recording Packages</h2>
-                        <p class="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">Professional video production
-                            for events, concerts & performances</p>
+                    <div class="text-center mb-12">
+                        <h2 class="text-2xl font-bold mb-3 text-white">Live Recording Packages</h2>
+                        <p class="text-sm text-slate-300">Professional video production for events & performances</p>
                     </div>
 
-                    <!-- Package Cards - Stacked for Mobile -->
-                    <div class="space-y-5 mb-10">
+                    <!-- Package Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                         <!-- Essential Package -->
-                        <div class="package-card glass-effect rounded-xl p-4 hover-lift transition-all duration-300 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate"
-                            data-aos="custom-fade-up" data-aos-duration="800">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <div class="flex items-center mb-1">
-                                        <div
-                                            class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center mr-2">
-                                            <i class="fas fa-play text-xs text-slate-400"></i>
-                                        </div>
-                                        <h3 class="text-base font-bold">Essential</h3>
-                                    </div>
-                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$3,800</div>
-                                </div>
-                                <span
-                                    class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
+                        <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-bold mb-2">Essential</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$3,800</div>
+                                <span class="text-sm text-slate-400">USD</span>
                             </div>
 
-                            <div class="package-features mb-4">
-                                <div class="space-y-3">
-                                    <div class="flex items-center bg-white/5 rounded-lg px-3 py-2">
-                                        <i class="fas fa-check text-accent-yellow text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">13 Camera Setup</span>
-                                    </div>
-                                    <div class="flex items-center bg-white/5 rounded-lg px-3 py-2">
-                                        <i class="fas fa-check text-accent-yellow text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">Professional Directing</span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-slate-800/50 rounded-lg px-3 py-2 border border-white/5">
-                                        <i class="fas fa-times text-slate-500 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs text-slate-500">No Post Production</span>
-                                    </div>
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                    <span class="text-sm">13 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                    <span class="text-sm">Professional Directing</span>
+                                </div>
+                                <div class="flex items-center opacity-60">
+                                    <i class="fas fa-times text-slate-500 mr-3"></i>
+                                    <span class="text-sm text-slate-500">No Post Production</span>
                                 </div>
                             </div>
 
                             <button onclick="openPackageModal('essential')"
-                                class="btn w-full bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                                <span class="group-hover:translate-x-1 transition-transform duration-300">Select
-                                    Essential</span>
+                                class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Essential
                             </button>
                         </div>
 
-                        <!-- Professional Package (Most Popular) -->
-                        <div class="package-card glass-effect rounded-xl p-4 border-2 border-accent-yellow relative hover-lift transition-all duration-300 shadow-2xl shadow-amber-500/10 aos-init aos-animate"
-                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="100">
+                        <!-- Professional Package -->
+                        <div
+                            class="package-card glass-effect rounded-xl p-6 border-2 border-accent-yellow relative transform scale-105">
                             <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                                <span
-                                    class="bg-gradient-to-r from-accent-yellow to-amber-500 text-dark-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg shadow-amber-500/30 flex items-center">
-                                    <i class="fas fa-crown mr-1 text-xs"></i>
+                                <span class="bg-accent-yellow text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
                                     Most Popular
                                 </span>
                             </div>
 
-                            <div class="flex justify-between items-start mb-4 mt-2">
-                                <div>
-                                    <div class="flex items-center mb-1">
-                                        <div
-                                            class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center mr-2">
-                                            <i class="fas fa-star text-xs text-amber-400"></i>
-                                        </div>
-                                        <h3 class="text-base font-bold">Professional</h3>
-                                    </div>
-                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$5,700</div>
-                                </div>
-                                <span
-                                    class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
+                            <div class="text-center mb-6 pt-2">
+                                <h3 class="text-lg font-bold mb-2">Professional</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$5,700</div>
+                                <span class="text-sm text-slate-400">USD</span>
                             </div>
 
-                            <div class="package-features mb-4">
-                                <div class="space-y-3">
-                                    <div
-                                        class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                        <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">22 Camera Setup</span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                        <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">Advanced Directing</span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                        <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">Basic Post Production</span>
-                                    </div>
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">22 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">Advanced Directing</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">Basic Post Production</span>
                                 </div>
                             </div>
 
                             <button onclick="openPackageModal('professional')"
-                                class="btn w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white py-3 rounded-xl font-semibold text-xs hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-amber-500/40 group">
-                                <span class="group-hover:scale-105 transition-transform duration-300">Select
-                                    Professional</span>
+                                class="btn w-full bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Professional
                             </button>
                         </div>
 
                         <!-- Premium Package -->
-                        <div class="package-card glass-effect rounded-xl p-4 hover-lift transition-all duration-300 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate"
-                            data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <div class="flex items-center mb-1">
-                                        <div
-                                            class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mr-2">
-                                            <i class="fas fa-gem text-xs text-purple-400"></i>
-                                        </div>
-                                        <h3 class="text-base font-bold">Premium</h3>
-                                    </div>
-                                    <div class="price text-2xl font-bold text-accent-yellow mt-1">$7,600</div>
-                                </div>
-                                <span
-                                    class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
+                        <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-bold mb-2">Premium</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$7,600</div>
+                                <span class="text-sm text-slate-400">USD</span>
                             </div>
 
-                            <div class="package-features mb-4">
-                                <div class="space-y-3">
-                                    <div
-                                        class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                        <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">22 Camera Setup</span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                        <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">Premium Directing</span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                        <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                        <span class="text-xs font-medium">Full Post Production</span>
-                                    </div>
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">22 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">Premium Directing</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">Full Post Production</span>
                                 </div>
                             </div>
 
                             <button onclick="openPackageModal('premium')"
-                                class="btn w-full bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                                <span class="group-hover:translate-x-1 transition-transform duration-300">Select
-                                    Premium</span>
+                                class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Premium
                             </button>
                         </div>
                     </div>
 
-                    <!-- Quick Comparison for Mobile -->
-                    <div class="glass-effect rounded-xl p-4 mb-10 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate"
-                        data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="300">
-                        <h3 class="text-sm font-bold mb-4 text-center flex items-center justify-center">
-                            <i class="fas fa-chart-bar mr-2 text-accent-yellow text-xs"></i>
-                            Package Comparison
-                        </h3>
-                        <div class="space-y-4">
-                            <!-- Cameras Row -->
-                            <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                                <span class="text-xs text-slate-300 font-medium flex items-center">
-                                    <i class="fas fa-camera mr-2 text-slate-400"></i>
-                                    Cameras
-                                </span>
-                                <div class="flex space-x-2">
-                                    <span class="text-xs bg-slate-700 text-slate-300 px-2 py-1 rounded">13</span>
-                                    <span
-                                        class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded font-bold">22</span>
-                                    <span
-                                        class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded font-bold">22</span>
-                                </div>
-                            </div>
-                            <!-- Directing Row -->
-                            <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                                <span class="text-xs text-slate-300 font-medium flex items-center">
-                                    <i class="fas fa-video mr-2 text-slate-400"></i>
-                                    Directing
-                                </span>
-                                <div class="flex space-x-2">
-                                    <span class="text-xs text-slate-400">Basic</span>
-                                    <span class="text-xs text-amber-400 font-bold">Advanced</span>
-                                    <span class="text-xs text-purple-400 font-bold">Premium</span>
-                                </div>
-                            </div>
-                            <!-- Post Production Row -->
-                            <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                                <span class="text-xs text-slate-300 font-medium flex items-center">
-                                    <i class="fas fa-edit mr-2 text-slate-400"></i>
-                                    Post Production
-                                </span>
-                                <div class="flex space-x-2">
-                                    <i class="fas fa-times text-red-400 text-xs"></i>
-                                    <i class="fas fa-check text-green-400 text-xs"></i>
-                                    <i class="fas fa-check text-green-400 text-xs"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Services -->
-                    <div class="glass-effect rounded-xl p-4 mb-10 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate"
-                        data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="400">
-                        <div class="text-center mb-5">
-                            <h3 class="text-sm font-bold mb-2 flex items-center justify-center">
-                                <i class="fas fa-plus-circle mr-2 text-accent-yellow text-xs"></i>
-                                Add-On Services
-                            </h3>
-                            <p class="text-xs text-slate-400">Enhance your recording with premium add-ons</p>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div
-                                class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                                <div
-                                    class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                                <h4 class="font-semibold text-xs mb-1">Video Editing</h4>
-                                <p class="text-slate-400 text-xs">Professional editing</p>
-                            </div>
-
-                            <div
-                                class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                                <div
-                                    class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-sm text-accent-indigo mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-palette"></i>
-                                </div>
-                                <h4 class="font-semibold text-xs mb-1">Color Grading</h4>
-                                <p class="text-slate-400 text-xs">Cinematic colors</p>
-                            </div>
-
-                            <div
-                                class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                                <div
-                                    class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-sm text-accent-yellow mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-film"></i>
-                                </div>
-                                <h4 class="font-semibold text-xs mb-1">Graphics & Titles</h4>
-                                <p class="text-slate-400 text-xs">Custom animations</p>
-                            </div>
-
-                            <div
-                                class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                                <div
-                                    class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-music"></i>
-                                </div>
-                                <h4 class="font-semibold text-xs mb-1">Per Song</h4>
-                                <div class="price text-sm font-bold text-accent-yellow my-1">$115</div>
-                                <p class="text-slate-400 text-xs">Full production</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- CTA Section -->
-                    <div class="text-center aos-init" data-aos="custom-fade-up" data-aos-duration="800"
-                        data-aos-delay="500">
-                        <div class="glass-effect rounded-xl p-5 border border-white/5 shadow-lg shadow-black/10">
-                            <h3 class="text-sm font-bold mb-3 flex items-center justify-center">
-                                <i class="fas fa-rocket mr-2 text-accent-yellow text-xs"></i>
-                                Ready to Get Started?
-                            </h3>
-                            <p class="text-xs text-slate-400 mb-5 max-w-xs mx-auto leading-relaxed">Contact us for
-                                custom packages tailored to your specific needs and budget</p>
-                            <div class="flex flex-col gap-3">
-                                <button onclick="scrollToSection('contact')"
-                                    class="btn bg-gradient-to-r from-accent-indigo to-accent-purple text-white py-3 px-6 rounded-xl font-semibold text-xs hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-indigo-500/30 group">
-                                    <i
-                                        class="fas fa-envelope mr-2 group-hover:scale-110 transition-transform duration-300"></i>
-                                    Get Custom Quote
-                                </button>
-                                <button onclick="openVideoModal()"
-                                    class="btn bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 px-6 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                                    <i
-                                        class="fas fa-play-circle mr-2 group-hover:scale-110 transition-transform duration-300"></i>
-                                    View Sample Work
-                                </button>
-                            </div>
+                    <div class="text-center max-w-md mx-auto">
+                        <div class="glass-effect rounded-xl p-6 border border-white/10">
+                            <h3 class="text-lg font-bold mb-3">Custom Package?</h3>
+                            <p class="text-sm text-slate-400 mb-6">Tailored solutions for your specific needs</p>
+                            <button onclick="scrollToSection('contact')"
+                                class="btn bg-gradient-to-r from-accent-indigo to-accent-purple hover:from-purple-600 hover:to-indigo-600 text-white py-3 px-8 rounded-lg font-semibold transition-all duration-300 w-full">
+                                Get Custom Quote
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -2019,237 +1922,61 @@
         </section>
 
         <style>
-            /* Enhanced base styles optimized for 320px screens */
-            .container {
-                margin-top: 0 !important;
+            /* Fix layout and spacing */
+            #packages {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
             }
 
-            /* Enhanced package card styling */
+            #packages .container {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
+
             .package-card {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-                backdrop-filter: blur(12px);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
             }
 
             .package-card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                border-color: rgba(255, 255, 255, 0.2);
             }
 
-            .hover-lift:hover {
-                transform: translateY(-3px);
+            .package-card.transform {
+                transform: scale(1.05);
             }
 
-            /* Enhanced glass effect */
-            .glass-effect {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-                backdrop-filter: blur(16px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            /* Enhanced text sizes and spacing */
-            .text-xs {
-                font-size: 0.7rem;
-                line-height: 1.2;
-            }
-
-            .text-sm {
-                font-size: 0.8rem;
-                line-height: 1.3;
-            }
-
-            .text-base {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-
-            .text-xl {
-                font-size: 1.1rem;
-                line-height: 1.3;
-            }
-
-            .text-2xl {
-                font-size: 1.4rem;
-                line-height: 1.2;
-            }
-
-            /* Enhanced button styling */
             .btn {
-                font-size: 0.7rem;
-                padding: 0.75rem 1rem;
-                font-weight: 600;
                 transition: all 0.3s ease;
             }
 
-            /* Enhanced spacing system */
-            .space-y-3>*+* {
-                margin-top: 0.75rem;
+            .btn:hover {
+                transform: translateY(-2px);
             }
 
-            .space-y-4>*+* {
-                margin-top: 1rem;
-            }
-
-            .space-y-5>*+* {
-                margin-top: 1.25rem;
-            }
-
-            /* Enhanced padding system */
-            .p-3 {
-                padding: 0.75rem;
-            }
-
-            .p-4 {
-                padding: 1rem;
-            }
-
-            .p-5 {
-                padding: 1.25rem;
-            }
-
-            /* Enhanced margin system */
-            .mb-4 {
-                margin-bottom: 1rem;
-            }
-
-            .mb-5 {
-                margin-bottom: 1.25rem;
-            }
-
-            .mb-10 {
-                margin-bottom: 2.5rem;
-            }
-
-            /* Enhanced rounded corners */
-            .rounded-xl {
-                border-radius: 0.75rem;
-            }
-
-            /* Enhanced shadows */
-            .shadow-lg {
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            }
-
-            .shadow-2xl {
-                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            }
-
-            /* Enhanced gradients */
-            .bg-gradient-to-r {
-                background-size: 200% 200%;
-                background-position: 0% 0%;
-                transition: background-position 0.5s ease;
-            }
-
-            .bg-gradient-to-r:hover {
-                background-position: 100% 100%;
-            }
-
-            /* Enhanced responsive adjustments */
-            @media (min-width: 375px) {
-                .container {
-                    padding-left: 1rem;
-                    padding-right: 1rem;
-                }
-            }
-
-            @media (min-width: 640px) {
-                .container {
-                    padding-left: 1.5rem;
-                    padding-right: 1.5rem;
-                }
-
-                .text-xs {
-                    font-size: 0.75rem;
-                }
-
-                .text-sm {
-                    font-size: 0.875rem;
-                }
-
-                .text-base {
-                    font-size: 1rem;
-                }
-
-                .text-xl {
-                    font-size: 1.25rem;
-                }
-
-                .text-2xl {
-                    font-size: 1.5rem;
-                }
-            }
-
-            @media (min-width: 768px) {
+            /* Responsive adjustments */
+            @media (max-width: 767px) {
                 #packages .container {
-                    padding-top: 4rem;
-                    padding-bottom: 4rem;
+                    padding-top: 4rem !important;
                 }
 
-                /* Switch to grid layout for tablets and up */
-                .space-y-5 {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 1.5rem;
-                    space-y: 0;
+                .package-card.transform {
+                    transform: none;
                 }
 
-                .package-card {
-                    padding: 1.5rem;
-                }
-            }
-
-            @media (min-width: 1024px) {
-                #packages .container {
-                    padding-top: 6rem;
-                    padding-bottom: 6rem;
-                }
-
-                .package-card {
-                    padding: 2rem;
-                }
-
-                .space-y-5 {
+                .grid-cols-1 {
                     gap: 2rem;
                 }
             }
 
-            /* Enhanced animations */
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
+            @media (min-width: 768px) and (max-width: 1023px) {
+                .package-card {
+                    padding: 1.5rem;
                 }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .aos-init {
-                animation: fadeInUp 0.8s ease-out;
-            }
-
-            /* Enhanced focus states for accessibility */
-            button:focus {
-                outline: 2px solid #f59e0b;
-                outline-offset: 2px;
-            }
-
-            /* Enhanced loading states */
-            .btn:active {
-                transform: scale(0.98);
-            }
-
-            /* Enhanced icon animations */
-            .group:hover .group-hover\:scale-110 {
-                transform: scale(1.1);
-            }
-
-            .group:hover .group-hover\:translate-x-1 {
-                transform: translateX(0.25rem);
             }
         </style>
         <script>
