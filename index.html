@@ -1399,15 +1399,6 @@
                     </div>
                 </div>
             </div>
-
-            <style>
-                /* Add this CSS to make the margin-top responsive */
-                @media (max-width: 500px) {
-                    .container.max-w-7xl.mx-auto {
-                        margin-top: 70% !important;
-                    }
-                }
-            </style>
         </section>
 
         <!-- Services Section -->
@@ -1678,8 +1669,6 @@
         </section>
 
         <!-- Live Recording Packages Section -->
-        <!-- Live Recording Packages Section -->
-        <!-- Live Recording Packages Section -->
         <section id="packages" class="section relative next active">
     <!-- Background -->
     <div class="absolute inset-0 z-0">
@@ -1944,13 +1933,6 @@
 /* Enhanced base styles optimized for 320px screens */
 .container {
     margin-top: 0 !important;
-}
-
-/* Increased margin-top for screens under 500px */
-@media (max-width: 500px) {
-    .container.max-w-7xl.mx-auto {
-        margin-top: 600px !important;
-    }
 }
 
 /* Enhanced package card styling */
@@ -2928,7 +2910,6 @@ button:focus {
         </div>
     </div>
     <!-- Package Details Modal -->
-    <!-- Package Details Modal -->
     <div id="packageModal" class="video-modal fixed inset-0 z-50 hidden">
         <div class="modal-overlay absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
 
@@ -3012,6 +2993,26 @@ button:focus {
     <script>
         // Initialize AOS
         document.addEventListener('DOMContentLoaded', function () {
+            // ===== NAVBAR SPACING FIX =====
+            function updateSectionSpacing() {
+                const navbar = document.getElementById('navContent');
+                if (navbar) {
+                    const navbarHeight = navbar.offsetHeight + 20;
+                    const sections = document.querySelectorAll('.section');
+                    
+                    sections.forEach(section => {
+                        section.style.paddingTop = `${navbarHeight}px`;
+                        section.style.minHeight = `calc(100vh - ${navbarHeight}px)`;
+                    });
+                }
+            }
+
+            // Update spacing
+            updateSectionSpacing();
+            window.addEventListener('resize', updateSectionSpacing);
+            setTimeout(updateSectionSpacing, 1000);
+            // ===== END NAVBAR SPACING FIX =====
+
             if (typeof AOS !== 'undefined') {
                 AOS.init({
                     duration: 800,
