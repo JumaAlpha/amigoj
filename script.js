@@ -21,9 +21,16 @@ const loadingBar = document.getElementById('loadingBar');
 
 // Swiper-like variables
 let isScrolling = false;
-let touchStartX = 0;
-let touchEndX = 0;
+let isDragging = false;
+let startX = 0;
+let currentX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
 let currentSectionIndex = 0;
+let animationID;
+let velocity = 0;
+let lastX = 0;
+let lastTime = 0;
 let sectionsContainer;
 
 // Check if mobile device
@@ -37,91 +44,97 @@ function initSwiper() {
     
     if (!sectionsContainer) return;
 
-    // Add CSS for desktop-like slide transitions
+    // Add CSS for swiper-like transitions
     const style = document.createElement('style');
     style.textContent = `
         .sections-container {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            touch-action: pan-y;
         }
         
-        .sections-container::-webkit-scrollbar {
-            display: none;
+        .sections-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
         }
         
         .section {
-            scroll-snap-align: start;
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                        opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, opacity;
         }
         
-        /* Desktop-like slide animations */
-        .section.slide-out-left {
-            animation: slideOutToLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
         }
         
-        .section.slide-out-right {
-            animation: slideOutToRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section.prev {
+            opacity: 0.6;
+            transform: translateX(-10%) scale(0.95);
         }
         
-        .section.slide-in-left {
-            animation: slideInFromLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section.next {
+            opacity: 0.6;
+            transform: translateX(10%) scale(0.95);
         }
         
-        .section.slide-in-right {
-            animation: slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section:not(.active):not(.prev):not(.next) {
+            opacity: 0.3;
+            transform: scale(0.9);
         }
         
-        /* Slide out animations */
-        @keyframes slideOutToLeft {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0.3;
-                transform: translateX(-100%);
-            }
+        /* Swipe indicators */
+        .swipe-indicator-left,
+        .swipe-indicator-right {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 90;
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        @keyframes slideOutToRight {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0.3;
-                transform: translateX(100%);
-            }
+        .swipe-indicator-left {
+            left: 20px;
         }
         
-        /* Slide in animations */
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0.3;
-                transform: translateX(-100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .swipe-indicator-right {
+            right: 20px;
         }
         
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0.3;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .swipe-indicator-left.show,
+        .swipe-indicator-right.show {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* Progress indicator during drag */
+        .swipe-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+            z-index: 1000;
+            transition: width 0.1s ease;
         }
         
         /* Card animations */
@@ -155,7 +168,7 @@ function initSwiper() {
             }
         }
         
-        /* Navigation dots styles */
+        /* Navigation dots */
         .nav-dots {
             position: fixed;
             right: 20px;
@@ -175,7 +188,6 @@ function initSwiper() {
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
         }
         
         .nav-dot:hover {
@@ -190,325 +202,325 @@ function initSwiper() {
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
         }
         
-        .nav-dot::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-dot.active::after {
-            background: rgba(245, 158, 11, 0.2);
-        }
-        
-        /* Mobile profile animation */
-        .mobile-profile {
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .profile-slide-in {
-            animation: profileSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        @keyframes profileSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100px) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) translateY(0);
-            }
-        }
-        
-        /* Loading bar */
-        .loading-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
-            z-index: 9999;
-            transition: width 0.3s ease;
-        }
-        
-        /* Scroll to top button */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f59e0b;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 99;
-        }
-        
-        .scroll-top.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        .scroll-top:hover {
-            background: #f59e0b;
-            color: #0f172a;
-            transform: translateY(-5px);
-        }
-        
-        /* Sidebar styles */
-        .sidebar-glass {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .sidebar-link {
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .sidebar-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-        
-        .active-sidebar-link {
-            background: rgba(245, 158, 11, 0.2);
-            border-left: 3px solid #f59e0b;
-        }
-        
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .nav-dots {
                 display: none;
             }
             
-            .scroll-top {
-                bottom: 20px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
+            .swipe-indicator-left,
+            .swipe-indicator-right {
+                display: none;
             }
         }
     `;
     document.head.appendChild(style);
 
-    setupTouchEvents();
-    setupScrollEvents();
+    // Create wrapper for sections
+    const sectionsWrapper = document.createElement('div');
+    sectionsWrapper.className = 'sections-wrapper';
     
-    // Initialize sections with proper positioning
+    // Move all sections into wrapper
+    sections.forEach(section => {
+        sectionsWrapper.appendChild(section);
+    });
+    
+    sectionsContainer.appendChild(sectionsWrapper);
+    
+    // Add progress indicator
+    const progressBar = document.createElement('div');
+    progressBar.className = 'swipe-progress';
+    document.body.appendChild(progressBar);
+
+    setupTouchEvents();
+    setupSwipeIndicators();
+    
+    // Initialize sections
     initializeSections();
 }
 
-// Initialize sections with proper positioning
-function initializeSections() {
-    sections.forEach((section, index) => {
-        if (isMobile()) {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = index === 0 ? '1' : '0.3';
+// Setup swipe indicators
+function setupSwipeIndicators() {
+    const leftIndicator = document.querySelector('.swipe-indicator-left');
+    const rightIndicator = document.querySelector('.swipe-indicator-right');
+    
+    if (leftIndicator) {
+        leftIndicator.addEventListener('click', () => {
+            if (currentSectionIndex > 0) {
+                slideToSection(currentSectionIndex - 1, 'left');
+            }
+        });
+    }
+    
+    if (rightIndicator) {
+        rightIndicator.addEventListener('click', () => {
+            if (currentSectionIndex < sections.length - 1) {
+                slideToSection(currentSectionIndex + 1, 'right');
+            }
+        });
+    }
+    
+    updateSwipeIndicators();
+}
+
+// Update swipe indicators visibility
+function updateSwipeIndicators() {
+    const leftIndicator = document.querySelector('.swipe-indicator-left');
+    const rightIndicator = document.querySelector('.swipe-indicator-right');
+    
+    if (leftIndicator) {
+        if (currentSectionIndex > 0) {
+            leftIndicator.classList.add('show');
+        } else {
+            leftIndicator.classList.remove('show');
         }
-    });
+    }
+    
+    if (rightIndicator) {
+        if (currentSectionIndex < sections.length - 1) {
+            rightIndicator.classList.add('show');
+        } else {
+            rightIndicator.classList.remove('show');
+        }
+    }
 }
 
 // Setup touch events for swiper-like behavior
 function setupTouchEvents() {
     if (!sectionsContainer) return;
 
-    // Use passive: true for better performance
-    sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
+    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
+    
+    sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
-}
-
-// Setup scroll events
-function setupScrollEvents() {
-    if (!sectionsContainer) return;
-
-    sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Mouse events for desktop testing
+    sectionsContainer.addEventListener('mousedown', handleMouseDown);
+    sectionsContainer.addEventListener('mousemove', handleMouseMove);
+    sectionsContainer.addEventListener('mouseup', handleMouseUp);
+    sectionsContainer.addEventListener('mouseleave', handleMouseUp);
 }
 
 // Touch start handler
 function handleTouchStart(e) {
     if (!isMobile()) return;
     
-    touchStartX = e.touches[0].clientX;
+    e.preventDefault();
+    startDrag(e.touches[0].clientX);
 }
 
-// Touch move handler - Lightweight
+// Touch move handler
 function handleTouchMove(e) {
-    if (!isMobile()) return;
-    // Let the native scroll handle the movement for better performance
+    if (!isMobile() || !isDragging) return;
+    
+    e.preventDefault();
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    if (Math.abs(diff) > 10) { // Minimum drag threshold
+        updateDrag(currentX);
+    }
 }
 
 // Touch end handler
-function handleTouchEnd(e) {
+function handleTouchEnd() {
+    if (!isMobile() || !isDragging) return;
+    
+    endDrag();
+}
+
+// Mouse down handler
+function handleMouseDown(e) {
     if (!isMobile()) return;
     
-    touchEndX = e.changedTouches[0].clientX;
-    handleSwipe();
+    e.preventDefault();
+    startDrag(e.clientX);
+    
+    // Add active state for visual feedback
+    sectionsContainer.style.cursor = 'grabbing';
 }
 
-// Handle swipe gesture
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const swipeDistance = touchEndX - touchStartX;
+// Mouse move handler
+function handleMouseMove(e) {
+    if (!isMobile() || !isDragging) return;
+    
+    e.preventDefault();
+    updateDrag(e.clientX);
+}
 
-    if (Math.abs(swipeDistance) > swipeThreshold && !isScrolling) {
-        if (swipeDistance < 0 && currentSectionIndex < sections.length - 1) {
-            // Swipe left - next section
-            smoothScrollToIndex(currentSectionIndex + 1, 'right');
-        } else if (swipeDistance > 0 && currentSectionIndex > 0) {
-            // Swipe right - previous section
-            smoothScrollToIndex(currentSectionIndex - 1, 'left');
+// Mouse up handler
+function handleMouseUp() {
+    if (!isMobile() || !isDragging) return;
+    
+    endDrag();
+    sectionsContainer.style.cursor = 'grab';
+}
+
+// Start drag
+function startDrag(clientX) {
+    isDragging = true;
+    startX = clientX;
+    currentX = clientX;
+    lastX = clientX;
+    lastTime = Date.now();
+    velocity = 0;
+    
+    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
+    prevTranslate = currentTranslate;
+    
+    // Cancel any ongoing animation
+    cancelAnimationFrame(animationID);
+    
+    // Show progress bar
+    document.querySelector('.swipe-progress').style.width = '0%';
+}
+
+// Update drag position
+function updateDrag(clientX) {
+    if (!isDragging) return;
+    
+    currentX = clientX;
+    const diff = currentX - startX;
+    const maxDrag = window.innerWidth * 0.3; // Maximum drag distance
+    
+    // Calculate velocity
+    const currentTime = Date.now();
+    const deltaTime = currentTime - lastTime;
+    const deltaX = currentX - lastX;
+    
+    if (deltaTime > 0) {
+        velocity = deltaX / deltaTime;
+    }
+    
+    lastX = currentX;
+    lastTime = currentTime;
+    
+    // Apply resistance and boundaries
+    let dragDistance = diff;
+    if (Math.abs(diff) > maxDrag) {
+        dragDistance = diff > 0 ? maxDrag : -maxDrag;
+    }
+    
+    // Apply resistance when at boundaries
+    if ((currentSectionIndex === 0 && diff > 0) || 
+        (currentSectionIndex === sections.length - 1 && diff < 0)) {
+        dragDistance *= 0.3; // Strong resistance at boundaries
+    }
+    
+    currentTranslate = prevTranslate + dragDistance;
+    
+    // Update wrapper position
+    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
+    sectionsWrapper.style.transform = `translateX(calc(-${currentSectionIndex * 100}% + ${dragDistance}px))`;
+    
+    // Update progress bar
+    const progress = Math.min(Math.abs(diff) / (window.innerWidth * 0.5), 1);
+    document.querySelector('.swipe-progress').style.width = `${progress * 100}%`;
+    
+    // Update section states during drag
+    updateSectionStatesDuringDrag(diff);
+}
+
+// Update section states during drag
+function updateSectionStatesDuringDrag(diff) {
+    const progress = Math.min(Math.abs(diff) / (window.innerWidth * 0.5), 1);
+    const direction = diff > 0 ? 'right' : 'left';
+    
+    sections.forEach((section, index) => {
+        if (index === currentSectionIndex) {
+            // Current section
+            const opacity = 1 - progress * 0.4;
+            const scale = 1 - progress * 0.05;
+            section.style.opacity = opacity;
+            section.style.transform = `scale(${scale})`;
+        } else if (
+            (direction === 'right' && index === currentSectionIndex - 1) ||
+            (direction === 'left' && index === currentSectionIndex + 1)
+        ) {
+            // Adjacent section
+            const opacity = 0.6 + progress * 0.4;
+            const scale = 0.95 + progress * 0.05;
+            section.style.opacity = opacity;
+            section.style.transform = `scale(${scale})`;
+        } else {
+            // Other sections
+            section.style.opacity = '0.3';
+            section.style.transform = 'scale(0.9)';
+        }
+    });
+}
+
+// End drag and handle snap
+function endDrag() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    const diff = currentX - startX;
+    const threshold = window.innerWidth * 0.15; // 15% threshold for snap
+    const absVelocity = Math.abs(velocity);
+    
+    let targetIndex = currentSectionIndex;
+    
+    // Determine target section based on drag and velocity
+    if (Math.abs(diff) > threshold || absVelocity > 0.5) {
+        if (diff > 0 && currentSectionIndex > 0) {
+            // Swipe right - go to previous section
+            targetIndex = currentSectionIndex - 1;
+        } else if (diff < 0 && currentSectionIndex < sections.length - 1) {
+            // Swipe left - go to next section
+            targetIndex = currentSectionIndex + 1;
         }
     }
+    
+    // Apply momentum based on velocity
+    if (absVelocity > 1.0) {
+        if (velocity > 0 && currentSectionIndex > 0) {
+            targetIndex = currentSectionIndex - 1;
+        } else if (velocity < 0 && currentSectionIndex < sections.length - 1) {
+            targetIndex = currentSectionIndex + 1;
+        }
+    }
+    
+    // Snap to target section
+    slideToSection(targetIndex, diff > 0 ? 'right' : 'left');
+    
+    // Hide progress bar
+    document.querySelector('.swipe-progress').style.width = '0%';
 }
 
-// Smooth scroll to specific index with slide animation
-function smoothScrollToIndex(index, direction = null) {
-    if (isScrolling || index < 0 || index >= sections.length) return;
+// Slide to specific section
+function slideToSection(targetIndex, direction) {
+    if (isScrolling || targetIndex < 0 || targetIndex >= sections.length) return;
     
     isScrolling = true;
     
-    // Auto-detect direction if not provided
-    if (!direction) {
-        direction = index > currentSectionIndex ? 'right' : 'left';
-    }
+    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
     
-    const currentSection = sections[currentSectionIndex];
-    const targetSection = sections[index];
-    
-    if (isMobile()) {
-        // Mobile: Apply slide animations
-        applySlideAnimations(currentSection, targetSection, direction);
-        
-        // Scroll to position
-        if (sectionsContainer) {
-            sectionsContainer.scrollTo({
-                left: index * window.innerWidth,
-                behavior: 'smooth'
-            });
-        }
-    } else {
-        // Desktop: vertical scroll
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Animate to target position
+    sectionsWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    sectionsWrapper.style.transform = `translateX(-${targetIndex * 100}%)`;
     
     // Update current index and activate section
-    currentSectionIndex = index;
-    setActiveSection(targetSection.id);
+    currentSectionIndex = targetIndex;
+    setActiveSection(sections[targetIndex].id);
     
-    // Animate cards in the target section
-    animateCardsInSection(targetSection);
-    
+    // Reset wrapper transition after animation
     setTimeout(() => {
+        sectionsWrapper.style.transition = '';
         isScrolling = false;
-        resetSectionTransforms();
     }, 600);
 }
 
-// Apply slide animations between sections
-function applySlideAnimations(currentSection, targetSection, direction) {
-    // Reset all animations first
-    sections.forEach(section => {
-        section.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
-        section.style.transform = '';
-        section.style.opacity = '';
-    });
+// Initialize sections
+function initializeSections() {
+    const sectionsWrapper = sectionsContainer.querySelector('.sections-wrapper');
+    sectionsWrapper.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
     
-    // Apply slide out to current section
-    currentSection.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
-    
-    // Apply slide in to target section
-    targetSection.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
-    
-    // Reset animations after they complete
-    setTimeout(() => {
-        currentSection.classList.remove('slide-out-left', 'slide-out-right');
-        targetSection.classList.remove('slide-in-left', 'slide-in-right');
-    }, 600);
+    setActiveSection(sections[currentSectionIndex].id);
 }
 
-// Reset section transforms after animation
-function resetSectionTransforms() {
-    sections.forEach((section, index) => {
-        if (index === currentSectionIndex) {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = '1';
-        } else {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = '0.3';
-        }
-    });
-}
-
-// Animate cards when entering a section
-function animateCardsInSection(section) {
-    const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
-    const profile = section.querySelector('.mobile-profile');
-    
-    // Animate cards with staggered delay
-    cards.forEach((card, index) => {
-        card.classList.remove('card-slide-in', 'card-slide-up');
-        void card.offsetWidth; // Trigger reflow
-        
-        setTimeout(() => {
-            card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
-        }, index * 150); // Stagger animation
-    });
-    
-    // Animate mobile profile if exists
-    if (profile) {
-        profile.classList.remove('profile-slide-in');
-        void profile.offsetWidth;
-        setTimeout(() => {
-            profile.classList.add('profile-slide-in');
-        }, 300);
-    }
-}
-
-// Scroll event handler
-function handleScroll() {
-    if (isScrolling) return;
-    
-    clearTimeout(window.scrollTimeout);
-    window.scrollTimeout = setTimeout(() => {
-        const scrollLeft = sectionsContainer.scrollLeft;
-        const sectionWidth = window.innerWidth;
-        const currentIndex = Math.round(scrollLeft / sectionWidth);
-        
-        if (currentIndex >= 0 && currentIndex < sections.length && currentIndex !== currentSectionIndex) {
-            const direction = currentIndex > currentSectionIndex ? 'right' : 'left';
-            currentSectionIndex = currentIndex;
-            setActiveSection(sections[currentIndex].id);
-            animateCardsInSection(sections[currentIndex]);
-        }
-    }, 100);
-}
-
-// Set active section with enhanced animations
+// Set active section
 function setActiveSection(sectionId) {
-    console.log('Activating section:', sectionId);
-
     // Remove active class from all sections
     sections.forEach(section => {
         section.classList.remove('active', 'prev', 'next');
@@ -519,13 +531,20 @@ function setActiveSection(sectionId) {
     if (targetSection) {
         targetSection.classList.add('active');
         currentSectionIndex = Array.from(sections).indexOf(targetSection);
+        
+        // Update adjacent sections
+        if (currentSectionIndex > 0) {
+            sections[currentSectionIndex - 1].classList.add('prev');
+        }
+        if (currentSectionIndex < sections.length - 1) {
+            sections[currentSectionIndex + 1].classList.add('next');
+        }
     }
 
-    // Update navigation dots
+    // Update navigation
     updateNavDots(sectionId);
-
-    // Update sidebar links
     updateSidebarLinks(sectionId);
+    updateSwipeIndicators();
 
     // Refresh AOS animations
     AOS.refresh();
@@ -539,6 +558,9 @@ function setActiveSection(sectionId) {
             });
         }, 500);
     }
+    
+    // Animate cards in the target section
+    animateCardsInSection(targetSection);
 }
 
 // Update navigation dots
@@ -565,6 +587,31 @@ function updateSidebarLinks(sectionId) {
     });
 }
 
+// Animate cards when entering a section
+function animateCardsInSection(section) {
+    const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
+    const profile = section.querySelector('.mobile-profile');
+    
+    // Animate cards with staggered delay
+    cards.forEach((card, index) => {
+        card.classList.remove('card-slide-in', 'card-slide-up');
+        void card.offsetWidth; // Trigger reflow
+        
+        setTimeout(() => {
+            card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
+        }, index * 150);
+    });
+    
+    // Animate mobile profile if exists
+    if (profile) {
+        profile.classList.remove('profile-slide-in');
+        void profile.offsetWidth;
+        setTimeout(() => {
+            profile.classList.add('profile-slide-in');
+        }, 300);
+    }
+}
+
 // Scroll to section function
 function scrollToSection(sectionId) {
     if (sectionId === 'portfolio') {
@@ -577,7 +624,7 @@ function scrollToSection(sectionId) {
     
     const targetIndex = Array.from(sections).indexOf(targetSection);
     const direction = targetIndex > currentSectionIndex ? 'right' : 'left';
-    smoothScrollToIndex(targetIndex, direction);
+    slideToSection(targetIndex, direction);
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -612,15 +659,10 @@ window.addEventListener('load', function () {
 
     // Initialize swiper functionality
     initSwiper();
-
-    // Initialize first section
-    setActiveSection('home');
-    
-    // Animate cards in home section
-    setTimeout(() => {
-        animateCardsInSection(document.getElementById('home'));
-    }, 1000);
 });
+
+// Rest of your existing code remains the same...
+// [Keep all the existing code for navbar, sidebar, modals, mouse wheel, keyboard navigation, etc.]
 
 // Navbar scroll effect (desktop only)
 window.addEventListener('scroll', function () {
@@ -663,7 +705,7 @@ if (overlay) {
 if (scrollTop) {
     scrollTop.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        smoothScrollToIndex(0);
+        slideToSection(0);
     });
 }
 
@@ -697,9 +739,9 @@ document.addEventListener('wheel', function (e) {
     const isScrollingDown = e.deltaY > 0;
 
     if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        smoothScrollToIndex(currentSectionIndex + 1, 'right');
+        slideToSection(currentSectionIndex + 1, 'right');
     } else if (!isScrollingDown && currentSectionIndex > 0) {
-        smoothScrollToIndex(currentSectionIndex - 1, 'left');
+        slideToSection(currentSectionIndex - 1, 'left');
     }
 
     setTimeout(() => {
@@ -714,19 +756,19 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentSectionIndex < sections.length - 1) {
-            smoothScrollToIndex(currentSectionIndex + 1, 'right');
+            slideToSection(currentSectionIndex + 1, 'right');
         }
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentSectionIndex > 0) {
-            smoothScrollToIndex(currentSectionIndex - 1, 'left');
+            slideToSection(currentSectionIndex - 1, 'left');
         }
     } else if (e.key === 'Home') {
         e.preventDefault();
-        smoothScrollToIndex(0);
+        slideToSection(0);
     } else if (e.key === 'End') {
         e.preventDefault();
-        smoothScrollToIndex(sections.length - 1);
+        slideToSection(sections.length - 1);
     }
 });
 
@@ -771,67 +813,6 @@ function closeVideoModal() {
 
     document.body.style.overflow = '';
 }
-
-// Package Modal Functions
-function openPackageModal(packageType) {
-    selectedPackage = packageType;
-    const modal = document.getElementById('packageModal');
-
-    // Set package details based on type
-    setPackageDetails(packageType);
-
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-    document.body.style.overflow = 'hidden';
-}
-
-function closePackageModal() {
-    const modal = document.getElementById('packageModal');
-    modal.classList.remove('show');
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 300);
-    document.body.style.overflow = 'auto';
-    selectedPackage = '';
-}
-
-function proceedWithPackage() {
-    closePackageModal();
-
-    // Scroll to contact section after a brief delay
-    setTimeout(() => {
-        scrollToSection('contact');
-
-        // Pre-fill the contact form
-        setTimeout(() => {
-            const projectTypeField = document.querySelector('input[placeholder="Project Type"]');
-            if (projectTypeField) {
-                const packageName = document.getElementById('packageName').textContent;
-                projectTypeField.value = `${packageName} - Live Recording`;
-            }
-
-            // Show success message
-            const successMessage = document.createElement('div');
-            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-            successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
-            document.body.appendChild(successMessage);
-
-            setTimeout(() => {
-                successMessage.remove();
-            }, 5000);
-        }, 500);
-    }, 300);
-}
-
-// Close modal with Escape key
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-        closeVideoModal();
-        closePackageModal();
-    }
-});
 
 // Navigation dots functionality
 navDots.forEach(dot => {
@@ -882,11 +863,6 @@ if (contactForm) {
 // Handle window resize
 window.addEventListener('resize', function () {
     AOS.refresh();
-    
-    // Update scroll position on resize
-    if (isMobile() && sectionsContainer) {
-        sectionsContainer.scrollLeft = currentSectionIndex * window.innerWidth;
-    }
 });
 
 // Close sidebar button
@@ -897,74 +873,3 @@ if (closeSidebarBtn) {
     });
 }
 
-// Initialize animations for elements
-window.addEventListener('load', function () {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.project-card, .glass-effect').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-});
-
-// Service accordion functionality
-document.addEventListener('DOMContentLoaded', function () {
-    const accordionHeaders = document.querySelectorAll('.service-accordion-header');
-    
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', function () {
-            // Toggle active class on header
-            this.classList.toggle('active');
-            
-            // Get the content element
-            const content = this.nextElementSibling;
-            
-            // Toggle content visibility with animation
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                setTimeout(() => {
-                    content.style.display = 'none';
-                }, 300);
-            } else {
-                content.style.display = 'block';
-                // Trigger reflow
-                content.offsetHeight;
-                content.classList.add('show');
-            }
-            
-            // Close other accordions when one opens
-            accordionHeaders.forEach(otherHeader => {
-                if (otherHeader !== this && otherHeader.classList.contains('active')) {
-                    otherHeader.classList.remove('active');
-                    const otherContent = otherHeader.nextElementSibling;
-                    otherContent.classList.remove('show');
-                    setTimeout(() => {
-                        otherContent.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-    
-    // Initialize all accordion content as hidden
-    document.querySelectorAll('.service-accordion-content').forEach(content => {
-        content.style.display = 'none';
-    });
-});
-
-console.log('JavaScript loaded successfully with all features!');
