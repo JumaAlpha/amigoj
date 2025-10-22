@@ -27,156 +27,85 @@ let currentX = 0;
 let currentTranslate = 0;
 let prevTranslate = 0;
 let currentSectionIndex = 0;
-let animationID;
+let sectionsContainer;
+let rafID;
 let velocity = 0;
 let lastX = 0;
 let lastTime = 0;
-let sectionsContainer;
-let sectionsWrapper;
-let rafID;
 
-// Check if mobile device
-function isMobile() {
-    return window.innerWidth <= 768;
-}
-
-// Initialize swiper-like functionality
-function initSwiper() {
+// Initialize horizontal scrolling
+function initHorizontalScroll() {
     sectionsContainer = document.querySelector('.sections-container');
     
     if (!sectionsContainer) return;
 
-    // Add CSS for swiper-like transitions
+    // Add CSS for horizontal scrolling
     const style = document.createElement('style');
     style.textContent = `
         .sections-container {
-            overflow: hidden;
-            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             width: 100%;
             height: 100vh;
-            touch-action: pan-y;
+            position: relative;
         }
         
-        .sections-wrapper {
-            display: flex;
-            height: 100%;
-            will-change: transform;
+        .sections-container::-webkit-scrollbar {
+            display: none;
         }
         
         .section {
-            flex: 0 0 100%;
-            width: 100%;
-            height: 100%;
-            will-change: transform, opacity;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            min-width: 100vw;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
         }
         
+        /* Smooth transitions for section changes */
+        .section {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        /* Hide scrollbars but keep functionality */
+        .section::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        /* Active section styling */
         .section.active {
-            opacity: 1;
-            transform: translateX(0) scale(1);
+            transform: scale(1);
         }
         
-        .section.prev {
-            opacity: 0.7;
-            transform: translateX(-5%) scale(0.98);
-        }
-        
-        .section.next {
-            opacity: 0.7;
-            transform: translateX(5%) scale(0.98);
-        }
-        
-        .section:not(.active):not(.prev):not(.next) {
-            opacity: 0.4;
-            transform: scale(0.95);
-        }
-        
-        /* Smooth transitions */
-        .sections-wrapper {
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .section {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        /* Disable transitions during drag */
-        .sections-wrapper.no-transition {
-            transition: none;
-        }
-        
-        .section.no-transition {
-            transition: none;
-        }
-        
-        /* Navigation dots */
-        .nav-dots {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .nav-dot:hover {
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(1.2);
-        }
-        
-        .nav-dot.active {
-            background: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.5);
-            transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
-        }
-        
-        @media (max-width: 768px) {
-            .nav-dots {
-                display: none;
-            }
+        .section:not(.active) {
+            transform: scale(0.98);
         }
     `;
     document.head.appendChild(style);
 
-    // Create wrapper for sections
-    sectionsWrapper = document.createElement('div');
-    sectionsWrapper.className = 'sections-wrapper';
-    
-    // Move all sections into wrapper
-    sections.forEach(section => {
-        sectionsWrapper.appendChild(section);
-    });
-    
-    sectionsContainer.appendChild(sectionsWrapper);
-    
     setupTouchEvents();
+    setupScrollEvents();
     
-    // Initialize sections
-    initializeSections();
+    // Initialize first section
+    setActiveSection('home');
 }
 
-// Setup touch events for swiper-like behavior
+// Setup touch events for smooth horizontal scrolling
 function setupTouchEvents() {
     if (!sectionsContainer) return;
     
     sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
     sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
-    sectionsContainer.addEventListener('touchcancel', handleTouchEnd, { passive: true });
     
-    // Mouse events for desktop testing
+    // Mouse events for desktop
     sectionsContainer.addEventListener('mousedown', handleMouseDown);
     sectionsContainer.addEventListener('mousemove', handleMouseMove);
     sectionsContainer.addEventListener('mouseup', handleMouseUp);
@@ -185,31 +114,25 @@ function setupTouchEvents() {
 
 // Touch start handler
 function handleTouchStart(e) {
-    if (!isMobile()) return;
-    
     e.preventDefault();
     startDrag(e.touches[0].clientX);
 }
 
 // Touch move handler
 function handleTouchMove(e) {
-    if (!isMobile() || !isDragging) return;
-    
+    if (!isDragging) return;
     e.preventDefault();
     updateDragPosition(e.touches[0].clientX);
 }
 
 // Touch end handler
 function handleTouchEnd() {
-    if (!isMobile() || !isDragging) return;
-    
+    if (!isDragging) return;
     endDrag();
 }
 
 // Mouse down handler
 function handleMouseDown(e) {
-    if (!isMobile()) return;
-    
     e.preventDefault();
     startDrag(e.clientX);
     sectionsContainer.style.cursor = 'grabbing';
@@ -217,16 +140,14 @@ function handleMouseDown(e) {
 
 // Mouse move handler
 function handleMouseMove(e) {
-    if (!isMobile() || !isDragging) return;
-    
+    if (!isDragging) return;
     e.preventDefault();
     updateDragPosition(e.clientX);
 }
 
 // Mouse up handler
 function handleMouseUp() {
-    if (!isMobile() || !isDragging) return;
-    
+    if (!isDragging) return;
     endDrag();
     sectionsContainer.style.cursor = 'grab';
 }
@@ -239,34 +160,31 @@ function startDrag(clientX) {
     lastX = clientX;
     lastTime = Date.now();
     velocity = 0;
-    prevTranslate = currentSectionIndex * -100;
-    
-    // Disable transitions during drag
-    sectionsWrapper.classList.add('no-transition');
-    sections.forEach(section => section.classList.add('no-transition'));
     
     // Cancel any ongoing animation
     cancelAnimationFrame(rafID);
+    
+    // Disable smooth scroll during drag
+    sectionsContainer.style.scrollBehavior = 'auto';
 }
 
-// Update drag position with requestAnimationFrame
+// Update drag position with smooth animation
 function updateDragPosition(clientX) {
     if (!isDragging) return;
     
     currentX = clientX;
     
-    // Use requestAnimationFrame for smooth updates
     if (!rafID) {
-        rafID = requestAnimationFrame(updatePosition);
+        rafID = requestAnimationFrame(updateScrollPosition);
     }
 }
 
-// Smooth position update using requestAnimationFrame
-function updatePosition() {
+// Smooth scroll position update
+function updateScrollPosition() {
     if (!isDragging) return;
     
     const diff = currentX - startX;
-    const maxDrag = window.innerWidth * 0.4; // Maximum drag distance
+    const scrollLeft = sectionsContainer.scrollLeft;
     
     // Calculate velocity
     const currentTime = Date.now();
@@ -277,67 +195,14 @@ function updatePosition() {
     lastX = currentX;
     lastTime = currentTime;
     
-    // Apply resistance and boundaries
-    let dragDistance = diff;
+    // Update scroll position with resistance
+    sectionsContainer.scrollLeft = scrollLeft - diff * 0.8;
     
-    // Strong resistance at boundaries
-    if ((currentSectionIndex === 0 && diff > 0) || 
-        (currentSectionIndex === sections.length - 1 && diff < 0)) {
-        dragDistance *= 0.2;
-    }
-    // Normal resistance
-    else if (Math.abs(diff) > maxDrag) {
-        const excess = Math.abs(diff) - maxDrag;
-        dragDistance = diff > 0 ? maxDrag + excess * 0.3 : -maxDrag - excess * 0.3;
-    }
-    
-    currentTranslate = prevTranslate + (dragDistance / window.innerWidth) * 100;
-    
-    // Update wrapper position
-    sectionsWrapper.style.transform = `translateX(${currentTranslate}%)`;
-    
-    // Update section states
-    updateSectionStates(dragDistance);
-    
-    // Continue animation frame
-    rafID = requestAnimationFrame(updatePosition);
+    // Continue animation
+    rafID = requestAnimationFrame(updateScrollPosition);
 }
 
-// Update section states during drag
-function updateSectionStates(diff) {
-    const progress = Math.min(Math.abs(diff) / (window.innerWidth * 0.5), 1);
-    const direction = diff > 0 ? 'right' : 'left';
-    
-    sections.forEach((section, index) => {
-        const distance = Math.abs(index - currentSectionIndex);
-        
-        if (index === currentSectionIndex) {
-            // Current section
-            const opacity = 1 - progress * 0.3;
-            const scale = 1 - progress * 0.02;
-            section.style.opacity = opacity;
-            section.style.transform = `translateX(0) scale(${scale})`;
-        } else if (index === currentSectionIndex - 1 && direction === 'right') {
-            // Previous section (swiping right)
-            const opacity = 0.7 + progress * 0.3;
-            const translateX = -5 + progress * 5;
-            section.style.opacity = opacity;
-            section.style.transform = `translateX(${translateX}%) scale(${0.98 + progress * 0.02})`;
-        } else if (index === currentSectionIndex + 1 && direction === 'left') {
-            // Next section (swiping left)
-            const opacity = 0.7 + progress * 0.3;
-            const translateX = 5 - progress * 5;
-            section.style.opacity = opacity;
-            section.style.transform = `translateX(${translateX}%) scale(${0.98 + progress * 0.02})`;
-        } else {
-            // Other sections
-            section.style.opacity = '0.4';
-            section.style.transform = 'scale(0.95)';
-        }
-    });
-}
-
-// End drag and handle snap
+// End drag with momentum
 function endDrag() {
     if (!isDragging) return;
     
@@ -346,67 +211,82 @@ function endDrag() {
     rafID = null;
     
     const diff = currentX - startX;
-    const diffPercentage = (diff / window.innerWidth) * 100;
     const absVelocity = Math.abs(velocity);
     
-    let targetIndex = currentSectionIndex;
-    
-    // Determine target section based on drag distance and velocity
-    const snapThreshold = 25; // 25% of screen width
-    const velocityThreshold = 0.3;
-    
-    if (Math.abs(diffPercentage) > snapThreshold || absVelocity > velocityThreshold) {
-        if ((diffPercentage > 0 || velocity > velocityThreshold) && currentSectionIndex > 0) {
-            targetIndex = currentSectionIndex - 1;
-        } else if ((diffPercentage < 0 || velocity < -velocityThreshold) && currentSectionIndex < sections.length - 1) {
-            targetIndex = currentSectionIndex + 1;
-        }
+    // Apply momentum
+    if (absVelocity > 0.5) {
+        const momentum = velocity * 100;
+        const currentScroll = sectionsContainer.scrollLeft;
+        sectionsContainer.scrollLeft = currentScroll - momentum;
     }
     
-    // Re-enable transitions
-    sectionsWrapper.classList.remove('no-transition');
-    sections.forEach(section => section.classList.remove('no-transition'));
-    
-    // Smooth snap to target section
-    smoothSnapToSection(targetIndex);
-    
+    // Re-enable smooth scroll
+    sectionsContainer.style.scrollBehavior = 'smooth';
     sectionsContainer.style.cursor = '';
+    
+    // Snap to nearest section after a short delay
+    setTimeout(snapToNearestSection, 100);
 }
 
-// Smooth snap to section
-function smoothSnapToSection(targetIndex) {
-    if (isScrolling || targetIndex < 0 || targetIndex >= sections.length) return;
+// Snap to nearest section
+function snapToNearestSection() {
+    const scrollLeft = sectionsContainer.scrollLeft;
+    const sectionWidth = window.innerWidth;
+    const currentIndex = Math.round(scrollLeft / sectionWidth);
+    
+    if (currentIndex >= 0 && currentIndex < sections.length) {
+        smoothScrollToIndex(currentIndex);
+    }
+}
+
+// Setup scroll events
+function setupScrollEvents() {
+    if (!sectionsContainer) return;
+
+    sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
+}
+
+// Handle scroll events
+function handleScroll() {
+    if (isDragging || isScrolling) return;
+    
+    clearTimeout(window.scrollTimeout);
+    window.scrollTimeout = setTimeout(() => {
+        const scrollLeft = sectionsContainer.scrollLeft;
+        const sectionWidth = window.innerWidth;
+        const currentIndex = Math.round(scrollLeft / sectionWidth);
+        
+        if (currentIndex >= 0 && currentIndex < sections.length && currentIndex !== currentSectionIndex) {
+            currentSectionIndex = currentIndex;
+            setActiveSection(sections[currentIndex].id);
+        }
+    }, 100);
+}
+
+// Smooth scroll to specific index
+function smoothScrollToIndex(index) {
+    if (isScrolling || index < 0 || index >= sections.length) return;
     
     isScrolling = true;
+    currentSectionIndex = index;
     
-    // Animate to target position
-    sectionsWrapper.style.transform = `translateX(-${targetIndex * 100}%)`;
+    sectionsContainer.scrollTo({
+        left: index * window.innerWidth,
+        behavior: 'smooth'
+    });
     
-    // Update current index and activate section
-    currentSectionIndex = targetIndex;
-    setActiveSection(sections[targetIndex].id);
+    setActiveSection(sections[index].id);
     
-    // Reset after animation
     setTimeout(() => {
         isScrolling = false;
-        currentTranslate = -targetIndex * 100;
-        prevTranslate = currentTranslate;
     }, 500);
-}
-
-// Initialize sections
-function initializeSections() {
-    sectionsWrapper.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
-    setActiveSection(sections[currentSectionIndex].id);
 }
 
 // Set active section
 function setActiveSection(sectionId) {
     // Remove active class from all sections
     sections.forEach(section => {
-        section.classList.remove('active', 'prev', 'next');
-        section.style.opacity = '';
-        section.style.transform = '';
+        section.classList.remove('active');
     });
 
     // Add active class to target section
@@ -414,18 +294,12 @@ function setActiveSection(sectionId) {
     if (targetSection) {
         targetSection.classList.add('active');
         currentSectionIndex = Array.from(sections).indexOf(targetSection);
-        
-        // Update adjacent sections
-        if (currentSectionIndex > 0) {
-            sections[currentSectionIndex - 1].classList.add('prev');
-        }
-        if (currentSectionIndex < sections.length - 1) {
-            sections[currentSectionIndex + 1].classList.add('next');
-        }
     }
 
-    // Update navigation
+    // Update navigation dots
     updateNavDots(sectionId);
+
+    // Update sidebar links
     updateSidebarLinks(sectionId);
 
     // Refresh AOS animations
@@ -505,7 +379,7 @@ function scrollToSection(sectionId) {
     if (!targetSection) return;
     
     const targetIndex = Array.from(sections).indexOf(targetSection);
-    smoothSnapToSection(targetIndex);
+    smoothScrollToIndex(targetIndex);
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -538,17 +412,14 @@ window.addEventListener('load', function () {
         }
     }, 10);
 
-    // Initialize swiper functionality
-    initSwiper();
+    // Initialize horizontal scrolling
+    initHorizontalScroll();
 });
 
-// Rest of your existing code remains the same...
-// [Keep all the existing code for navbar, sidebar, modals, etc.]
+// Rest of your existing functionality...
 
-// Navbar scroll effect (desktop only)
+// Navbar scroll effect
 window.addEventListener('scroll', function () {
-    if (isMobile()) return;
-    
     if (window.pageYOffset > 50) {
         navbar.classList.add('navbar-scrolled');
         navContent.classList.remove('mt-6');
@@ -586,7 +457,7 @@ if (overlay) {
 if (scrollTop) {
     scrollTop.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        smoothSnapToSection(0);
+        smoothScrollToIndex(0);
     });
 }
 
@@ -608,10 +479,8 @@ if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
 
-// Mouse wheel navigation for desktop
+// Mouse wheel navigation for horizontal scrolling
 document.addEventListener('wheel', function (e) {
-    if (isMobile()) return;
-
     e.preventDefault();
 
     if (isScrolling) return;
@@ -620,9 +489,9 @@ document.addEventListener('wheel', function (e) {
     const isScrollingDown = e.deltaY > 0;
 
     if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        smoothSnapToSection(currentSectionIndex + 1);
+        smoothScrollToIndex(currentSectionIndex + 1);
     } else if (!isScrollingDown && currentSectionIndex > 0) {
-        smoothSnapToSection(currentSectionIndex - 1);
+        smoothScrollToIndex(currentSectionIndex - 1);
     }
 
     setTimeout(() => {
@@ -637,19 +506,19 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentSectionIndex < sections.length - 1) {
-            smoothSnapToSection(currentSectionIndex + 1);
+            smoothScrollToIndex(currentSectionIndex + 1);
         }
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentSectionIndex > 0) {
-            smoothSnapToSection(currentSectionIndex - 1);
+            smoothScrollToIndex(currentSectionIndex - 1);
         }
     } else if (e.key === 'Home') {
         e.preventDefault();
-        smoothSnapToSection(0);
+        smoothScrollToIndex(0);
     } else if (e.key === 'End') {
         e.preventDefault();
-        smoothSnapToSection(sections.length - 1);
+        smoothScrollToIndex(sections.length - 1);
     }
 });
 
@@ -744,6 +613,11 @@ if (contactForm) {
 // Handle window resize
 window.addEventListener('resize', function () {
     AOS.refresh();
+    
+    // Update scroll position on resize
+    if (sectionsContainer) {
+        sectionsContainer.scrollLeft = currentSectionIndex * window.innerWidth;
+    }
 });
 
 // Close sidebar button
@@ -753,3 +627,4 @@ if (closeSidebarBtn) {
         closeSidebar();
     });
 }
+
