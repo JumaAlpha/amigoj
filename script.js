@@ -19,20 +19,12 @@ const navbar = document.getElementById('navbar');
 const navContent = document.getElementById('navContent');
 const loadingBar = document.getElementById('loadingBar');
 
-// Swiper-like variables
+// Simplified variables for better performance
 let isScrolling = false;
-let touchStartX = 0;
-let touchStartY = 0;
-let touchEndX = 0;
-let touchEndY = 0;
 let currentSectionIndex = 0;
 let sectionsContainer;
-let isDragging = false;
-let startX = 0;
-let scrollLeft = 0;
-let velocity = 0;
-let lastX = 0;
-let lastTime = 0;
+let touchStartX = 0;
+let isAnimating = false;
 
 // Check if mobile device
 function isMobile() {
@@ -45,7 +37,7 @@ function initSwiper() {
     
     if (!sectionsContainer) return;
 
-    // Add CSS for desktop-like slide transitions
+    // Add minimal CSS for performance
     const style = document.createElement('style');
     style.textContent = `
         .sections-container {
@@ -64,178 +56,49 @@ function initSwiper() {
         
         .section {
             scroll-snap-align: start;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                       opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform, opacity;
         }
         
-        /* Desktop-like slide animations */
-        .section.slide-out-left {
-            animation: slideOutToLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        /* Simple fade transition */
+        .section {
+            transition: opacity 0.3s ease;
         }
         
-        .section.slide-out-right {
-            animation: slideOutToRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section:not(.active) {
+            opacity: 0.3;
         }
         
-        .section.slide-in-left {
-            animation: slideInFromLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .section.active {
+            opacity: 1;
         }
         
-        .section.slide-in-right {
-            animation: slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        /* Simple card animations */
+        .card-fade-in {
+            animation: cardFadeIn 0.5s ease forwards;
         }
         
-        /* Slide out animations */
-        @keyframes slideOutToLeft {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0.3;
-                transform: translateX(-100%);
-            }
-        }
-        
-        @keyframes slideOutToRight {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0.3;
-                transform: translateX(100%);
-            }
-        }
-        
-        /* Slide in animations */
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0.3;
-                transform: translateX(-100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0.3;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        /* Card animations */
-        .card-slide-in {
-            animation: cardSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        .card-slide-up {
-            animation: cardSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        @keyframes cardSlideIn {
+        @keyframes cardFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        @keyframes cardSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
-        /* Swipe indicators */
-        .swipe-indicator {
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .swipe-active {
-            transform: scale(1.3);
-            color: #f59e0b;
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-        
-        /* Progress bar for section transition */
-        .transition-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
-            z-index: 1000;
-            transition: width 0.3s ease;
-        }
-        
-        /* Enhanced mobile profile animation */
-        .mobile-profile {
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .profile-slide-in {
-            animation: profileSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-        
-        @keyframes profileSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100px) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) translateY(0);
-            }
-        }
     `;
     document.head.appendChild(style);
 
-    // Add transition progress bar
-    const progressBar = document.createElement('div');
-    progressBar.className = 'transition-progress';
-    document.body.appendChild(progressBar);
-
     setupTouchEvents();
     setupScrollEvents();
-    
-    // Initialize sections with proper positioning
-    initializeSections();
 }
 
-// Initialize sections with proper positioning
-function initializeSections() {
-    sections.forEach((section, index) => {
-        if (isMobile()) {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = index === 0 ? '1' : '0.3';
-        }
-    });
-}
-
-// Setup touch events for swiper-like behavior
+// Setup touch events - SIMPLIFIED
 function setupTouchEvents() {
     if (!sectionsContainer) return;
 
+    // Use passive: true for better performance
     sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
 }
 
@@ -246,225 +109,55 @@ function setupScrollEvents() {
     sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
 }
 
-// Touch start handler
+// Simple touch start handler
 function handleTouchStart(e) {
-    if (!isMobile()) return;
-    
-    isDragging = true;
-    startX = e.touches[0].pageX;
-    scrollLeft = sectionsContainer.scrollLeft;
-    lastX = startX;
-    lastTime = Date.now();
-    velocity = 0;
-    
-    // Show swipe indicators
-    document.querySelectorAll('.swipe-indicator').forEach(indicator => {
-        indicator.classList.add('swipe-active');
-    });
-    
-    // Start progress bar
-    document.querySelector('.transition-progress').style.width = '0%';
+    if (!isMobile() || isAnimating) return;
+    touchStartX = e.touches[0].clientX;
 }
 
-// Touch move handler
-function handleTouchMove(e) {
-    if (!isDragging || !isMobile()) return;
+// Simple touch end handler
+function handleTouchEnd(e) {
+    if (!isMobile() || isAnimating) return;
     
-    e.preventDefault();
-    
-    const x = e.touches[0].pageX;
-    const walk = (x - startX);
-    sectionsContainer.scrollLeft = scrollLeft - walk;
-    
-    // Calculate velocity for momentum scrolling
-    const currentTime = Date.now();
-    const deltaTime = currentTime - lastTime;
-    const deltaX = x - lastX;
-    
-    if (deltaTime > 0) {
-        velocity = deltaX / deltaTime;
-    }
-    
-    lastX = x;
-    lastTime = currentTime;
-    
-    // Update progress bar
-    const progress = Math.min(Math.abs(walk) / window.innerWidth, 1);
-    document.querySelector('.transition-progress').style.width = `${progress * 100}%`;
-    
-    // Update section preview states
-    updateSectionPreview(walk);
-}
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX;
+    const swipeThreshold = 50; // Minimum swipe distance
 
-// Update section preview during drag
-function updateSectionPreview(walk) {
-    const direction = walk > 0 ? 'right' : 'left';
-    const progress = Math.min(Math.abs(walk) / window.innerWidth, 1);
-    
-    sections.forEach((section, index) => {
-        if (index === currentSectionIndex) {
-            // Current section slides out
-            section.style.transform = `translateX(${walk * 0.3}px)`;
-            section.style.opacity = 1 - progress * 0.7;
-        } else if (
-            (direction === 'right' && index === currentSectionIndex - 1) ||
-            (direction === 'left' && index === currentSectionIndex + 1)
-        ) {
-            // Next section slides in
-            const targetSection = direction === 'right' ? sections[currentSectionIndex - 1] : sections[currentSectionIndex + 1];
-            targetSection.style.opacity = 0.3 + progress * 0.7;
-            targetSection.style.transform = `translateX(${walk - (direction === 'right' ? -window.innerWidth : window.innerWidth)}px)`;
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance < 0 && currentSectionIndex < sections.length - 1) {
+            // Swipe left - next section
+            goToSection(currentSectionIndex + 1);
+        } else if (swipeDistance > 0 && currentSectionIndex > 0) {
+            // Swipe right - previous section
+            goToSection(currentSectionIndex - 1);
         }
-    });
-}
-
-// Touch end handler
-function handleTouchEnd() {
-    if (!isDragging || !isMobile()) return;
-    
-    isDragging = false;
-    
-    // Hide swipe indicators
-    document.querySelectorAll('.swipe-indicator').forEach(indicator => {
-        indicator.classList.remove('swipe-active');
-    });
-    
-    // Complete progress bar
-    document.querySelector('.transition-progress').style.width = '100%';
-    
-    // Apply momentum and snap to section
-    applyMomentumAndSnap();
-    
-    // Hide progress bar after transition
-    setTimeout(() => {
-        document.querySelector('.transition-progress').style.width = '0%';
-    }, 300);
-}
-
-// Apply momentum scrolling and snap to section
-function applyMomentumAndSnap() {
-    if (!isMobile()) return;
-    
-    const momentum = velocity * 150; // Adjust multiplier for sensitivity
-    const currentScroll = sectionsContainer.scrollLeft;
-    const sectionWidth = window.innerWidth;
-    const targetScroll = currentScroll + momentum;
-    
-    let targetIndex = Math.round(targetScroll / sectionWidth);
-    targetIndex = Math.max(0, Math.min(targetIndex, sections.length - 1));
-    
-    // Determine direction for slide animation
-    const direction = targetIndex > currentSectionIndex ? 'right' : 'left';
-    
-    smoothScrollToIndex(targetIndex, direction);
-}
-
-// Smooth scroll to specific index with slide animation
-function smoothScrollToIndex(index, direction = null) {
-    if (isScrolling || index < 0 || index >= sections.length) return;
-    
-    isScrolling = true;
-    
-    // Auto-detect direction if not provided
-    if (!direction) {
-        direction = index > currentSectionIndex ? 'right' : 'left';
     }
+}
+
+// Simple section navigation
+function goToSection(index) {
+    if (isAnimating || index < 0 || index >= sections.length) return;
     
-    const currentSection = sections[currentSectionIndex];
-    const targetSection = sections[index];
-    
-    if (isMobile()) {
-        // Mobile: Apply slide animations
-        applySlideAnimations(currentSection, targetSection, direction);
-        
-        // Scroll to position
-        if (sectionsContainer) {
-            sectionsContainer.scrollTo({
-                left: index * window.innerWidth,
-                behavior: 'smooth'
-            });
-        }
-    } else {
-        // Desktop: vertical scroll
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-    }
-    
-    // Update current index and activate section
+    isAnimating = true;
     currentSectionIndex = index;
-    setActiveSection(targetSection.id);
     
-    // Animate cards in the target section
-    animateCardsInSection(targetSection);
-    
-    setTimeout(() => {
-        isScrolling = false;
-        resetSectionTransforms();
-    }, 600);
-}
-
-// Apply slide animations between sections
-function applySlideAnimations(currentSection, targetSection, direction) {
-    // Reset all animations first
-    sections.forEach(section => {
-        section.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
-        section.style.transform = '';
-        section.style.opacity = '';
-    });
-    
-    // Apply slide out to current section
-    currentSection.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
-    
-    // Apply slide in to target section
-    targetSection.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
-    
-    // Reset animations after they complete
-    setTimeout(() => {
-        currentSection.classList.remove('slide-out-left', 'slide-out-right');
-        targetSection.classList.remove('slide-in-left', 'slide-in-right');
-    }, 600);
-}
-
-// Reset section transforms after animation
-function resetSectionTransforms() {
-    sections.forEach((section, index) => {
-        if (index === currentSectionIndex) {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = '1';
-        } else {
-            section.style.transform = 'translateX(0)';
-            section.style.opacity = '0.3';
-        }
-    });
-}
-
-// Animate cards when entering a section
-function animateCardsInSection(section) {
-    const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
-    const profile = section.querySelector('.mobile-profile');
-    
-    // Animate cards with staggered delay
-    cards.forEach((card, index) => {
-        card.classList.remove('card-slide-in', 'card-slide-up');
-        void card.offsetWidth; // Trigger reflow
-        
-        setTimeout(() => {
-            card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
-        }, index * 150); // Stagger animation
-    });
-    
-    // Animate mobile profile if exists
-    if (profile) {
-        profile.classList.remove('profile-slide-in');
-        void profile.offsetWidth;
-        setTimeout(() => {
-            profile.classList.add('profile-slide-in');
-        }, 300);
+    if (sectionsContainer) {
+        sectionsContainer.scrollTo({
+            left: index * window.innerWidth,
+            behavior: 'smooth'
+        });
     }
+    
+    setActiveSection(sections[index].id);
+    
+    setTimeout(() => {
+        isAnimating = false;
+    }, 300);
 }
 
 // Scroll event handler
 function handleScroll() {
-    if (isDragging || isScrolling) return;
+    if (isAnimating) return;
     
     clearTimeout(window.scrollTimeout);
     window.scrollTimeout = setTimeout(() => {
@@ -473,19 +166,17 @@ function handleScroll() {
         const currentIndex = Math.round(scrollLeft / sectionWidth);
         
         if (currentIndex >= 0 && currentIndex < sections.length && currentIndex !== currentSectionIndex) {
-            const direction = currentIndex > currentSectionIndex ? 'right' : 'left';
-            smoothScrollToIndex(currentIndex, direction);
+            currentSectionIndex = currentIndex;
+            setActiveSection(sections[currentIndex].id);
         }
     }, 100);
 }
 
-// Set active section with enhanced animations
+// Set active section - SIMPLIFIED
 function setActiveSection(sectionId) {
-    console.log('Activating section:', sectionId);
-
     // Remove active class from all sections
     sections.forEach(section => {
-        section.classList.remove('active', 'prev', 'next');
+        section.classList.remove('active');
     });
 
     // Add active class to target section
@@ -493,16 +184,18 @@ function setActiveSection(sectionId) {
     if (targetSection) {
         targetSection.classList.add('active');
         currentSectionIndex = Array.from(sections).indexOf(targetSection);
+        
+        // Simple card animation
+        animateCardsInSection(targetSection);
     }
 
     // Update navigation dots
-    navDots.forEach(dot => {
-        dot.classList.toggle('active', dot.getAttribute('data-section') === sectionId);
-    });
-
-    // Update sidebar links
     navLinks.forEach(link => {
         link.classList.toggle('active-sidebar-link', link.getAttribute('data-section') === sectionId);
+    });
+
+    navDots.forEach(dot => {
+        dot.classList.toggle('active', dot.getAttribute('data-section') === sectionId);
     });
 
     // Refresh AOS animations
@@ -519,6 +212,20 @@ function setActiveSection(sectionId) {
     }
 }
 
+// Simple card animation
+function animateCardsInSection(section) {
+    const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
+    
+    cards.forEach((card, index) => {
+        card.classList.remove('card-fade-in');
+        void card.offsetWidth; // Trigger reflow
+        
+        setTimeout(() => {
+            card.classList.add('card-fade-in');
+        }, index * 100);
+    });
+}
+
 // Scroll to section function
 function scrollToSection(sectionId) {
     if (sectionId === 'portfolio') {
@@ -530,8 +237,7 @@ function scrollToSection(sectionId) {
     if (!targetSection) return;
     
     const targetIndex = Array.from(sections).indexOf(targetSection);
-    const direction = targetIndex > currentSectionIndex ? 'right' : 'left';
-    smoothScrollToIndex(targetIndex, direction);
+    goToSection(targetIndex);
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -562,11 +268,6 @@ window.addEventListener('load', function () {
 
     // Initialize first section
     setActiveSection('home');
-    
-    // Animate cards in home section
-    setTimeout(() => {
-        animateCardsInSection(document.getElementById('home'));
-    }, 1000);
 });
 
 // Navbar scroll effect (desktop only)
@@ -612,7 +313,7 @@ if (overlay) {
 if (scrollTop) {
     scrollTop.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        smoothScrollToIndex(0);
+        goToSection(0);
     });
 }
 
@@ -634,7 +335,7 @@ if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
 
-// Mouse wheel navigation for desktop - ADDED BACK
+// Mouse wheel navigation for desktop
 document.addEventListener('wheel', function (e) {
     if (isMobile()) return;
 
@@ -646,9 +347,9 @@ document.addEventListener('wheel', function (e) {
     const isScrollingDown = e.deltaY > 0;
 
     if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        smoothScrollToIndex(currentSectionIndex + 1, 'right');
+        goToSection(currentSectionIndex + 1);
     } else if (!isScrollingDown && currentSectionIndex > 0) {
-        smoothScrollToIndex(currentSectionIndex - 1, 'left');
+        goToSection(currentSectionIndex - 1);
     }
 
     setTimeout(() => {
@@ -663,19 +364,19 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentSectionIndex < sections.length - 1) {
-            smoothScrollToIndex(currentSectionIndex + 1, 'right');
+            goToSection(currentSectionIndex + 1);
         }
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentSectionIndex > 0) {
-            smoothScrollToIndex(currentSectionIndex - 1, 'left');
+            goToSection(currentSectionIndex - 1);
         }
     } else if (e.key === 'Home') {
         e.preventDefault();
-        smoothScrollToIndex(0);
+        goToSection(0);
     } else if (e.key === 'End') {
         e.preventDefault();
-        smoothScrollToIndex(sections.length - 1);
+        goToSection(sections.length - 1);
     }
 });
 
@@ -796,27 +497,3 @@ if (closeSidebar) {
     });
 }
 
-// Initialize animations for elements
-window.addEventListener('load', function () {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.project-card, .glass-effect').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-});
