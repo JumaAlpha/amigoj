@@ -154,6 +154,161 @@ function initSwiper() {
                 transform: translateY(0);
             }
         }
+        
+        /* Navigation dots styles */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.2);
+        }
+        
+        .nav-dot.active {
+            background: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.5);
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+        
+        .nav-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active::after {
+            background: rgba(245, 158, 11, 0.2);
+        }
+        
+        /* Mobile profile animation */
+        .mobile-profile {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .profile-slide-in {
+            animation: profileSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        @keyframes profileSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+            }
+        }
+        
+        /* Loading bar */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+        
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f59e0b;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 99;
+        }
+        
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .scroll-top:hover {
+            background: #f59e0b;
+            color: #0f172a;
+            transform: translateY(-5px);
+        }
+        
+        /* Sidebar styles */
+        .sidebar-glass {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-link {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .active-sidebar-link {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 3px solid #f59e0b;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+            
+            .scroll-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
     `;
     document.head.appendChild(style);
 
@@ -174,13 +329,13 @@ function initializeSections() {
     });
 }
 
-// SIMPLIFIED Touch events - Fixed for mobile portrait
+// Setup touch events for swiper-like behavior
 function setupTouchEvents() {
     if (!sectionsContainer) return;
 
     // Use passive: true for better performance
     sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: true }); // Changed to passive: true
+    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
     sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
 }
 
@@ -191,20 +346,20 @@ function setupScrollEvents() {
     sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
 }
 
-// SIMPLIFIED Touch start handler
+// Touch start handler
 function handleTouchStart(e) {
     if (!isMobile()) return;
     
     touchStartX = e.touches[0].clientX;
 }
 
-// SIMPLIFIED Touch move handler - Lightweight
+// Touch move handler - Lightweight
 function handleTouchMove(e) {
     if (!isMobile()) return;
     // Let the native scroll handle the movement for better performance
 }
 
-// SIMPLIFIED Touch end handler
+// Touch end handler
 function handleTouchEnd(e) {
     if (!isMobile()) return;
     
@@ -367,14 +522,10 @@ function setActiveSection(sectionId) {
     }
 
     // Update navigation dots
-    navDots.forEach(dot => {
-        dot.classList.toggle('active', dot.getAttribute('data-section') === sectionId);
-    });
+    updateNavDots(sectionId);
 
     // Update sidebar links
-    navLinks.forEach(link => {
-        link.classList.toggle('active-sidebar-link', link.getAttribute('data-section') === sectionId);
-    });
+    updateSidebarLinks(sectionId);
 
     // Refresh AOS animations
     AOS.refresh();
@@ -388,6 +539,30 @@ function setActiveSection(sectionId) {
             });
         }, 500);
     }
+}
+
+// Update navigation dots
+function updateNavDots(sectionId) {
+    navDots.forEach(dot => {
+        const dotSection = dot.getAttribute('data-section');
+        if (dotSection === sectionId) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Update sidebar links
+function updateSidebarLinks(sectionId) {
+    navLinks.forEach(link => {
+        const linkSection = link.getAttribute('data-section');
+        if (linkSection === sectionId) {
+            link.classList.add('active-sidebar-link');
+        } else {
+            link.classList.remove('active-sidebar-link');
+        }
+    });
 }
 
 // Scroll to section function
@@ -406,10 +581,15 @@ function scrollToSection(sectionId) {
 
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
-        sidebar.style.right = '-420px';
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
+        closeSidebar();
     }
+}
+
+// Close sidebar function
+function closeSidebar() {
+    sidebar.style.right = '-420px';
+    overlay.style.opacity = '0';
+    overlay.style.visibility = 'hidden';
 }
 
 // Loading animation
@@ -421,7 +601,9 @@ window.addEventListener('load', function () {
         if (width >= 100) {
             clearInterval(interval);
             loadingBar.style.opacity = '0';
-            setTimeout(() => loadingBar.style.display = 'none', 300);
+            setTimeout(() => {
+                loadingBar.style.display = 'none';
+            }, 300);
         } else {
             width++;
             loadingBar.style.width = width + '%';
@@ -473,9 +655,7 @@ if (hamburger) {
 
 if (overlay) {
     overlay.addEventListener('click', function () {
-        sidebar.style.right = '-420px';
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
+        closeSidebar();
     });
 }
 
@@ -592,14 +772,68 @@ function closeVideoModal() {
     document.body.style.overflow = '';
 }
 
+// Package Modal Functions
+function openPackageModal(packageType) {
+    selectedPackage = packageType;
+    const modal = document.getElementById('packageModal');
+
+    // Set package details based on type
+    setPackageDetails(packageType);
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closePackageModal() {
+    const modal = document.getElementById('packageModal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+    document.body.style.overflow = 'auto';
+    selectedPackage = '';
+}
+
+function proceedWithPackage() {
+    closePackageModal();
+
+    // Scroll to contact section after a brief delay
+    setTimeout(() => {
+        scrollToSection('contact');
+
+        // Pre-fill the contact form
+        setTimeout(() => {
+            const projectTypeField = document.querySelector('input[placeholder="Project Type"]');
+            if (projectTypeField) {
+                const packageName = document.getElementById('packageName').textContent;
+                projectTypeField.value = `${packageName} - Live Recording`;
+            }
+
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
+            successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
+            document.body.appendChild(successMessage);
+
+            setTimeout(() => {
+                successMessage.remove();
+            }, 5000);
+        }, 500);
+    }, 300);
+}
+
 // Close modal with Escape key
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         closeVideoModal();
+        closePackageModal();
     }
 });
 
-// Navigation dots
+// Navigation dots functionality
 navDots.forEach(dot => {
     dot.addEventListener('click', function () {
         const sectionId = this.getAttribute('data-section');
@@ -616,9 +850,7 @@ navLinks.forEach(link => {
 
         // Close sidebar on mobile
         if (window.innerWidth < 1024) {
-            sidebar.style.right = '-420px';
-            overlay.style.opacity = '0';
-            overlay.style.visibility = 'hidden';
+            closeSidebar();
         }
     });
 });
@@ -658,12 +890,10 @@ window.addEventListener('resize', function () {
 });
 
 // Close sidebar button
-const closeSidebar = document.querySelector('.close-sidebar');
-if (closeSidebar) {
-    closeSidebar.addEventListener('click', function () {
-        sidebar.style.right = '-100%';
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
+const closeSidebarBtn = document.querySelector('.close-sidebar');
+if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', function () {
+        closeSidebar();
     });
 }
 
@@ -692,4 +922,49 @@ window.addEventListener('load', function () {
     });
 });
 
-console.log('JavaScript loaded successfully with optimized mobile touch!');
+// Service accordion functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const accordionHeaders = document.querySelectorAll('.service-accordion-header');
+    
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function () {
+            // Toggle active class on header
+            this.classList.toggle('active');
+            
+            // Get the content element
+            const content = this.nextElementSibling;
+            
+            // Toggle content visibility with animation
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                setTimeout(() => {
+                    content.style.display = 'none';
+                }, 300);
+            } else {
+                content.style.display = 'block';
+                // Trigger reflow
+                content.offsetHeight;
+                content.classList.add('show');
+            }
+            
+            // Close other accordions when one opens
+            accordionHeaders.forEach(otherHeader => {
+                if (otherHeader !== this && otherHeader.classList.contains('active')) {
+                    otherHeader.classList.remove('active');
+                    const otherContent = otherHeader.nextElementSibling;
+                    otherContent.classList.remove('show');
+                    setTimeout(() => {
+                        otherContent.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+    
+    // Initialize all accordion content as hidden
+    document.querySelectorAll('.service-accordion-content').forEach(content => {
+        content.style.display = 'none';
+    });
+});
+
+console.log('JavaScript loaded successfully with all features!');
