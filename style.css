@@ -36,6 +36,68 @@ body {
     line-height: 1.6;
 }
 
+/* ===== NAVBAR SPACING FIX ===== */
+/* Fix navbar spacing for all sections */
+.section {
+    padding-top: 80px !important;
+    min-height: calc(100vh - 80px) !important;
+}
+
+/* Adjust for mobile navbar height */
+@media (max-width: 768px) {
+    .section {
+        padding-top: 70px !important;
+        min-height: calc(100vh - 70px) !important;
+    }
+}
+
+/* Extra small screens (320px and up) */
+@media (max-width: 480px) {
+    .section {
+        padding-top: 65px !important;
+        min-height: calc(100vh - 65px) !important;
+    }
+}
+
+/* Fix the home section specifically */
+#home {
+    padding-top: 80px !important;
+    min-height: calc(100vh - 80px) !important;
+}
+
+@media (max-width: 768px) {
+    #home {
+        padding-top: 70px !important;
+        min-height: calc(100vh - 70px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #home {
+        padding-top: 65px !important;
+        min-height: calc(100vh - 65px) !important;
+    }
+}
+
+/* Ensure content containers start below navbar */
+.container {
+    margin-top: 0 !important;
+}
+
+/* Fix the about section margin issue */
+@media (max-width: 500px) {
+    #about .container.max-w-7xl.mx-auto {
+        margin-top: 0 !important;
+        padding-top: 1rem !important;
+    }
+}
+
+/* Remove any existing margin-top rules that conflict */
+#about .container.max-w-7xl.mx-auto {
+    margin-top: 0 !important;
+}
+/* ===== END NAVBAR SPACING FIX ===== */
+
 /* Typography Scale */
 h1,
 h2,
