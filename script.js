@@ -19,7 +19,7 @@ const navbar = document.getElementById('navbar');
 const navContent = document.getElementById('navContent');
 const loadingBar = document.getElementById('loadingBar');
 
-// Swiper-like variables
+// Swiper and scrolling variables
 let isScrolling = false;
 let isDragging = false;
 let startX = 0;
@@ -32,13 +32,102 @@ let rafID;
 let velocity = 0;
 let lastX = 0;
 let lastTime = 0;
+let isMobile = false;
 
-// Initialize horizontal scrolling
+// Initialize horizontal scrolling with Swiper for mobile only
 function initHorizontalScroll() {
     sectionsContainer = document.querySelector('.sections-container');
     
     if (!sectionsContainer) return;
 
+    // Check if mobile
+    isMobile = window.innerWidth < 1024;
+
+    if (isMobile) {
+        initSwiperMobile();
+    } else {
+        initCustomDesktopScrolling();
+    }
+}
+
+// Initialize Swiper for mobile devices
+function initSwiperMobile() {
+    console.log('Initializing Swiper for mobile');
+    
+    // Add Swiper CSS classes
+    sectionsContainer.classList.add('swiper');
+    
+    // Wrap sections in swiper-wrapper if not already done
+    const sectionElements = sectionsContainer.querySelectorAll('.section');
+    if (!sectionsContainer.querySelector('.swiper-wrapper')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'swiper-wrapper';
+        
+        sectionElements.forEach(section => {
+            section.classList.add('swiper-slide');
+            wrapper.appendChild(section);
+        });
+        
+        sectionsContainer.innerHTML = '';
+        sectionsContainer.appendChild(wrapper);
+    }
+
+    // Initialize Swiper
+    const swiper = new Swiper('.sections-container', {
+        direction: 'horizontal',
+        slidesPerView: 1,
+        speed: 800,
+        mousewheel: {
+            forceToAxis: true,
+            sensitivity: 1,
+        },
+        keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+        },
+        touchRatio: 1,
+        threshold: 10,
+        resistance: true,
+        resistanceRatio: 0.85,
+        followFinger: true,
+        shortSwipes: true,
+        longSwipes: true,
+        slideToClickedSlide: false,
+        freeMode: false,
+        simulateTouch: true,
+        
+        on: {
+            init: function () {
+                setActiveSection('home');
+                console.log('Swiper initialized successfully');
+            },
+            slideChange: function () {
+                const activeIndex = this.activeIndex;
+                const activeSlide = this.slides[activeIndex];
+                if (activeSlide) {
+                    const sectionId = activeSlide.id;
+                    setActiveSection(sectionId);
+                    currentSectionIndex = activeIndex;
+                }
+            },
+            resize: function () {
+                AOS.refresh();
+            },
+            transitionEnd: function () {
+                // Refresh AOS after transition
+                AOS.refresh();
+            }
+        }
+    });
+
+    // Store swiper instance globally
+    window.sectionsSwiper = swiper;
+}
+
+// Initialize custom scrolling for desktop
+function initCustomDesktopScrolling() {
+    console.log('Initializing custom scrolling for desktop');
+    
     // Add CSS for horizontal scrolling
     const style = document.createElement('style');
     style.textContent = `
@@ -97,7 +186,7 @@ function initHorizontalScroll() {
     setActiveSection('home');
 }
 
-// Setup touch events for smooth horizontal scrolling
+// Custom desktop scrolling functions
 function setupTouchEvents() {
     if (!sectionsContainer) return;
     
@@ -112,47 +201,42 @@ function setupTouchEvents() {
     sectionsContainer.addEventListener('mouseleave', handleMouseUp);
 }
 
-// Touch start handler
 function handleTouchStart(e) {
+    if (isMobile) return;
     e.preventDefault();
     startDrag(e.touches[0].clientX);
 }
 
-// Touch move handler
 function handleTouchMove(e) {
-    if (!isDragging) return;
+    if (isMobile || !isDragging) return;
     e.preventDefault();
     updateDragPosition(e.touches[0].clientX);
 }
 
-// Touch end handler
 function handleTouchEnd() {
-    if (!isDragging) return;
+    if (isMobile || !isDragging) return;
     endDrag();
 }
 
-// Mouse down handler
 function handleMouseDown(e) {
+    if (isMobile) return;
     e.preventDefault();
     startDrag(e.clientX);
     sectionsContainer.style.cursor = 'grabbing';
 }
 
-// Mouse move handler
 function handleMouseMove(e) {
-    if (!isDragging) return;
+    if (isMobile || !isDragging) return;
     e.preventDefault();
     updateDragPosition(e.clientX);
 }
 
-// Mouse up handler
 function handleMouseUp() {
-    if (!isDragging) return;
+    if (isMobile || !isDragging) return;
     endDrag();
     sectionsContainer.style.cursor = 'grab';
 }
 
-// Start drag
 function startDrag(clientX) {
     isDragging = true;
     startX = clientX;
@@ -161,14 +245,10 @@ function startDrag(clientX) {
     lastTime = Date.now();
     velocity = 0;
     
-    // Cancel any ongoing animation
     cancelAnimationFrame(rafID);
-    
-    // Disable smooth scroll during drag
     sectionsContainer.style.scrollBehavior = 'auto';
 }
 
-// Update drag position with smooth animation
 function updateDragPosition(clientX) {
     if (!isDragging) return;
     
@@ -179,14 +259,12 @@ function updateDragPosition(clientX) {
     }
 }
 
-// Smooth scroll position update
 function updateScrollPosition() {
     if (!isDragging) return;
     
     const diff = currentX - startX;
     const scrollLeft = sectionsContainer.scrollLeft;
     
-    // Calculate velocity
     const currentTime = Date.now();
     const deltaTime = Math.max(currentTime - lastTime, 1);
     const deltaX = currentX - lastX;
@@ -195,14 +273,11 @@ function updateScrollPosition() {
     lastX = currentX;
     lastTime = currentTime;
     
-    // Update scroll position with resistance
     sectionsContainer.scrollLeft = scrollLeft - diff * 0.8;
     
-    // Continue animation
     rafID = requestAnimationFrame(updateScrollPosition);
 }
 
-// End drag with momentum
 function endDrag() {
     if (!isDragging) return;
     
@@ -213,22 +288,18 @@ function endDrag() {
     const diff = currentX - startX;
     const absVelocity = Math.abs(velocity);
     
-    // Apply momentum
     if (absVelocity > 0.5) {
         const momentum = velocity * 100;
         const currentScroll = sectionsContainer.scrollLeft;
         sectionsContainer.scrollLeft = currentScroll - momentum;
     }
     
-    // Re-enable smooth scroll
     sectionsContainer.style.scrollBehavior = 'smooth';
     sectionsContainer.style.cursor = '';
     
-    // Snap to nearest section after a short delay
     setTimeout(snapToNearestSection, 100);
 }
 
-// Snap to nearest section
 function snapToNearestSection() {
     const scrollLeft = sectionsContainer.scrollLeft;
     const sectionWidth = window.innerWidth;
@@ -239,16 +310,14 @@ function snapToNearestSection() {
     }
 }
 
-// Setup scroll events
 function setupScrollEvents() {
     if (!sectionsContainer) return;
 
     sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
 }
 
-// Handle scroll events
 function handleScroll() {
-    if (isDragging || isScrolling) return;
+    if (isDragging || isScrolling || isMobile) return;
     
     clearTimeout(window.scrollTimeout);
     window.scrollTimeout = setTimeout(() => {
@@ -263,23 +332,47 @@ function handleScroll() {
     }, 100);
 }
 
-// Smooth scroll to specific index
+// Universal functions that work with both systems
 function smoothScrollToIndex(index) {
     if (isScrolling || index < 0 || index >= sections.length) return;
     
-    isScrolling = true;
-    currentSectionIndex = index;
+    if (window.sectionsSwiper && isMobile) {
+        // Using Swiper (mobile)
+        window.sectionsSwiper.slideTo(index);
+    } else if (sectionsContainer) {
+        // Using custom scrolling (desktop)
+        isScrolling = true;
+        currentSectionIndex = index;
+        
+        sectionsContainer.scrollTo({
+            left: index * window.innerWidth,
+            behavior: 'smooth'
+        });
+        
+        setActiveSection(sections[index].id);
+        
+        setTimeout(() => {
+            isScrolling = false;
+        }, 500);
+    }
+}
+
+function scrollToSection(sectionId) {
+    if (sectionId === 'portfolio') {
+        openVideoModal();
+        return;
+    }
     
-    sectionsContainer.scrollTo({
-        left: index * window.innerWidth,
-        behavior: 'smooth'
-    });
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
     
-    setActiveSection(sections[index].id);
-    
-    setTimeout(() => {
-        isScrolling = false;
-    }, 500);
+    const targetIndex = Array.from(sections).indexOf(targetSection);
+    smoothScrollToIndex(targetIndex);
+
+    // Close sidebar on mobile
+    if (window.innerWidth < 1024) {
+        closeSidebar();
+    }
 }
 
 // Set active section
@@ -348,42 +441,21 @@ function animateCardsInSection(section) {
     const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
     const profile = section.querySelector('.mobile-profile');
     
-    // Animate cards with staggered delay
     cards.forEach((card, index) => {
         card.classList.remove('card-slide-in', 'card-slide-up');
-        void card.offsetWidth; // Trigger reflow
+        void card.offsetWidth;
         
         setTimeout(() => {
             card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
         }, index * 100);
     });
     
-    // Animate mobile profile if exists
     if (profile) {
         profile.classList.remove('profile-slide-in');
         void profile.offsetWidth;
         setTimeout(() => {
             profile.classList.add('profile-slide-in');
         }, 200);
-    }
-}
-
-// Scroll to section function
-function scrollToSection(sectionId) {
-    if (sectionId === 'portfolio') {
-        openVideoModal();
-        return;
-    }
-    
-    const targetSection = document.getElementById(sectionId);
-    if (!targetSection) return;
-    
-    const targetIndex = Array.from(sections).indexOf(targetSection);
-    smoothScrollToIndex(targetIndex);
-
-    // Close sidebar on mobile
-    if (window.innerWidth < 1024) {
-        closeSidebar();
     }
 }
 
@@ -415,8 +487,6 @@ window.addEventListener('load', function () {
     // Initialize horizontal scrolling
     initHorizontalScroll();
 });
-
-// Rest of your existing functionality...
 
 // Navbar scroll effect
 window.addEventListener('scroll', function () {
@@ -479,8 +549,11 @@ if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
 
-// Mouse wheel navigation for horizontal scrolling
+// Mouse wheel navigation for desktop only
 document.addEventListener('wheel', function (e) {
+    // Only handle wheel events on desktop (when Swiper isn't active)
+    if (isMobile) return;
+    
     e.preventDefault();
 
     if (isScrolling) return;
@@ -499,7 +572,7 @@ document.addEventListener('wheel', function (e) {
     }, 600);
 }, { passive: false });
 
-// Enhanced keyboard navigation
+// Enhanced keyboard navigation (works for both)
 document.addEventListener('keydown', function (e) {
     if (isScrolling) return;
     
@@ -610,12 +683,41 @@ if (contactForm) {
     });
 }
 
-// Handle window resize
+// Handle window resize and orientation changes
 window.addEventListener('resize', function () {
     AOS.refresh();
     
-    // Update scroll position on resize
-    if (sectionsContainer) {
+    const newIsMobile = window.innerWidth < 1024;
+    
+    // Reinitialize if switching between mobile/desktop
+    if (newIsMobile !== isMobile) {
+        console.log('Device type changed, reinitializing scrolling...');
+        
+        // Cleanup
+        if (window.sectionsSwiper) {
+            window.sectionsSwiper.destroy(true, true);
+            window.sectionsSwiper = null;
+        }
+        
+        // Remove Swiper classes
+        if (sectionsContainer) {
+            sectionsContainer.classList.remove('swiper');
+            const wrapper = sectionsContainer.querySelector('.swiper-wrapper');
+            if (wrapper) {
+                // Restore original structure
+                const slides = wrapper.querySelectorAll('.swiper-slide');
+                slides.forEach(slide => {
+                    slide.classList.remove('swiper-slide');
+                    sectionsContainer.appendChild(slide);
+                });
+                wrapper.remove();
+            }
+        }
+        
+        // Reinitialize
+        initHorizontalScroll();
+    } else if (sectionsContainer && !isMobile) {
+        // Update scroll position on desktop resize
         sectionsContainer.scrollLeft = currentSectionIndex * window.innerWidth;
     }
 });
@@ -627,4 +729,3 @@ if (closeSidebarBtn) {
         closeSidebar();
     });
 }
-
