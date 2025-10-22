@@ -1,3166 +1,630 @@
-<!DOCTYPE html>
-<html lang="en">
+// Initialize AOS
+AOS.init({
+    duration: 800,
+    once: true,
+    offset: 100
+});
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMIJOJI COMPANY LIMITED - Premium Production Services</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css">
-    <style>
-        :root {
-            --accent-yellow: #f59e0b;
-            --accent-purple: #8b5cf6;
-            --accent-indigo: #6366f1;
-            --dark-100: #f1f5f9;
-            --dark-200: #e2e8f0;
-            --dark-300: #cbd5e1;
-            --dark-400: #94a3b8;
-            --dark-500: #64748b;
-            --dark-600: #475569;
-            --dark-700: #334155;
-            --dark-800: #1e293b;
-            --dark-900: #0f172a;
-            --text-body: #c0c0d0;
-            --bg-dark: #0f0f1a;
+// DOM Elements
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const scrollTop = document.getElementById('scrollTop');
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.section');
+const navDots = document.querySelectorAll('.nav-dot');
+const fadeTexts = document.querySelectorAll('.fade-text');
+const skillProgresses = document.querySelectorAll('.skill-progress');
+const navbar = document.getElementById('navbar');
+const navContent = document.getElementById('navContent');
+const loadingBar = document.getElementById('loadingBar');
+
+// Swiper-like variables
+let isScrolling = false;
+let isDragging = false;
+let startX = 0;
+let currentX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let currentSectionIndex = 0;
+let sectionsContainer;
+let rafID;
+let velocity = 0;
+let lastX = 0;
+let lastTime = 0;
+
+// Initialize horizontal scrolling
+function initHorizontalScroll() {
+    sectionsContainer = document.querySelector('.sections-container');
+    
+    if (!sectionsContainer) return;
+
+    // Add CSS for horizontal scrolling
+    const style = document.createElement('style');
+    style.textContent = `
+        .sections-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            width: 100%;
+            height: 100vh;
+            position: relative;
         }
-
-        /* ===== BASE STYLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        .section {
-            padding: 4rem 0;
-            transition: opacity 0.3s ease;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .section:not(:target) {
-            opacity: 0.95;
-        }
-
-        .section:target {
-            opacity: 1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* ===== GLASS EFFECTS ===== */
-        .glass-effect {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-effect-light {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        /* ===== VIDEO MODAL ===== */
-        .video-modal {
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
+        
+        .sections-container::-webkit-scrollbar {
             display: none;
         }
-
-        .video-modal.show {
-            opacity: 1;
-            visibility: visible;
-            display: flex;
+        
+        .section {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            min-width: 100vw;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
         }
-
-        .modal-content {
-            transform: scale(0.7);
-            transition: transform 0.3s ease-in-out;
+        
+        /* Smooth transitions for section changes */
+        .section {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-
-        .video-modal.show .modal-content {
+        
+        /* Hide scrollbars but keep functionality */
+        .section::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        /* Active section styling */
+        .section.active {
             transform: scale(1);
         }
-
-        .close-btn {
-            transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-            transform: rotate(90deg);
-        }
-
-        #showreelVideo {
-            outline: none;
-        }
-
-        /* ===== HOME SECTION ===== */
-        #home {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-
-        #home video {
-            object-fit: cover;
-            object-position: center;
-            width: 100%;
-            height: 100%;
-            playsinline: true;
-            webkit-playsinline: true;
-        }
-
-        /* Enhanced gradient overlays */
-        @media (max-width: 1024px) {
-            #home .absolute.inset-0 div:last-child {
-                background: linear-gradient(to bottom,
-                        transparent 0%,
-                        rgba(15, 23, 42, 0.3) 30%,
-                        rgba(15, 23, 42, 0.7) 60%,
-                        rgba(15, 23, 42, 0.95) 100%) !important;
-            }
-        }
-
-        @media (min-width: 1025px) {
-            #home .absolute.inset-0 div:last-child {
-                background: linear-gradient(to right,
-                        rgba(15, 23, 42, 0.95) 0%,
-                        rgba(15, 23, 42, 0.8) 40%,
-                        rgba(15, 23, 42, 0.4) 70%,
-                        transparent 100%) !important;
-            }
-
-            #home video {
-                object-position: right center;
-            }
-        }
-
-        /* Special Name Styling */
-        .special-name {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 25%, #66bb6a 50%, #42a5f5 75%, #ab47bc 100%);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 8s ease infinite, typing 2s steps(12) 1s 1 normal both;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* Typing Animation - Only Once */
-        .typing-animation {
-            overflow: hidden;
-            border-right: 3px solid transparent;
-            white-space: nowrap;
-            margin: 0;
-            animation: typing 2s steps(12) 1s 1 normal both, blink-caret 0.75s step-end 4;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0
-            }
-
-            to {
-                width: 100%
-            }
-        }
-
-        @keyframes blink-caret {
-
-            from,
-            to {
-                border-color: transparent
-            }
-
-            50% {
-                border-color: #ff6b6b
-            }
-        }
-
-        /* Enhanced Rotating Titles with Indentation */
-        .fade-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .fade-text.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* ===== BUTTONS & ICONS ===== */
-        .btn {
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid transparent;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .social-icon {
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .icon-btn {
-            backdrop-filter: blur(10px);
-            border: 1px solid transparent;
-        }
-
-        /* ===== MOBILE PROFILE ===== */
-        .mobile-profile {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            animation: slideInUp 0.6s ease-out;
-            max-width: min(280px, 85vw);
-            padding: clamp(1rem, 4vw, 1.5rem);
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== ABOUT SECTION ===== */
-        #about {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            position: relative;
-        }
-
-        .skill-progress {
-            width: 0;
-            transition: width 1.5s ease-in-out;
-        }
-
-        /* ===== CLIENTS CAROUSEL ===== */
-        .clients-carousel-container {
-            mask: linear-gradient(90deg,
-                    transparent,
-                    white 10%,
-                    white 90%,
-                    transparent);
-            -webkit-mask: linear-gradient(90deg,
-                    transparent,
-                    white 10%,
-                    white 90%,
-                    transparent);
-        }
-
-        .clients-carousel-track {
-            animation: scroll 30s linear infinite;
-            width: max-content;
-        }
-
-        .clients-carousel-track:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(calc(-50% - 1rem));
-            }
-        }
-
-        /* Client Card Enhancements */
-        .client-card {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .client-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1),
-                    transparent);
-            transition: left 0.6s ease;
-        }
-
-        .client-card:hover::before {
-            left: 100%;
-        }
-
-        /* ===== PROJECT CARDS ===== */
-        .project-card {
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* ===== PACKAGE CARDS ===== */
-        .package-card {
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .package-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* ===== ACCORDION STYLES ===== */
-        .service-accordion {
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .service-accordion:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .service-accordion-header {
-            width: 100%;
-            padding: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-align: left;
-            background: transparent;
-            color: inherit;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .service-accordion-header.active {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .service-accordion-header i.fa-chevron-down {
-            transition: transform 0.3s ease;
-            color: var(--accent-yellow);
-        }
-
-        .service-accordion-header.active i.fa-chevron-down {
-            transform: rotate(180deg);
-        }
-
-        .service-accordion-content {
-            padding: 0 1.25rem 1.25rem;
-            color: var(--text-body);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            display: none;
-        }
-
-        .service-accordion-content.show {
-            display: block;
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== TAB STYLES ===== */
-        .tab-button {
-            transition: all 0.3s ease;
-        }
-
-        .tab-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-content {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 1024px) {
-            #home .container {
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-            }
-
-            .fade-wrapper {
-                font-size: 1.5rem !important;
-            }
-
-            .flex-wrap {
-                gap: 1rem;
-            }
-
-            .flex-wrap>div {
-                min-width: 70px;
-            }
-
-            #home .hidden.lg\\:block {
-                display: none !important;
-            }
-
-            .glass-effect {
-                margin: 0.5rem 0;
-            }
-
-            .tab-button {
-                padding: 0.75rem 0.5rem;
-            }
-        }
-
-        @media (min-width: 1025px) {
-            #home .lg\\:hidden {
-                display: none !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .section {
-                padding: 2rem 0;
-            }
-
-            .sections-container {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .section {
-                min-width: 100vw;
-                width: 100vw;
-                height: 100vh;
-                overflow-y: auto;
-                scroll-snap-align: start;
-            }
-
-            .nav-dots {
-                display: none;
-            }
-
-            .modal-content {
-                margin: 1rem;
-                max-height: 80vh;
-            }
-
-            .modal-footer {
-                padding: 1rem;
-            }
-
-            .clients-carousel-track {
-                animation: scroll-mobile 25s linear infinite;
-            }
-
-            @keyframes scroll-mobile {
-                0% {
-                    transform: translateX(0);
-                }
-
-                100% {
-                    transform: translateX(calc(-50% - 0.5rem));
-                }
-            }
-
-            .client-card {
-                width: 40vw;
-                height: 28vw;
-                padding: 1rem;
-            }
-
-            .contact-form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            #about .container {
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-
-            #about .glass-effect {
-                margin: 0 0.25rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #home h1 {
-                font-size: 2.5rem !important;
-            }
-
-            .fade-wrapper {
-                font-size: 1.25rem !important;
-            }
-
-            .btn {
-                padding: 0.75rem 1.5rem !important;
-                font-size: 0.9rem;
-            }
-
-            .social-icon {
-                width: 2.5rem;
-                height: 2.5rem;
-            }
-
-            .mobile-profile {
-                max-width: 250px;
-                padding: 0.75rem;
-            }
-
-            #about h2 {
-                font-size: 2rem !important;
-            }
-
-            #about .container {
-                padding-top: 3rem;
-                padding-bottom: 3rem;
-            }
-
-            #about .grid.grid-cols-2 {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            #about .glass-effect {
-                padding: 1rem !important;
-            }
-
-            .tab-button .text-xs {
-                font-size: 0.7rem;
-            }
-
-            .service-accordion-header {
-                padding: 1rem;
-            }
-
-            .service-accordion-header h3 {
-                font-size: 1rem;
-            }
-
-            .service-accordion-content {
-                padding: 0 1rem 1rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .mobile-profile h2 {
-                font-size: 1.375rem;
-            }
-
-            .mobile-profile .text-sm {
-                font-size: 0.75rem;
-            }
-
-            .mobile-profile .text-xs.font-medium {
-                font-size: 0.9375rem;
-            }
-
-            .mobile-profile .text-xs.leading-relaxed {
-                font-size: 0.8125rem;
-            }
-        }
-
-        @media (max-width: 370px) {
-            .container {
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-        }
-
-        /* ===== UTILITY CLASSES ===== */
-        .max-w-7xl {
-            max-width: 80rem;
-        }
-
-        .max-w-2xl {
-            max-width: 42rem;
-        }
-
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .lead {
-            font-size: 1.125rem;
-            color: var(--text-body);
-        }
-
-        .text-body {
-            color: var(--text-body);
-        }
-
-        .hover-lift {
-            transition: all 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-2px);
-        }
-
-        .glow {
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        }
-
-        .badge-glow {
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-    </style>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                        },
-                        accent: {
-                            yellow: '#f59e0b',
-                            purple: '#8b5cf6',
-                            indigo: '#6366f1'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-
-<body class="text-slate-100 antialiased">
-    <!-- Loading Bar -->
-    <div class="loading-bar" id="loadingBar"></div>
-
-    <!-- Fixed Navbar -->
-    <nav class="navbar-fixed" id="navbar">
-        <div class="navbar-container">
-            <div class="glass-effect flex justify-between items-center py-3 md:py-4 px-4 md:px-8 rounded-2xl mt-4 md:mt-6 mx-3 md:mx-5"
-                id="navContent">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-lg md:text-xl shadow-lg shadow-amber-500/40 glow">
-                        AM
-                    </div>
-                    <div>
-                        <span class="text-lg md:text-xl font-bold hidden sm:block">AMIJOJI COMPANY</span>
-                        <span class="text-accent-yellow text-sm hidden sm:block">Premium Production Services</span>
-                    </div>
-                </div>
-
-                <div class="hamburger flex flex-col justify-between w-7 h-5 md:w-8 md:h-6 cursor-pointer z-50 group"
-                    id="hamburger">
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Navigation Dots -->
-    <div class="nav-dots" id="navDots">
-        <div class="nav-dot active" data-section="home"></div>
-        <div class="nav-dot" data-section="about"></div>
-        <div class="nav-dot" data-section="services"></div>
-        <div class="nav-dot" data-section="packages"></div>
-        <div class="nav-dot" data-section="portfolio"></div>
-        <div class="nav-dot" data-section="clients"></div>
-        <div class="nav-dot" data-section="contact"></div>
-    </div>
-
-    <!-- Swipe Indicator -->
-    <div class="swipe-indicator-left">
-        <i class="fas fa-chevron-up"></i>
-    </div>
-    <div class="swipe-indicator-right">
-        <i class="fas fa-chevron-up"></i>
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay-glass fixed inset-0 z-40 opacity-0 invisible transition-all duration-300 cursor-pointer"
-        id="overlay"></div>
-
-    <!-- Enhanced Glassmorphism Sidebar -->
-    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-96 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto"
-        id="sidebar">
-        <!-- Close Button for Mobile -->
-        <div class="absolute top-4 right-4 z-10 sm:hidden">
-            <button
-                class="close-sidebar w-10 h-10 rounded-full bg-dark-800/80 flex items-center justify-center text-white text-lg hover:bg-accent-yellow hover:text-dark-900 transition-all duration-300 glow">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- Profile Section -->
-        <div class="sidebar-profile flex flex-col items-center py-8 px-4 sm:px-8 rounded-b-2xl mb-6 mt-4 sm:mt-0">
-            <div
-                class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-3xl sm:text-4xl shadow-2xl shadow-amber-500/40 mb-6 overflow-hidden glow floating">
-                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
-                    alt="AMIJOJI COMPANY" class="w-full h-full object-cover rounded-full">
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white text-center px-2 mb-2">AMIJOJI COMPANY LIMITED</h2>
-            <p class="text-accent-yellow font-semibold text-lg mb-4">Visual Storytelling Excellence</p>
-            <div class="flex gap-4">
-                <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
-                    <i class="fab fa-youtube"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Navigation Links -->
-        <div class="sidebar-links flex flex-col gap-2 flex-1 px-4">
-            <a href="#home"
-                class="sidebar-link nav-link text-slate-200 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4 active-sidebar-link"
-                data-section="home">
-                <i class="fas fa-home text-accent-yellow w-6 text-center text-lg"></i>
-                <span class="flex-1">Home</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
-            </a>
-            <a href="#about"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="about">
-                <i class="fas fa-building text-accent-indigo w-6 text-center text-lg"></i>
-                <span class="flex-1">About Us</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
-            </a>
-            <a href="#services"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="services">
-                <i class="fas fa-photo-video text-accent-purple w-6 text-center text-lg"></i>
-                <span class="flex-1">Services</span>
-                <i class="fas fa-chevron-right text-accent-purple/70 text-sm"></i>
-            </a>
-            <a href="#packages"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="packages">
-                <i class="fas fa-money-bill-wave text-accent-yellow w-6 text-center text-lg"></i>
-                <span class="flex-1">Packages</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
-            </a>
-            <a href="#portfolio"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="portfolio">
-                <i class="fas fa-briefcase text-accent-indigo w-6 text-center text-lg"></i>
-                <span class="flex-1">Portfolio</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
-            </a>
-            <a href="#clients"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="clients">
-                <i class="fas fa-star text-accent-yellow w-6 text-center text-lg"></i>
-                <span class="flex-1">Our Clients</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
-            </a>
-            <a href="#contact"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
-                data-section="contact">
-                <i class="fas fa-envelope text-accent-yellow w-6 text-center text-lg"></i>
-                <span class="flex-1">Contact</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
-            </a>
-        </div>
-
-        <!-- Expertise Badges -->
-        <div class="px-4 mt-6 mb-8">
-            <h3 class="text-slate-400 font-semibold text-sm uppercase tracking-wider mb-4 pl-2">Our Expertise</h3>
-            <div class="role-badges flex flex-wrap gap-3 justify-center sm:justify-start">
-                <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
-                    Live Coverage
-                </div>
-                <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
-                    Content Creation
-                </div>
-                <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
-                    TV Commercials
-                </div>
-                <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
-                    Event Coverage
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="border-t border-slate-700/50 mt-auto py-6 px-6">
-            <p class="text-slate-400 text-sm text-center">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence
-                since 2016.</p>
-        </div>
-    </div>
-
-    <!-- Scroll to top button -->
-    <div class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <!-- Sections Container -->
-    <div class="sections-container">
-        <!-- Home Section -->
-        <section id="home" class="section active relative min-h-screen">
-            <!-- Video Background with Gradient Overlay -->
-            <div class="absolute inset-0 z-0">
-                <!-- Video Background -->
-                <div class="w-full h-full">
-                    <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover"
-                        poster="aj_img.jpg" id="hero-video">
-                        <source src="hero-video.mp4" type="video/mp4">
-                        <source src="hero-video.webm" type="video/webm">
-                        <img src="aj_img.jpg" alt="Amigo Johnson">
-                    </video>
-                </div>
-                <!-- Enhanced Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
-                    lg:bg-gradient-to-r lg:from-dark-900 lg:via-dark-900/80 lg:to-transparent"></div>
-            </div>
-
-            <!-- Content -->
-            <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
-                <div class="w-full">
-                    <!-- Main Content - Hidden on mobile -->
-                    <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1000">
-                        <!-- Welcome Text with Unique Typing Effect -->
-                        <div class="mb-4">
-                            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">
-                                <span class="typing-container">
-                                    <span class="text-slate-100">I'm </span>
-                                    <span class="special-name typing-animation">Amigo Johnson</span>
-                                </span>
-                            </h1>
-                        </div>
-
-                        <!-- Enhanced Rotating Titles with Indentation -->
-                        <div class="fade-animation min-h-[60px] mb-6 sm:mb-8 ml-8">
-                            <div
-                                class="fade-wrapper relative w-full text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-100">
-                                <div class="fade-text active flex items-center gap-3" id="text-1">
-                                    <i class="fas fa-palette text-accent-yellow"></i>
-                                    Creative Director
-                                </div>
-                                <div class="fade-text flex items-center gap-3" id="text-2">
-                                    <i class="fas fa-theater-masks text-accent-purple"></i>
-                                    Stage Director
-                                </div>
-                                <div class="fade-text flex items-center gap-3" id="text-3">
-                                    <i class="fas fa-video text-accent-indigo"></i>
-                                    Video Producer
-                                </div>
-                                <div class="fade-text flex items-center gap-3" id="text-4">
-                                    <i class="fas fa-volume-up text-accent-yellow"></i>
-                                    Sound Engineer
-                                </div>
-                                <div class="fade-text flex items-center gap-3" id="text-5">
-                                    <i class="fas fa-broadcast-tower text-accent-purple"></i>
-                                    Live Stream Producer
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Description -->
-                        <p class="text-slate-300 text-lg sm:text-xl mb-8 max-w-xl leading-relaxed ml-8">
-                            Crafting unforgettable experiences through stage direction, video production,
-                            and sound engineering. Bringing creative visions to life with technical excellence.
-                        </p>
-
-                        <!-- Stats -->
-                        <div class="flex flex-wrap gap-6 sm:gap-8 mb-8 ml-8">
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">150+</div>
-                                <div class="text-slate-400 text-sm">Projects</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-purple">50+</div>
-                                <div class="text-slate-400 text-sm">Clients</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-indigo">10+</div>
-                                <div class="text-slate-400 text-sm">Years</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">12</div>
-                                <div class="text-slate-400 text-sm">Awards</div>
-                            </div>
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="flex flex-col sm:flex-row gap-4 mb-8 ml-8">
-                            <button onclick="openVideoModal()"
-                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/50 flex items-center justify-center gap-2">
-                                <i class="fas fa-play-circle"></i>
-                                View Portfolio
-                            </button>
-                            <button onclick="scrollToSection('contact')"
-                                class="btn bg-transparent text-white border border-slate-500 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 flex items-center justify-center gap-2">
-                                <i class="fas fa-envelope"></i>
-                                Contact Me
-                            </button>
-                        </div>
-
-                        <!-- Social Links -->
-                        <div class="social-links flex gap-4 ml-8">
-                            <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                            <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Mobile Profile Section - Bottom Right -->
-            <div class="lg:hidden absolute bottom-20 right-4 z-20">
-                <div
-                    class="mobile-profile glass-effect rounded-2xl p-4 backdrop-blur-lg border border-white/10 max-w-[280px]">
-                    <!-- Minimal Name & Title -->
-                    <div class="text-right mb-4">
-                        <h2 class="text-lg font-bold text-white mb-1">Amigo Johnson</h2>
-                        <p class="text-accent-yellow text-xs font-medium mb-3">Creative Director</p>
-
-                        <!-- Compact Description -->
-                        <p class="text-slate-300 text-xs leading-relaxed mb-3">
-                            Crafting unforgettable experiences through stage direction, video production, and sound
-                            engineering.
-                        </p>
-                    </div>
-
-                    <!-- Icon-only Buttons -->
-                    <div class="flex justify-end gap-3 mb-4">
-                        <button onclick="openVideoModal()"
-                            class="icon-btn w-9 h-9 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-indigo-500/40"
-                            aria-label="View Portfolio">
-                            <i class="fas fa-play-circle text-xs"></i>
-                        </button>
-                        <button onclick="scrollToSection('contact')"
-                            class="icon-btn w-9 h-9 rounded-full bg-white/20 text-white border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-110"
-                            aria-label="Contact Me">
-                            <i class="fas fa-envelope text-xs"></i>
-                        </button>
-                    </div>
-
-                    <!-- Minimal Stats - Compact Layout -->
-                    <div class="grid grid-cols-3 gap-2 text-xs">
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-yellow text-sm">150+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Projects</div>
-                        </div>
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-purple text-sm">50+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Clients</div>
-                        </div>
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-indigo text-sm">10+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Years</div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Social Links -->
-                    <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-white/10">
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Horizontal Scroll Indicator -->
-            <div class="absolute bottom-8 right-8 z-20 hidden lg:flex items-center gap-3 text-slate-300">
-                <div class="flex items-center gap-2 animate-pulse">
-                    <span class="text-sm font-medium">Scroll horizontally</span>
-                    <i class="fas fa-arrow-right text-accent-yellow"></i>
-                </div>
-            </div>
-
-            <!-- Scroll Indicator (Vertical - for other sections) -->
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-                <div class="animate-bounce text-accent-yellow">
-                    <i class="fas fa-chevron-down text-xl"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section relative">
-            <!-- Enhanced Background -->
-            <div class="absolute inset-0 z-0">
-                <div class="w-full h-full relative">
-                    <img src="story.jpg" alt="About Us Background" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90 
-                lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/80 lg:to-dark-800/90"></div>
-                </div>
-            </div>
-
-            <!-- Content -->
-            <div class="container max-w-7xl mx-auto px-3 sm:px-4 pt-20 sm:pt-24 pb-6 lg:py-12 h-full flex items-center relative z-10"
-                style="
-    margin-top: 0;
-">
-                <div class="w-full">
-                    <!-- Header Section -->
-                    <div class="text-center mb-4 sm:mb-6 lg:mb-8 aos-init aos-animate" data-aos="custom-fade-up"
-                        data-aos-duration="800">
-                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2 font-bold text-white">Our Story &amp;
-                            Values</h2>
-                        <p class="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl mx-auto px-2">
-                            Founded in 2016 by Johnson Jimmy Sangu, we've been at the forefront of visual storytelling
-                            in Tanzania.
-                        </p>
-                    </div>
-
-                    <!-- Mobile Tabs -->
-                    <div class="lg:hidden">
-                        <!-- Tab Headers -->
-                        <div class="flex border-b border-white/20 mb-3 sm:mb-4">
-                            <button
-                                class="tab-button active flex-1 py-2 px-1 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300"
-                                data-tab="story">
-                                <div class="flex flex-col items-center">
-                                    <i class="fas fa-history text-sm sm:text-base mb-1"></i>
-                                    <span class="text-xs">Our Story</span>
-                                </div>
-                            </button>
-                            <button
-                                class="tab-button flex-1 py-2 px-1 text-center font-semibold text-slate-400 transition-all duration-300"
-                                data-tab="values">
-                                <div class="flex flex-col items-center">
-                                    <i class="fas fa-star text-sm sm:text-base mb-1"></i>
-                                    <span class="text-xs">Our Values</span>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Tab Content -->
-                        <div class="tab-content active" id="story-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10 aos-init aos-animate"
-                                data-aos="custom-fade-up" data-aos-duration="800"
-                                style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
-                                <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-2 font-semibold">Our
-                                    Journey</h3>
-                                <div class="space-y-2 text-xs sm:text-sm text-slate-300">
-                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
-                                        production services, Johnson Jimmy Sangu created a company that would set new
-                                        standards in the industry.</p>
-                                    <p>Since 2016, AMIJOJI COMPANY LIMITED has grown in reputation and expertise,
-                                        earning a strong presence in Tanzania's production industry.</p>
-                                </div>
-
-                                <!-- Stats Grid for Mobile -->
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
-                                    <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-yellow">150+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Projects</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-purple">50+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Clients</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-indigo">7+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Years</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-yellow">12
-                                        </div>
-                                        <div class="text-xs text-slate-400">Awards</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-content hidden" id="values-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10 aos-init aos-animate"
-                                data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                                <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-3 font-semibold">Our
-                                    Core Values
-                                </h3>
-                                <div class="space-y-2 sm:space-y-3">
-                                    <!-- Creativity -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">95%</span>
-                                        </div>
-                                        <p class="text-xs text-slate-300 mb-1">Pushing boundaries in visual
-                                            storytelling.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="95%" style="width: 95%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Excellence -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">90%</span>
-                                        </div>
-                                        <p class="text-xs text-slate-300 mb-1">Highest standards of quality in all work.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="90%" style="width: 90%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Collaboration -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">92%</span>
-                                        </div>
-                                        <p class="text-xs text-slate-300 mb-1">Achieving best results through teamwork.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="92%" style="width: 92%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Innovation -->
-                                    <div
-                                        class="glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-xs sm:text-sm">88%</span>
-                                        </div>
-                                        <p class="text-xs text-slate-300 mb-1">Embracing latest trends and technologies.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="88%" style="width: 88%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Desktop Layout -->
-                    <div class="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8 items-start">
-                        <!-- Story Section -->
-                        <div class="relative aos-init aos-animate" data-aos="custom-fade-right"
-                            data-aos-duration="1000">
-                            <div class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 font-semibold">Our Journey</h3>
-                                <div class="space-y-3 text-sm xl:text-base text-slate-300">
-                                    <p>With a deep passion for visual storytelling and a vision to provide exceptional
-                                        production services, Johnson Jimmy Sangu created a company that would set new
-                                        standards in the industry.</p>
-                                    <p>Since 2016, AMIJOJI COMPANY LIMITED has grown in reputation and expertise,
-                                        earning a strong presence in Tanzania's production industry.</p>
-                                    <p>We've continuously evolved and adapted to the ever-changing landscape of
-                                        production, investing in state-of-the-art equipment and embracing emerging
-                                        technologies.</p>
-                                </div>
-
-                                <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4 mt-5 xl:mt-6">
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-yellow mb-1">150+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Projects</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-purple mb-1">50+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Clients</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-indigo mb-1">7+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Years</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-yellow mb-1">12</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Awards</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Values Section -->
-                        <div data-aos="custom-fade-left" data-aos-duration="1000" class="h-full aos-init aos-animate">
-                            <div class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full"
-                                style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
-                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 xl:mb-5 font-semibold">Our Core
-                                    Values</h3>
-                                <div class="space-y-4 xl:space-y-5">
-                                    <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">95%</span>
-                                        </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We foster a culture
-                                            of
-                                            creativity, constantly pushing boundaries and exploring new ways to tell
-                                            stories.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="95%" style="width: 95%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">90%</span>
-                                        </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We strive for
-                                            excellence in
-                                            every aspect of our work, ensuring the highest standards of quality.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="90%" style="width: 90%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">92%</span>
-                                        </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We value
-                                            collaboration and
-                                            believe that the best results are achieved through teamwork.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="92%" style="width: 92%;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="glass-effect-light rounded-lg p-4 xl:p-5 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2 xl:mb-3">
-                                            <h4 class="text-base xl:text-lg font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-sm xl:text-base">88%</span>
-                                        </div>
-                                        <p class="text-sm xl:text-base text-slate-300 mb-2 xl:mb-3">We embrace
-                                            innovation and stay
-                                            updated with the latest trends and technologies.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="88%" style="width: 88%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                /* Add this CSS to make the margin-top responsive */
-                @media (max-width: 500px) {
-                    .container.max-w-7xl.mx-auto {
-                        margin-top: 70% !important;
-                    }
-                }
-            </style>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="section">
-            <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
-                <div class="w-full">
-                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl md:text-4xl mb-3">Our Premium Services</h2>
-                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">We offer a comprehensive range of
-                            production services tailored to meet your unique needs and objectives.</p>
-                    </div>
-
-                    <!-- Desktop Grid Layout (hidden on mobile) -->
-                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                        <!-- Service 1 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                    <i class="fas fa-broadcast-tower"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Live Coverage Production</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Seamless live streaming for conferences,
-                                    concerts, sports events, and seminars. Capture every important moment.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 2 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="100">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
-                                    <i class="fas fa-film"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Content Creation</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Engaging and impactful videos tailored to
-                                    meet specific objectives. From promotional videos to branded storytelling.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 3 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="200">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                    <i class="fas fa-tv"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">TVC Production</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Effective TV commercials that leave a
-                                    lasting impact. We develop concepts, storyboard ideas, and maximize brand
-                                    visibility.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 4 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="300">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Event Coverage</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Comprehensive coverage for corporate
-                                    events, cultural celebrations, and conferences. We capture the essence and emotions.
-                                </p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 5 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="400">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Digital Videos</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Engaging videos optimized for social
-                                    media, websites, and online campaigns. We craft content that enhances brand
-                                    engagement.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 6 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="500">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Photography</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Visually stunning images for products,
-                                    corporate portraits, and events. We ensure every shot meets highest quality
-                                    standards.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Accordion Layout (hidden on desktop) -->
-                    <div class="md:hidden space-y-2">
-                        <!-- Service 1 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
-                                        <i class="fas fa-broadcast-tower"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Live Coverage Production</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Seamless live streaming for conferences, concerts,
-                                    sports events, and seminars. Capture every important moment.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 2 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="100">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
-                                        <i class="fas fa-film"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Content Creation</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Engaging and impactful videos tailored to meet
-                                    specific objectives. From promotional videos to branded storytelling.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 3 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="200">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
-                                        <i class="fas fa-tv"></i>
-                                    </div>
-                                    <h3 class="font-semibold">TVC Production</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Effective TV commercials that leave a lasting impact.
-                                    We develop concepts, storyboard ideas, and maximize brand visibility.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 4 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="300">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Event Coverage</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Comprehensive coverage for corporate events, cultural
-                                    celebrations, and conferences. We capture the essence and emotions.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 5 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="400">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
-                                        <i class="fas fa-video"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Digital Videos</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Engaging videos optimized for social media, websites,
-                                    and online campaigns. We craft content that enhances brand engagement.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 6 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="500">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
-                                        <i class="fas fa-camera"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Photography</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Visually stunning images for products, corporate
-                                    portraits, and events. We ensure every shot meets highest quality standards.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Live Recording Packages Section -->
-        <!-- Live Recording Packages Section -->
-        <!-- Live Recording Packages Section -->
-        <section id="packages" class="section relative next active">
-    <!-- Background -->
-    <div class="absolute inset-0 z-0">
-        <div class="w-full h-full relative">
-            <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90"></div>
-            <!-- Subtle pattern overlay -->
-            <div class="absolute inset-0 opacity-5 bg-repeat" style="background-image: url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\" fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3Ccircle cx=\"13\" cy=\"13\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E');"></div>
-        </div>
-    </div>
-
-    <!-- Content -->
-    <div class="container max-w-7xl mx-auto px-3 py-8 h-full flex items-center relative z-10">
-        <div class="w-full">
-            <!-- Section Header -->
-            <div class="text-center mb-10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800">
-                <div class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-yellow/20 mb-3">
-                    <i class="fas fa-camera text-accent-yellow text-sm"></i>
-                </div>
-                <h2 class="text-xl font-bold mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">Live Recording Packages</h2>
-                <p class="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">Professional video production for events, concerts & performances</p>
-            </div>
-
-            <!-- Package Cards - Stacked for Mobile -->
-            <div class="space-y-5 mb-10">
-                <!-- Essential Package -->
-                <div class="package-card glass-effect rounded-xl p-4 hover-lift transition-all duration-300 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <div class="flex items-center mb-1">
-                                <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center mr-2">
-                                    <i class="fas fa-play text-xs text-slate-400"></i>
-                                </div>
-                                <h3 class="text-base font-bold">Essential</h3>
-                            </div>
-                            <div class="price text-2xl font-bold text-accent-yellow mt-1">$3,800</div>
-                        </div>
-                        <span class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
-                    </div>
-                    
-                    <div class="package-features mb-4">
-                        <div class="space-y-3">
-                            <div class="flex items-center bg-white/5 rounded-lg px-3 py-2">
-                                <i class="fas fa-check text-accent-yellow text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">13 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center bg-white/5 rounded-lg px-3 py-2">
-                                <i class="fas fa-check text-accent-yellow text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">Professional Directing</span>
-                            </div>
-                            <div class="flex items-center bg-slate-800/50 rounded-lg px-3 py-2 border border-white/5">
-                                <i class="fas fa-times text-slate-500 text-xs mr-3 w-4"></i>
-                                <span class="text-xs text-slate-500">No Post Production</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="openPackageModal('essential')" class="btn w-full bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                        <span class="group-hover:translate-x-1 transition-transform duration-300">Select Essential</span>
-                    </button>
-                </div>
-
-                <!-- Professional Package (Most Popular) -->
-                <div class="package-card glass-effect rounded-xl p-4 border-2 border-accent-yellow relative hover-lift transition-all duration-300 shadow-2xl shadow-amber-500/10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <span class="bg-gradient-to-r from-accent-yellow to-amber-500 text-dark-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg shadow-amber-500/30 flex items-center">
-                            <i class="fas fa-crown mr-1 text-xs"></i>
-                            Most Popular
-                        </span>
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-4 mt-2">
-                        <div>
-                            <div class="flex items-center mb-1">
-                                <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center mr-2">
-                                    <i class="fas fa-star text-xs text-amber-400"></i>
-                                </div>
-                                <h3 class="text-base font-bold">Professional</h3>
-                            </div>
-                            <div class="price text-2xl font-bold text-accent-yellow mt-1">$5,700</div>
-                        </div>
-                        <span class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
-                    </div>
-                    
-                    <div class="package-features mb-4">
-                        <div class="space-y-3">
-                            <div class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">22 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">Advanced Directing</span>
-                            </div>
-                            <div class="flex items-center bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                                <i class="fas fa-check text-amber-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">Basic Post Production</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="openPackageModal('professional')" class="btn w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white py-3 rounded-xl font-semibold text-xs hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-amber-500/40 group">
-                        <span class="group-hover:scale-105 transition-transform duration-300">Select Professional</span>
-                    </button>
-                </div>
-
-                <!-- Premium Package -->
-                <div class="package-card glass-effect rounded-xl p-4 hover-lift transition-all duration-300 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <div class="flex items-center mb-1">
-                                <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mr-2">
-                                    <i class="fas fa-gem text-xs text-purple-400"></i>
-                                </div>
-                                <h3 class="text-base font-bold">Premium</h3>
-                            </div>
-                            <div class="price text-2xl font-bold text-accent-yellow mt-1">$7,600</div>
-                        </div>
-                        <span class="text-xs text-slate-400 bg-slate-800/80 px-2 py-1 rounded-full border border-white/10">USD</span>
-                    </div>
-                    
-                    <div class="package-features mb-4">
-                        <div class="space-y-3">
-                            <div class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">22 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">Premium Directing</span>
-                            </div>
-                            <div class="flex items-center bg-purple-500/10 rounded-lg px-3 py-2 border border-purple-500/20">
-                                <i class="fas fa-check text-purple-400 text-xs mr-3 w-4"></i>
-                                <span class="text-xs font-medium">Full Post Production</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="openPackageModal('premium')" class="btn w-full bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                        <span class="group-hover:translate-x-1 transition-transform duration-300">Select Premium</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quick Comparison for Mobile -->
-            <div class="glass-effect rounded-xl p-4 mb-10 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="300">
-                <h3 class="text-sm font-bold mb-4 text-center flex items-center justify-center">
-                    <i class="fas fa-chart-bar mr-2 text-accent-yellow text-xs"></i>
-                    Package Comparison
-                </h3>
-                <div class="space-y-4">
-                    <!-- Cameras Row -->
-                    <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                        <span class="text-xs text-slate-300 font-medium flex items-center">
-                            <i class="fas fa-camera mr-2 text-slate-400"></i>
-                            Cameras
-                        </span>
-                        <div class="flex space-x-2">
-                            <span class="text-xs bg-slate-700 text-slate-300 px-2 py-1 rounded">13</span>
-                            <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded font-bold">22</span>
-                            <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded font-bold">22</span>
-                        </div>
-                    </div>
-                    <!-- Directing Row -->
-                    <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                        <span class="text-xs text-slate-300 font-medium flex items-center">
-                            <i class="fas fa-video mr-2 text-slate-400"></i>
-                            Directing
-                        </span>
-                        <div class="flex space-x-2">
-                            <span class="text-xs text-slate-400">Basic</span>
-                            <span class="text-xs text-amber-400 font-bold">Advanced</span>
-                            <span class="text-xs text-purple-400 font-bold">Premium</span>
-                        </div>
-                    </div>
-                    <!-- Post Production Row -->
-                    <div class="flex items-center justify-between bg-white/5 rounded-lg px-3 py-2">
-                        <span class="text-xs text-slate-300 font-medium flex items-center">
-                            <i class="fas fa-edit mr-2 text-slate-400"></i>
-                            Post Production
-                        </span>
-                        <div class="flex space-x-2">
-                            <i class="fas fa-times text-red-400 text-xs"></i>
-                            <i class="fas fa-check text-green-400 text-xs"></i>
-                            <i class="fas fa-check text-green-400 text-xs"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Additional Services -->
-            <div class="glass-effect rounded-xl p-4 mb-10 border border-white/5 shadow-lg shadow-black/10 aos-init aos-animate" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="text-center mb-5">
-                    <h3 class="text-sm font-bold mb-2 flex items-center justify-center">
-                        <i class="fas fa-plus-circle mr-2 text-accent-yellow text-xs"></i>
-                        Add-On Services
-                    </h3>
-                    <p class="text-xs text-slate-400">Enhance your recording with premium add-ons</p>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                        <h4 class="font-semibold text-xs mb-1">Video Editing</h4>
-                        <p class="text-slate-400 text-xs">Professional editing</p>
-                    </div>
-                    
-                    <div class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-sm text-accent-indigo mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h4 class="font-semibold text-xs mb-1">Color Grading</h4>
-                        <p class="text-slate-400 text-xs">Cinematic colors</p>
-                    </div>
-                    
-                    <div class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-sm text-accent-yellow mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-film"></i>
-                        </div>
-                        <h4 class="font-semibold text-xs mb-1">Graphics & Titles</h4>
-                        <p class="text-slate-400 text-xs">Custom animations</p>
-                    </div>
-                    
-                    <div class="service-item text-center p-3 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 hover-lift transition-all duration-300 group">
-                        <div class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-sm text-accent-purple mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-music"></i>
-                        </div>
-                        <h4 class="font-semibold text-xs mb-1">Per Song</h4>
-                        <div class="price text-sm font-bold text-accent-yellow my-1">$115</div>
-                        <p class="text-slate-400 text-xs">Full production</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CTA Section -->
-            <div class="text-center aos-init" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="glass-effect rounded-xl p-5 border border-white/5 shadow-lg shadow-black/10">
-                    <h3 class="text-sm font-bold mb-3 flex items-center justify-center">
-                        <i class="fas fa-rocket mr-2 text-accent-yellow text-xs"></i>
-                        Ready to Get Started?
-                    </h3>
-                    <p class="text-xs text-slate-400 mb-5 max-w-xs mx-auto leading-relaxed">Contact us for custom packages tailored to your specific needs and budget</p>
-                    <div class="flex flex-col gap-3">
-                        <button onclick="scrollToSection('contact')" class="btn bg-gradient-to-r from-accent-indigo to-accent-purple text-white py-3 px-6 rounded-xl font-semibold text-xs hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-indigo-500/30 group">
-                            <i class="fas fa-envelope mr-2 group-hover:scale-110 transition-transform duration-300"></i>
-                            Get Custom Quote
-                        </button>
-                        <button onclick="openVideoModal()" class="btn bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 text-white py-3 px-6 rounded-xl font-semibold text-xs hover:from-slate-600 hover:to-slate-700 transition-all duration-300 group">
-                            <i class="fas fa-play-circle mr-2 group-hover:scale-110 transition-transform duration-300"></i>
-                            View Sample Work
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<style>
-/* Enhanced base styles optimized for 320px screens */
-.container {
-    margin-top: 0 !important;
+        
+        .section:not(.active) {
+            transform: scale(0.98);
+        }
+    `;
+    document.head.appendChild(style);
+
+    setupTouchEvents();
+    setupScrollEvents();
+    
+    // Initialize first section
+    setActiveSection('home');
 }
 
-/* Increased margin-top for screens under 500px */
-@media (max-width: 500px) {
-    .container.max-w-7xl.mx-auto {
-        margin-top: 600px !important;
+// Setup touch events for smooth horizontal scrolling
+function setupTouchEvents() {
+    if (!sectionsContainer) return;
+    
+    sectionsContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    sectionsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    sectionsContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Mouse events for desktop
+    sectionsContainer.addEventListener('mousedown', handleMouseDown);
+    sectionsContainer.addEventListener('mousemove', handleMouseMove);
+    sectionsContainer.addEventListener('mouseup', handleMouseUp);
+    sectionsContainer.addEventListener('mouseleave', handleMouseUp);
+}
+
+// Touch start handler
+function handleTouchStart(e) {
+    e.preventDefault();
+    startDrag(e.touches[0].clientX);
+}
+
+// Touch move handler
+function handleTouchMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    updateDragPosition(e.touches[0].clientX);
+}
+
+// Touch end handler
+function handleTouchEnd() {
+    if (!isDragging) return;
+    endDrag();
+}
+
+// Mouse down handler
+function handleMouseDown(e) {
+    e.preventDefault();
+    startDrag(e.clientX);
+    sectionsContainer.style.cursor = 'grabbing';
+}
+
+// Mouse move handler
+function handleMouseMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    updateDragPosition(e.clientX);
+}
+
+// Mouse up handler
+function handleMouseUp() {
+    if (!isDragging) return;
+    endDrag();
+    sectionsContainer.style.cursor = 'grab';
+}
+
+// Start drag
+function startDrag(clientX) {
+    isDragging = true;
+    startX = clientX;
+    currentX = clientX;
+    lastX = clientX;
+    lastTime = Date.now();
+    velocity = 0;
+    
+    // Cancel any ongoing animation
+    cancelAnimationFrame(rafID);
+    
+    // Disable smooth scroll during drag
+    sectionsContainer.style.scrollBehavior = 'auto';
+}
+
+// Update drag position with smooth animation
+function updateDragPosition(clientX) {
+    if (!isDragging) return;
+    
+    currentX = clientX;
+    
+    if (!rafID) {
+        rafID = requestAnimationFrame(updateScrollPosition);
     }
 }
 
-/* Enhanced package card styling */
-.package-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+// Smooth scroll position update
+function updateScrollPosition() {
+    if (!isDragging) return;
+    
+    const diff = currentX - startX;
+    const scrollLeft = sectionsContainer.scrollLeft;
+    
+    // Calculate velocity
+    const currentTime = Date.now();
+    const deltaTime = Math.max(currentTime - lastTime, 1);
+    const deltaX = currentX - lastX;
+    
+    velocity = deltaX / deltaTime;
+    lastX = currentX;
+    lastTime = currentTime;
+    
+    // Update scroll position with resistance
+    sectionsContainer.scrollLeft = scrollLeft - diff * 0.8;
+    
+    // Continue animation
+    rafID = requestAnimationFrame(updateScrollPosition);
 }
 
-.package-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-.hover-lift:hover {
-    transform: translateY(-3px);
-}
-
-/* Enhanced glass effect */
-.glass-effect {
-    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Enhanced text sizes and spacing */
-.text-xs {
-    font-size: 0.7rem;
-    line-height: 1.2;
-}
-
-.text-sm {
-    font-size: 0.8rem;
-    line-height: 1.3;
-}
-
-.text-base {
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.text-xl {
-    font-size: 1.1rem;
-    line-height: 1.3;
-}
-
-.text-2xl {
-    font-size: 1.4rem;
-    line-height: 1.2;
-}
-
-/* Enhanced button styling */
-.btn {
-    font-size: 0.7rem;
-    padding: 0.75rem 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-/* Enhanced spacing system */
-.space-y-3 > * + * {
-    margin-top: 0.75rem;
-}
-
-.space-y-4 > * + * {
-    margin-top: 1rem;
-}
-
-.space-y-5 > * + * {
-    margin-top: 1.25rem;
-}
-
-/* Enhanced padding system */
-.p-3 {
-    padding: 0.75rem;
-}
-
-.p-4 {
-    padding: 1rem;
-}
-
-.p-5 {
-    padding: 1.25rem;
-}
-
-/* Enhanced margin system */
-.mb-4 {
-    margin-bottom: 1rem;
-}
-
-.mb-5 {
-    margin-bottom: 1.25rem;
-}
-
-.mb-10 {
-    margin-bottom: 2.5rem;
-}
-
-/* Enhanced rounded corners */
-.rounded-xl {
-    border-radius: 0.75rem;
-}
-
-/* Enhanced shadows */
-.shadow-lg {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.shadow-2xl {
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-}
-
-/* Enhanced gradients */
-.bg-gradient-to-r {
-    background-size: 200% 200%;
-    background-position: 0% 0%;
-    transition: background-position 0.5s ease;
-}
-
-.bg-gradient-to-r:hover {
-    background-position: 100% 100%;
-}
-
-/* Enhanced responsive adjustments */
-@media (min-width: 375px) {
-    .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-}
-
-@media (min-width: 640px) {
-    .container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+// End drag with momentum
+function endDrag() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    cancelAnimationFrame(rafID);
+    rafID = null;
+    
+    const diff = currentX - startX;
+    const absVelocity = Math.abs(velocity);
+    
+    // Apply momentum
+    if (absVelocity > 0.5) {
+        const momentum = velocity * 100;
+        const currentScroll = sectionsContainer.scrollLeft;
+        sectionsContainer.scrollLeft = currentScroll - momentum;
     }
     
-    .text-xs { font-size: 0.75rem; }
-    .text-sm { font-size: 0.875rem; }
-    .text-base { font-size: 1rem; }
-    .text-xl { font-size: 1.25rem; }
-    .text-2xl { font-size: 1.5rem; }
-}
-
-@media (min-width: 768px) {
-    #packages .container {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
+    // Re-enable smooth scroll
+    sectionsContainer.style.scrollBehavior = 'smooth';
+    sectionsContainer.style.cursor = '';
     
-    /* Switch to grid layout for tablets and up */
-    .space-y-5 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        space-y: 0;
-    }
+    // Snap to nearest section after a short delay
+    setTimeout(snapToNearestSection, 100);
+}
+
+// Snap to nearest section
+function snapToNearestSection() {
+    const scrollLeft = sectionsContainer.scrollLeft;
+    const sectionWidth = window.innerWidth;
+    const currentIndex = Math.round(scrollLeft / sectionWidth);
     
-    .package-card {
-        padding: 1.5rem;
+    if (currentIndex >= 0 && currentIndex < sections.length) {
+        smoothScrollToIndex(currentIndex);
     }
 }
 
-@media (min-width: 1024px) {
-    #packages .container {
-        padding-top: 6rem;
-        padding-bottom: 6rem;
-    }
+// Setup scroll events
+function setupScrollEvents() {
+    if (!sectionsContainer) return;
+
+    sectionsContainer.addEventListener('scroll', handleScroll, { passive: true });
+}
+
+// Handle scroll events
+function handleScroll() {
+    if (isDragging || isScrolling) return;
     
-    .package-card {
-        padding: 2rem;
-    }
+    clearTimeout(window.scrollTimeout);
+    window.scrollTimeout = setTimeout(() => {
+        const scrollLeft = sectionsContainer.scrollLeft;
+        const sectionWidth = window.innerWidth;
+        const currentIndex = Math.round(scrollLeft / sectionWidth);
+        
+        if (currentIndex >= 0 && currentIndex < sections.length && currentIndex !== currentSectionIndex) {
+            currentSectionIndex = currentIndex;
+            setActiveSection(sections[currentIndex].id);
+        }
+    }, 100);
+}
+
+// Smooth scroll to specific index
+function smoothScrollToIndex(index) {
+    if (isScrolling || index < 0 || index >= sections.length) return;
     
-    .space-y-5 {
-        gap: 2rem;
+    isScrolling = true;
+    currentSectionIndex = index;
+    
+    sectionsContainer.scrollTo({
+        left: index * window.innerWidth,
+        behavior: 'smooth'
+    });
+    
+    setActiveSection(sections[index].id);
+    
+    setTimeout(() => {
+        isScrolling = false;
+    }, 500);
+}
+
+// Set active section
+function setActiveSection(sectionId) {
+    // Remove active class from all sections
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Add active class to target section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        currentSectionIndex = Array.from(sections).indexOf(targetSection);
     }
-}
 
-/* Enhanced animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    // Update navigation dots
+    updateNavDots(sectionId);
 
-.aos-init {
-    animation: fadeInUp 0.8s ease-out;
-}
+    // Update sidebar links
+    updateSidebarLinks(sectionId);
 
-/* Enhanced focus states for accessibility */
-button:focus {
-    outline: 2px solid #f59e0b;
-    outline-offset: 2px;
-}
+    // Refresh AOS animations
+    AOS.refresh();
 
-/* Enhanced loading states */
-.btn:active {
-    transform: scale(0.98);
-}
-
-/* Enhanced icon animations */
-.group:hover .group-hover\:scale-110 {
-    transform: scale(1.1);
-}
-
-.group:hover .group-hover\:translate-x-1 {
-    transform: translateX(0.25rem);
-}
-</style>
-        <script>
-            // Package Modal Functions
-            let selectedPackage = '';
-
-            function openPackageModal(packageType) {
-                selectedPackage = packageType;
-                const modal = document.getElementById('packageModal');
-
-                // Set package details based on type
-                setPackageDetails(packageType);
-
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.add('show');
-                }, 10);
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closePackageModal() {
-                const modal = document.getElementById('packageModal');
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 300);
-                document.body.style.overflow = 'auto';
-                selectedPackage = '';
-            }
-
-            function setPackageDetails(packageType) {
-                const packages = {
-                    essential: {
-                        name: 'Essential Package',
-                        price: '$3,800',
-                        description: 'Professional live recording with comprehensive 13-camera coverage for basic to medium events.',
-                        features: [
-                            '13-Camera Video Capturing',
-                            'Professional Video Directing',
-                            'Multi-Angle Coverage',
-                            'Basic Audio Recording',
-                            'Professional Camera Operators',
-                            '1080p HD Quality',
-                            '8 Hours Coverage',
-                            'Standard Equipment Setup',
-                            'Live Switching Capability',
-                            'Direct Monitoring'
-                        ],
-                        audience: 'Church services, small concerts, corporate events, conferences, basic live productions'
-                    },
-                    professional: {
-                        name: 'Professional Package',
-                        price: '$5,700',
-                        description: 'Advanced production with extensive 22-camera coverage for high-quality live events and broadcasts.',
-                        features: [
-                            '22-Camera Video Capturing',
-                            'Advanced Video Directing',
-                            'Comprehensive Multi-Angle Coverage',
-                            'Professional Audio Recording',
-                            'Expert Camera Operators + Director',
-                            '4K Ultra HD Quality',
-                            'Basic Post Production',
-                            'Live Streaming Setup',
-                            '12 Hours Coverage',
-                            'Professional Lighting Setup',
-                            'Real-time Video Mixing',
-                            'Audio Post-Processing'
-                        ],
-                        audience: 'Large church events, concerts, conferences, weddings, broadcast-quality productions'
-                    },
-                    premium: {
-                        name: 'Premium Package',
-                        price: '$7,600',
-                        description: 'Broadcast-grade production with comprehensive 22-camera coverage and full post-production suite.',
-                        features: [
-                            '22-Camera Video Capturing',
-                            'Premium Video Directing',
-                            'Extensive Multi-Angle Coverage',
-                            'Professional Audio Engineering',
-                            'Expert Camera Operators + Director',
-                            '4K Ultra HD Quality + Drone Footage',
-                            'Full Post Production Suite',
-                            'Live Streaming + Recording',
-                            'Color Grading & Graphics',
-                            'Dedicated Project Manager',
-                            '16 Hours Coverage',
-                            'Cinematic Lighting Setup',
-                            'Broadcast-Quality Output',
-                            'Custom Graphics Package'
-                        ],
-                        audience: 'Major concerts, festivals, large church events, corporate broadcasts, professional productions'
-                    }
-                };
-
-                const package = packages[packageType];
-                if (!package) return;
-
-                document.getElementById('packageModalTitle').textContent = package.name;
-                document.getElementById('packagePrice').textContent = package.price;
-                document.getElementById('packageName').textContent = package.name;
-                document.getElementById('packageDescription').textContent = package.description;
-                document.getElementById('packageAudience').textContent = package.audience;
-
-                // Build features list
-                const featuresList = document.getElementById('packageFeatures');
-                featuresList.innerHTML = '';
-                package.features.forEach(feature => {
-                    const li = document.createElement('li');
-                    li.className = 'flex items-center';
-                    li.innerHTML = `<i class="fas fa-check text-accent-yellow mr-3"></i><span>${feature}</span>`;
-                    featuresList.appendChild(li);
-                });
-            }
-
-            function proceedWithPackage() {
-                closePackageModal();
-
-                // Scroll to contact section after a brief delay
-                setTimeout(() => {
-                    scrollToSection('contact');
-
-                    // Pre-fill the contact form
-                    setTimeout(() => {
-                        const projectTypeField = document.querySelector('input[placeholder="Project Type"]');
-                        if (projectTypeField) {
-                            const packageName = document.getElementById('packageName').textContent;
-                            projectTypeField.value = `${packageName} - Live Recording`;
-                        }
-
-                        // Show success message
-                        const successMessage = document.createElement('div');
-                        successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-                        successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
-                        document.body.appendChild(successMessage);
-
-                        setTimeout(() => {
-                            successMessage.remove();
-                        }, 5000);
-                    }, 500);
-                }, 300);
-            }
-
-            // Add package modal to existing Escape key handler
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    closePackageModal();
-                    closeVideoModal(); // Keep existing video modal functionality
-                }
+    // Animate skill bars when about section is active
+    if (sectionId === 'about') {
+        setTimeout(() => {
+            skillProgresses.forEach(progress => {
+                const width = progress.getAttribute('data-width');
+                progress.style.width = width;
             });
-
-            // Add fade-in animation for success message
-            const style = document.createElement('style');
-            style.textContent = `
-    @keyframes fade-in {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+        }, 500);
     }
-    .animate-fade-in {
-        animation: fade-in 0.3s ease-out;
+    
+    // Animate cards in the target section
+    animateCardsInSection(targetSection);
+}
+
+// Update navigation dots
+function updateNavDots(sectionId) {
+    navDots.forEach(dot => {
+        const dotSection = dot.getAttribute('data-section');
+        if (dotSection === sectionId) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Update sidebar links
+function updateSidebarLinks(sectionId) {
+    navLinks.forEach(link => {
+        const linkSection = link.getAttribute('data-section');
+        if (linkSection === sectionId) {
+            link.classList.add('active-sidebar-link');
+        } else {
+            link.classList.remove('active-sidebar-link');
+        }
+    });
+}
+
+// Animate cards when entering a section
+function animateCardsInSection(section) {
+    const cards = section.querySelectorAll('.project-card, .package-card, .service-accordion');
+    const profile = section.querySelector('.mobile-profile');
+    
+    // Animate cards with staggered delay
+    cards.forEach((card, index) => {
+        card.classList.remove('card-slide-in', 'card-slide-up');
+        void card.offsetWidth; // Trigger reflow
+        
+        setTimeout(() => {
+            card.classList.add(index % 2 === 0 ? 'card-slide-in' : 'card-slide-up');
+        }, index * 100);
+    });
+    
+    // Animate mobile profile if exists
+    if (profile) {
+        profile.classList.remove('profile-slide-in');
+        void profile.offsetWidth;
+        setTimeout(() => {
+            profile.classList.add('profile-slide-in');
+        }, 200);
     }
-`;
-            document.head.appendChild(style);
-        </script>
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="section">
-            <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
-                <div class="w-full">
-                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl md:text-4xl mb-3">Our Creative Portfolio</h2>
-                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Explore our diverse range of projects
-                            that showcase our expertise in visual storytelling and production excellence.</p>
-                    </div>
+}
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-8">
-                        <!-- Project 1 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
-                            <div class="overflow-hidden rounded-t-xl">
-                                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                                    alt="Concert Production" class="project-image w-full h-32 md:h-36 object-cover">
-                            </div>
-                            <div class="project-content p-4">
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Summer Music Festival</h3>
-                                <p class="text-body text-sm md:text-base mb-3 flex-grow">Live coverage and production
-                                    for a 3-day music festival featuring 20+ artists, delivering seamless streaming.</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow font-semibold text-sm">Live Production</span>
-                                    <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
-                                        View Case Study →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+// Scroll to section function
+function scrollToSection(sectionId) {
+    if (sectionId === 'portfolio') {
+        openVideoModal();
+        return;
+    }
+    
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
+    
+    const targetIndex = Array.from(sections).indexOf(targetSection);
+    smoothScrollToIndex(targetIndex);
 
-                        <!-- Project 2 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="100">
-                            <div class="overflow-hidden rounded-t-xl">
-                                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
-                                    alt="Corporate Video" class="project-image w-full h-32 md:h-36 object-cover">
-                            </div>
-                            <div class="project-content p-4">
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Corporate Brand Video</h3>
-                                <p class="text-body text-sm md:text-base mb-3 flex-grow">End-to-end video production for
-                                    a tech company's rebranding campaign, creating compelling visual narratives.</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow font-semibold text-sm">Content Creation</span>
-                                    <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
-                                        View Case Study →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+    // Close sidebar on mobile
+    if (window.innerWidth < 1024) {
+        closeSidebar();
+    }
+}
 
-                        <!-- Project 3 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="200">
-                            <div class="overflow-hidden rounded-t-xl">
-                                <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                                    alt="Documentary" class="project-image w-full h-32 md:h-36 object-cover">
-                            </div>
-                            <div class="project-content p-4">
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Cultural Documentary</h3>
-                                <p class="text-body text-sm md:text-base mb-3 flex-grow">Thought-provoking documentary
-                                    exploring Tanzanian cultural heritage with research and captivating visuals.</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-accent-yellow font-semibold text-sm">Documentary</span>
-                                    <a href="#"
-                                        class="text-accent-yellow hover:text-accent-purple transition-colors text-sm">
-                                        View Case Study →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+// Close sidebar function
+function closeSidebar() {
+    sidebar.style.right = '-420px';
+    overlay.style.opacity = '0';
+    overlay.style.visibility = 'hidden';
+}
 
-                    <div class="text-center" data-aos="custom-fade-up" data-aos-duration="800">
-                        <a href="#" class="btn btn-primary text-sm md:text-base">
-                            <i class="fas fa-images"></i>
-                            View Complete Portfolio
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+// Loading animation
+window.addEventListener('load', function () {
+    console.log('Page loaded, initializing...');
 
-        <!-- Clients Section -->
-        <section id="clients" class="section">
-            <div class="container max-w-6xl mx-auto px-4 py-4 h-full flex items-center">
-                <div class="w-full">
-                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl md:text-4xl mb-3">Our Valued Partners</h2>
-                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Collaborating with industry leaders to
-                            deliver exceptional results across Tanzania</p>
-                    </div>
+    let width = 1;
+    const interval = setInterval(function () {
+        if (width >= 100) {
+            clearInterval(interval);
+            loadingBar.style.opacity = '0';
+            setTimeout(() => {
+                loadingBar.style.display = 'none';
+            }, 300);
+        } else {
+            width++;
+            loadingBar.style.width = width + '%';
+        }
+    }, 10);
 
-                    <!-- Enhanced Clients Carousel -->
-                    <div class="relative mb-12" data-aos="custom-fade-up" data-aos-duration="800">
-                        <!-- Carousel Container -->
-                        <div class="clients-carousel-container relative overflow-hidden">
-                            <div class="clients-carousel-track flex gap-4 md:gap-6 py-4 animate-scroll">
-                                <!-- Client 1 - Clouds Media -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Clouds" alt="Clouds Media"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Clouds
-                                        Media</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+    // Initialize horizontal scrolling
+    initHorizontalScroll();
+});
 
-                                <!-- Client 2 - Wasafi -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Wasafi" alt="Wasafi"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Wasafi</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+// Rest of your existing functionality...
 
-                                <!-- Client 3 - Azam TV -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Azam" alt="Azam TV"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Azam
-                                        TV</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+// Navbar scroll effect
+window.addEventListener('scroll', function () {
+    if (window.pageYOffset > 50) {
+        navbar.classList.add('navbar-scrolled');
+        navContent.classList.remove('mt-6');
+        navContent.classList.remove('mx-5');
+    } else {
+        navbar.classList.remove('navbar-scrolled');
+        navContent.classList.add('mt-6');
+        navContent.classList.add('mx-5');
+    }
 
-                                <!-- Client 4 - Airtel -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Airtel" alt="Airtel"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Airtel</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+    // Scroll to top button
+    if (window.pageYOffset > 300) {
+        scrollTop.classList.add('active');
+    } else {
+        scrollTop.classList.remove('active');
+    }
+});
 
-                                <!-- Client 5 - NBC Bank -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=NBC" alt="NBC Bank"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">NBC
-                                        Bank</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+// Sidebar toggle
+if (hamburger) {
+    hamburger.addEventListener('click', function () {
+        sidebar.style.right = '0';
+        overlay.style.opacity = '1';
+        overlay.style.visibility = 'visible';
+    });
+}
 
-                                <!-- Client 6 - Infinix -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Infinix" alt="Infinix"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Infinix</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+if (overlay) {
+    overlay.addEventListener('click', function () {
+        closeSidebar();
+    });
+}
 
-                                <!-- Client 7 - CHEKA TU -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=CHEKA" alt="CHEKA TU"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">CHEKA
-                                        TU</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+// Scroll to top functionality
+if (scrollTop) {
+    scrollTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothScrollToIndex(0);
+    });
+}
 
-                                <!-- Client 8 - Univalent -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Univalent" alt="Univalent"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Univalent</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
+// Text rotation animation
+let currentTextIndex = 0;
 
-                                <!-- Client 9 - Eunice Njeri -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Eunice" alt="Eunice Njeri"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Eunice
-                                        Njeri</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
-
-                                <!-- Client 10 - Nyash Goloma -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-purple/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Nyash" alt="Nyasha Goloma"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-purple transition-colors duration-300">Nyasha
-                                        Goloma</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-accent-indigo/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
-
-                                <!-- Client 11 - Agape Band -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-indigo/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Agape" alt="Agape Band"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-indigo transition-colors duration-300">Agape
-                                        Band</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-indigo/5 to-accent-yellow/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
-
-                                <!-- Client 12 - Neema Gospel Choir -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Neema" alt="Neema Gospel Choir"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Neema
-                                        Gospel Choir</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
-
-                                <!-- Duplicate for seamless loop -->
-                                <div
-                                    class="client-card flex-shrink-0 glass-effect rounded-2xl p-6 w-48 h-32 flex flex-col items-center justify-center hover-lift transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/30 hover:border-accent-yellow/50 group">
-                                    <div
-                                        class="client-logo mb-3 w-12 h-12 flex items-center justify-center overflow-hidden rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-300">
-                                        <img src="https://via.placeholder.com/48x48?text=Clouds" alt="Clouds Media"
-                                            class="w-10 h-10 object-contain">
-                                    </div>
-                                    <span
-                                        class="text-white font-bold text-lg text-center group-hover:text-accent-yellow transition-colors duration-300">Clouds
-                                        Media</span>
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-accent-purple/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Gradient Overlays -->
-                        <div
-                            class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-dark-900 to-transparent z-10 pointer-events-none">
-                        </div>
-                        <div
-                            class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-dark-900 to-transparent z-10 pointer-events-none">
-                        </div>
-
-                    </div>
-
-                    <!-- Enhanced Testimonials -->
-                    <div class="mt-8" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
-                        <div class="text-center mb-6">
-                            <h3 class="text-xl md:text-2xl font-semibold mb-2">Client Success Stories</h3>
-                            <p class="text-body text-sm md:text-base">Hear what our partners have to say about working
-                                with us</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                            <!-- Testimonial 1 -->
-                            <div
-                                class="testimonial-card glass-effect rounded-xl p-4 md:p-5 group hover-lift transition-all duration-300 border-l-4 border-accent-yellow">
-                                <div class="testimonial-content">
-                                    <div class="flex items-start mb-3">
-                                        <div
-                                            class="w-10 h-10 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-base shadow-lg shadow-amber-500/40 mr-3 flex-shrink-0">
-                                            CT
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-base">Clouds Media Team</h4>
-                                            <p class="text-small text-slate-400 text-xs">Broadcasting Company</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-body text-sm md:text-base italic">"AMIJOJI's live production for our
-                                        music festival reached over 50,000 viewers globally. Their technical expertise
-                                        and creative vision made it an unforgettable experience."</p>
-                                    <div class="flex items-center justify-between mt-3">
-                                        <div class="flex text-accent-yellow text-sm">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="text-accent-yellow text-xl opacity-50">
-                                            <i class="fas fa-quote-right"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Testimonial 2 -->
-                            <div
-                                class="testimonial-card glass-effect rounded-xl p-4 md:p-5 group hover-lift transition-all duration-300 border-l-4 border-accent-purple">
-                                <div class="testimonial-content">
-                                    <div class="flex items-start mb-3">
-                                        <div
-                                            class="w-10 h-10 bg-gradient-to-br from-accent-purple to-purple-600 rounded-full flex items-center justify-center font-bold text-white text-base shadow-lg shadow-purple-500/40 mr-3 flex-shrink-0">
-                                            AT
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-base">Airtel Marketing</h4>
-                                            <p class="text-small text-slate-400 text-xs">Telecommunications</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-body text-sm md:text-base italic">"Our brand engagement increased by
-                                        65% after AMIJOJI produced our TV campaign. Their strategic approach and
-                                        creative execution delivered outstanding results."</p>
-                                    <div class="flex items-center justify-between mt-3">
-                                        <div class="flex text-accent-yellow text-sm">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="text-accent-purple text-xl opacity-50">
-                                            <i class="fas fa-quote-right"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section py-12">
-            <div class="container max-w-7xl mx-auto px-4 py-6 h-full flex items-center">
-                <div class="w-full">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl md:text-3xl mb-3 font-bold">Let's Create Something Amazing</h2>
-                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">Ready to bring your vision to life? Get
-                            in touch with us to discuss your next production project.</p>
-                    </div>
-
-                    <!-- Contact Content Row -->
-                    <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
-                        <!-- Contact Info - 40% width -->
-                        <div class="lg:w-2/5" data-aos="custom-fade-up" data-aos-duration="800">
-                            <div class="glass-effect rounded-xl p-4 md:p-5 h-full">
-                                <div class="space-y-3">
-                                    <!-- Email -->
-                                    <a href="mailto:info@amijojicompany.com"
-                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-yellow-400/50 transition-all duration-300 hover-lift block">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="relative flex-shrink-0">
-                                                <div
-                                                    class="w-8 h-8 md:w-9 md:h-9 bg-yellow-500/10 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-envelope text-yellow-400 text-base md:text-lg"></i>
-                                                </div>
-                                                <div
-                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full animate-pulse">
-                                                </div>
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="flex items-center justify-between">
-                                                    <span class="text-white font-semibold text-sm truncate">Email
-                                                        Us</span>
-                                                    <i
-                                                        class="fas fa-chevron-right text-yellow-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
-                                                </div>
-                                                <p class="text-yellow-400/80 text-xs mt-1 truncate">
-                                                    info@amijojicompany.com</p>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <!-- Phone -->
-                                    <a href="tel:+255716311744"
-                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-purple-400/50 transition-all duration-300 hover-lift block">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="relative flex-shrink-0">
-                                                <div
-                                                    class="w-8 h-8 md:w-9 md:h-9 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                                    <i class="fas fa-phone text-purple-400 text-base md:text-lg"></i>
-                                                </div>
-                                                <div
-                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-purple-400 rounded-full animate-pulse">
-                                                </div>
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="flex items-center justify-between">
-                                                    <span class="text-white font-semibold text-sm truncate">Call
-                                                        Us</span>
-                                                    <i
-                                                        class="fas fa-chevron-right text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
-                                                </div>
-                                                <p class="text-purple-400/80 text-xs mt-1 truncate">+255 716 311 744</p>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <!-- Location -->
-                                    <div
-                                        class="contact-item group p-3 md:p-4 rounded-lg bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/30 hover:border-blue-400/50 transition-all duration-300 hover-lift">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="relative flex-shrink-0">
-                                                <div
-                                                    class="w-8 h-8 md:w-9 md:h-9 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                                                    <i
-                                                        class="fas fa-map-marker-alt text-blue-400 text-base md:text-lg"></i>
-                                                </div>
-                                                <div
-                                                    class="absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full animate-pulse">
-                                                </div>
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="flex items-center justify-between">
-                                                    <span class="text-white font-semibold text-sm truncate">Visit
-                                                        Us</span>
-                                                    <i
-                                                        class="fas fa-chevron-right text-blue-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-1"></i>
-                                                </div>
-                                                <p class="text-blue-400/80 text-xs mt-1 truncate">Dar es Salaam,
-                                                    Tanzania</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Contact Form - 60% width -->
-                        <div class="lg:w-3/5" data-aos="custom-fade-up" data-aos-duration="800" data-aos-delay="200">
-                            <div class="glass-effect rounded-xl p-4 md:p-5 h-full">
-                                <div class="text-center mb-4">
-                                    <h3 class="text-lg md:text-xl font-semibold mb-2">Start Your Project</h3>
-                                    <p class="text-body text-sm">Tell us about your vision and we'll bring it to life
-                                        with our expertise.</p>
-                                </div>
-
-                                <form class="space-y-4 md:space-y-5 contact-form-grid">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                                        <div>
-                                            <input type="text" placeholder="Your Name"
-                                                class="contact-input w-full text-sm py-2">
-                                        </div>
-                                        <div>
-                                            <input type="email" placeholder="Your Email"
-                                                class="contact-input w-full text-sm py-2">
-                                        </div>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                                        <div>
-                                            <input type="text" placeholder="Project Type"
-                                                class="contact-input w-full text-sm py-2">
-                                        </div>
-                                        <div>
-                                            <input type="text" placeholder="Timeline"
-                                                class="contact-input w-full text-sm py-2">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <textarea
-                                            placeholder="Tell us about your project vision, goals, and any specific requirements..."
-                                            rows="3" class="contact-input w-full text-sm py-2"></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary w-full py-2 md:py-3 text-sm">
-                                        <i class="fas fa-paper-plane mr-2"></i>
-                                        Send Project Brief
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Copyright -->
-                    <div class="text-center mt-6 pt-4 border-t border-slate-700/50">
-                        <p class="text-small text-xs">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence since
-                            2016. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- External JavaScript -->
-    <script src="script.js" defer></script>
-
-    <!-- Video Modal -->
-    <div id="videoModal" class="video-modal fixed inset-0 z-50 hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeVideoModal()"></div>
-
-        <div class="modal-container relative w-full h-full flex items-center justify-center p-4">
-            <div class="modal-content glass-effect rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
-                data-aos="zoom-in">
-                <!-- Modal Header -->
-                <div class="modal-header flex justify-between items-center p-4 md:p-6 border-b border-slate-700/50">
-                    <h3 class="text-xl md:text-2xl font-bold text-white">Our Showreel</h3>
-                    <button onclick="closeVideoModal()"
-                        class="close-btn w-10 h-10 rounded-full bg-slate-800/50 hover:bg-accent-yellow hover:text-dark-900 flex items-center justify-center transition-all duration-300">
-                        <i class="fas fa-times text-lg"></i>
-                    </button>
-                </div>
-
-                <!-- Video Player -->
-                <div class="video-player aspect-video bg-black">
-                    <video id="showreelVideo" class="w-full h-full" controls
-                        poster="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80">
-                        <source
-                            src="https://assets.mixkit.co/videos/preview/mixkit-showreel-of-a-film-editor-41505-large.mp4"
-                            type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
-                <!-- Video Info -->
-                <div class="modal-footer p-4 md:p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <h4 class="text-accent-yellow font-semibold mb-2">AMIJOJI Showreel 2024</h4>
-                            <p class="text-slate-300 text-sm">A compilation of our best work showcasing live events, TV
-                                commercials, and creative productions from the past year.</p>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-2 text-slate-400 text-sm">
-                                <i class="fas fa-clock text-accent-yellow"></i>
-                                <span>Duration: 2:30</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-slate-400 text-sm">
-                                <i class="fas fa-calendar text-accent-yellow"></i>
-                                <span>Latest Update: January 2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Package Details Modal -->
-    <!-- Package Details Modal -->
-    <div id="packageModal" class="video-modal fixed inset-0 z-50 hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
-
-        <div class="modal-container relative w-full h-full flex items-center justify-center p-4">
-            <div class="modal-content glass-effect rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
-                data-aos="zoom-in">
-                <!-- Modal Header -->
-                <div class="modal-header flex justify-between items-center p-4 md:p-6 border-b border-slate-700/50">
-                    <h3 class="text-xl md:text-2xl font-bold text-white" id="packageModalTitle">Package Details</h3>
-                    <button onclick="closePackageModal()"
-                        class="close-btn w-10 h-10 rounded-full bg-slate-800/50 hover:bg-accent-yellow hover:text-dark-900 flex items-center justify-center transition-all duration-300">
-                        <i class="fas fa-times text-lg"></i>
-                    </button>
-                </div>
-
-                <!-- Package Content -->
-                <div class="modal-body p-4 md:p-6 overflow-y-auto max-h-[60vh]">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-                        <!-- Package Info -->
-                        <div>
-                            <div class="mb-6">
-                                <div class="text-3xl md:text-4xl font-bold text-accent-yellow mb-2" id="packagePrice">
-                                    $3,800</div>
-                                <h4 class="text-xl md:text-2xl font-semibold mb-3" id="packageName">Essential Package
-                                </h4>
-                                <p class="text-slate-300" id="packageDescription">Professional live recording with
-                                    comprehensive 13-camera coverage for basic to medium events.</p>
-                            </div>
-
-                            <div class="mb-6">
-                                <h5 class="text-lg font-semibold mb-3 text-accent-yellow">What's Included:</h5>
-                                <ul class="space-y-2" id="packageFeatures">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                        <span>Professional Video Directing</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Additional Info -->
-                        <div>
-                            <div class="glass-effect-light rounded-xl p-4 md:p-5 mb-6">
-                                <h5 class="text-lg font-semibold mb-3 text-accent-yellow">Delivery Timeline</h5>
-                                <p class="text-slate-300 mb-2">Raw footage: 2-3 business days</p>
-                                <p class="text-slate-300">Edited content: 5-7 business days</p>
-                            </div>
-
-                            <div class="glass-effect-light rounded-xl p-4 md:p-5">
-                                <h5 class="text-lg font-semibold mb-3 text-accent-yellow">Recommended For</h5>
-                                <p class="text-slate-300" id="packageAudience">Church services, small concerts,
-                                    corporate events, conferences, basic live productions</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer p-4 md:p-6 border-t border-slate-700/50">
-                    <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
-                        <div class="text-slate-400 text-sm">
-                            <i class="fas fa-info-circle text-accent-yellow mr-2"></i>
-                            All packages include professional equipment and experienced crew
-                        </div>
-                        <div class="flex gap-3">
-                            <button onclick="closePackageModal()"
-                                class="btn bg-transparent border border-slate-500 text-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-all duration-300">
-                                Maybe Later
-                            </button>
-                            <button onclick="proceedWithPackage()"
-                                class="btn bg-gradient-to-br from-accent-yellow to-amber-600 text-white py-2 px-6 rounded-full font-semibold hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-amber-500/40">
-                                <i class="fas fa-check mr-2"></i>
-                                Select This Package
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        // Initialize AOS
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    once: true,
-                    offset: 100
-                });
-            }
-
-            // Tab functionality for mobile
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const targetTab = this.getAttribute('data-tab');
-
-                    // Update active tab button
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('active', 'text-accent-yellow', 'border-accent-yellow');
-                        btn.classList.add('text-slate-400');
-                    });
-                    this.classList.add('active', 'text-accent-yellow', 'border-accent-yellow');
-                    this.classList.remove('text-slate-400');
-
-                    // Show target tab content
-                    tabContents.forEach(content => {
-                        content.classList.add('hidden');
-                        content.classList.remove('active');
-                    });
-                    document.getElementById(`${targetTab}-tab`).classList.remove('hidden');
-                    document.getElementById(`${targetTab}-tab`).classList.add('active');
-
-                    // Refresh AOS animations for the new content
-                    if (typeof AOS !== 'undefined') {
-                        AOS.refresh();
-                    }
-                });
-            });
-
-            // Accordion functionality
-            const accordionHeaders = document.querySelectorAll('.service-accordion-header');
-
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', function () {
-                    // Toggle active class on header
-                    this.classList.toggle('active');
-
-                    // Get the content element
-                    const content = this.nextElementSibling;
-
-                    // Toggle content visibility with animation
-                    if (content.classList.contains('show')) {
-                        content.classList.remove('show');
-                        setTimeout(() => {
-                            content.style.display = 'none';
-                        }, 300);
-                    } else {
-                        content.style.display = 'block';
-                        // Trigger reflow
-                        content.offsetHeight;
-                        content.classList.add('show');
-                    }
-
-                    // Close other accordions when one opens
-                    accordionHeaders.forEach(otherHeader => {
-                        if (otherHeader !== this && otherHeader.classList.contains('active')) {
-                            otherHeader.classList.remove('active');
-                            const otherContent = otherHeader.nextElementSibling;
-                            otherContent.classList.remove('show');
-                            setTimeout(() => {
-                                otherContent.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-            });
-
-            // Initialize all accordion content as hidden
-            document.querySelectorAll('.service-accordion-content').forEach(content => {
-                content.style.display = 'none';
-            });
-
-            // Animate skill bars when values tab becomes active
-            function animateSkillBars() {
-                const skillProgresses = document.querySelectorAll('.skill-progress');
-                skillProgresses.forEach(progress => {
-                    const width = progress.getAttribute('data-width');
-                    progress.style.width = width;
-                });
-            }
-
-            // Observe when values tab becomes active
-            const valuesTab = document.getElementById('values-tab');
-            if (valuesTab) {
-                const observer = new MutationObserver(function (mutations) {
-                    mutations.forEach(function (mutation) {
-                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                            if (valuesTab.classList.contains('active')) {
-                                setTimeout(animateSkillBars, 300);
-                            }
-                        }
-                    });
-                });
-
-                observer.observe(valuesTab, { attributes: true });
-            }
-
-            // Animate skill bars on desktop load
-            if (window.innerWidth >= 1024) {
-                setTimeout(animateSkillBars, 1000);
-            }
-
-            // Video modal functions
-            window.openVideoModal = function () {
-                const modal = document.getElementById('videoModal');
-                modal.classList.remove('hidden');
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            };
-
-            window.closeVideoModal = function () {
-                const modal = document.getElementById('videoModal');
-                modal.classList.remove('show');
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-
-                const video = document.getElementById('showreelVideo');
-                if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            };
-
-            // Scroll to section function
-            window.scrollToSection = function (sectionId) {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            };
+function rotateText() {
+    if (fadeTexts.length > 0) {
+        fadeTexts.forEach(text => {
+            text.classList.remove('active');
         });
+        fadeTexts[currentTextIndex].classList.add('active');
+        currentTextIndex = (currentTextIndex + 1) % fadeTexts.length;
+    }
+}
 
-        // Handle window resize
-        window.addEventListener('resize', function () {
-            if (typeof AOS !== 'undefined') {
-                AOS.refresh();
-            }
-        });
-    </script>
-</body>
+// Initialize text rotation
+if (fadeTexts.length > 0) {
+    setInterval(rotateText, 3000);
+}
 
-</html>
+// Mouse wheel navigation for horizontal scrolling
+document.addEventListener('wheel', function (e) {
+    e.preventDefault();
+
+    if (isScrolling) return;
+    isScrolling = true;
+
+    const isScrollingDown = e.deltaY > 0;
+
+    if (isScrollingDown && currentSectionIndex < sections.length - 1) {
+        smoothScrollToIndex(currentSectionIndex + 1);
+    } else if (!isScrollingDown && currentSectionIndex > 0) {
+        smoothScrollToIndex(currentSectionIndex - 1);
+    }
+
+    setTimeout(() => {
+        isScrolling = false;
+    }, 600);
+}, { passive: false });
+
+// Enhanced keyboard navigation
+document.addEventListener('keydown', function (e) {
+    if (isScrolling) return;
+    
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        if (currentSectionIndex < sections.length - 1) {
+            smoothScrollToIndex(currentSectionIndex + 1);
+        }
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        if (currentSectionIndex > 0) {
+            smoothScrollToIndex(currentSectionIndex - 1);
+        }
+    } else if (e.key === 'Home') {
+        e.preventDefault();
+        smoothScrollToIndex(0);
+    } else if (e.key === 'End') {
+        e.preventDefault();
+        smoothScrollToIndex(sections.length - 1);
+    }
+});
+
+// Video Modal Functions
+function openVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('showreelVideo');
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+
+        if (video) {
+            setTimeout(() => {
+                video.play().catch(e => {
+                    console.log('Autoplay prevented:', e);
+                });
+            }, 500);
+        }
+
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('showreelVideo');
+
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    if (video) {
+        video.pause();
+        video.currentTime = 0;
+    }
+
+    document.body.style.overflow = '';
+}
+
+// Navigation dots functionality
+navDots.forEach(dot => {
+    dot.addEventListener('click', function () {
+        const sectionId = this.getAttribute('data-section');
+        scrollToSection(sectionId);
+    });
+});
+
+// Sidebar navigation
+navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const sectionId = this.getAttribute('data-section');
+        scrollToSection(sectionId);
+
+        // Close sidebar on mobile
+        if (window.innerWidth < 1024) {
+            closeSidebar();
+        }
+    });
+});
+
+// Contact form handling
+const contactForm = document.querySelector('form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const button = this.querySelector('button');
+        const originalHTML = button.innerHTML;
+
+        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+        button.disabled = true;
+
+        setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
+
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                this.reset();
+            }, 2000);
+        }, 1500);
+    });
+}
+
+// Handle window resize
+window.addEventListener('resize', function () {
+    AOS.refresh();
+    
+    // Update scroll position on resize
+    if (sectionsContainer) {
+        sectionsContainer.scrollLeft = currentSectionIndex * window.innerWidth;
+    }
+});
+
+// Close sidebar button
+const closeSidebarBtn = document.querySelector('.close-sidebar');
+if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', function () {
+        closeSidebar();
+    });
+}
+
