@@ -1526,272 +1526,239 @@
             });
         </script>
         <!-- Services Section -->
-        <section id="services" class="section">
-            <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
-                <div class="w-full">
-                    <div class="text-center mb-8" data-aos="custom-fade-up" data-aos-duration="800">
-                        <h2 class="text-3xl md:text-4xl mb-3">Our Premium Services</h2>
-                        <p class="lead max-w-2xl mx-auto text-sm md:text-base">We offer a comprehensive range of
-                            production services tailored to meet your unique needs and objectives.</p>
+        <section id="services" class="section relative">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0">
+        <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="container max-w-7xl mx-auto px-4 py-20 h-full flex items-center relative z-10">
+        <div class="w-full">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 text-white">Our Services</h2>
+                <p class="text-sm text-slate-300 max-w-md mx-auto">Professional production services for all your visual storytelling needs</p>
+            </div>
+
+            <!-- Services Grid - Desktop -->
+            <div class="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-yellow mx-auto mb-4">
+                        <i class="fas fa-broadcast-tower"></i>
                     </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">Live Production</h3>
+                    <p class="text-sm text-slate-300 mb-4">Live streaming for events, concerts, and conferences</p>
+                    <div class="text-accent-yellow text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
 
-                    <!-- Desktop Grid Layout (hidden on mobile) -->
-                    <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                        <!-- Service 1 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                    <i class="fas fa-broadcast-tower"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Live Coverage Production</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Seamless live streaming for conferences,
-                                    concerts, sports events, and seminars. Capture every important moment.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Service 2 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-purple mx-auto mb-4">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">Content Creation</h3>
+                    <p class="text-sm text-slate-300 mb-4">Engaging videos for brands and storytelling</p>
+                    <div class="text-accent-purple text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
 
-                        <!-- Service 2 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="100">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
-                                    <i class="fas fa-film"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Content Creation</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Engaging and impactful videos tailored to
-                                    meet specific objectives. From promotional videos to branded storytelling.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Service 3 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-indigo mx-auto mb-4">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">TVC Production</h3>
+                    <p class="text-sm text-slate-300 mb-4">Effective TV commercials with lasting impact</p>
+                    <div class="text-accent-indigo text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
 
-                        <!-- Service 3 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="200">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                    <i class="fas fa-tv"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">TVC Production</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Effective TV commercials that leave a
-                                    lasting impact. We develop concepts, storyboard ideas, and maximize brand
-                                    visibility.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Service 4 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-yellow mx-auto mb-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">Event Coverage</h3>
+                    <p class="text-sm text-slate-300 mb-4">Comprehensive coverage for all types of events</p>
+                    <div class="text-accent-yellow text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
 
-                        <!-- Service 4 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="300">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-xl text-accent-yellow mb-3">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Event Coverage</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Comprehensive coverage for corporate
-                                    events, cultural celebrations, and conferences. We capture the essence and emotions.
-                                </p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Service 5 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-purple mx-auto mb-4">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">Digital Videos</h3>
+                    <p class="text-sm text-slate-300 mb-4">Social media and online optimized content</p>
+                    <div class="text-accent-purple text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
 
-                        <!-- Service 5 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="400">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-xl text-accent-purple mb-3">
-                                    <i class="fas fa-video"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Digital Videos</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Engaging videos optimized for social
-                                    media, websites, and online campaigns. We craft content that enhances brand
-                                    engagement.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Service 6 -->
+                <div class="service-card glass-effect rounded-xl p-6 text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-2xl flex items-center justify-center text-2xl text-accent-indigo mx-auto mb-4">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3 text-white">Photography</h3>
+                    <p class="text-sm text-slate-300 mb-4">Professional photography for all occasions</p>
+                    <div class="text-accent-indigo text-sm font-semibold">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Service 6 -->
-                        <div class="project-card glass-effect" data-aos="custom-zoom-in" data-aos-duration="800"
-                            data-aos-delay="500">
-                            <div class="p-4 md:p-5">
-                                <div
-                                    class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-xl text-accent-indigo mb-3">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <h3 class="text-lg md:text-xl font-semibold mb-2">Photography</h3>
-                                <p class="text-body text-sm md:text-base mb-3">Visually stunning images for products,
-                                    corporate portraits, and events. We ensure every shot meets highest quality
-                                    standards.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+            <!-- Mobile Layout - Simple List -->
+            <div class="md:hidden space-y-4">
+                <!-- Service 1 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-lg text-accent-yellow flex-shrink-0 mr-4">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">Live Production</h3>
+                        <p class="text-xs text-slate-300 mb-2">Live streaming for events and conferences</p>
+                        <div class="text-accent-yellow text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Mobile Accordion Layout (hidden on desktop) -->
-                    <div class="md:hidden space-y-2">
-                        <!-- Service 1 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
-                                        <i class="fas fa-broadcast-tower"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Live Coverage Production</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Seamless live streaming for conferences, concerts,
-                                    sports events, and seminars. Capture every important moment.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+                <!-- Service 2 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-lg text-accent-purple flex-shrink-0 mr-4">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">Content Creation</h3>
+                        <p class="text-xs text-slate-300 mb-2">Engaging videos for brands</p>
+                        <div class="text-accent-purple text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Service 2 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="100">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
-                                        <i class="fas fa-film"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Content Creation</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Engaging and impactful videos tailored to meet
-                                    specific objectives. From promotional videos to branded storytelling.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+                <!-- Service 3 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-lg text-accent-indigo flex-shrink-0 mr-4">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">TVC Production</h3>
+                        <p class="text-xs text-slate-300 mb-2">Effective TV commercials</p>
+                        <div class="text-accent-indigo text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Service 3 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="200">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
-                                        <i class="fas fa-tv"></i>
-                                    </div>
-                                    <h3 class="font-semibold">TVC Production</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Effective TV commercials that leave a lasting impact.
-                                    We develop concepts, storyboard ideas, and maximize brand visibility.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+                <!-- Service 4 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-xl flex items-center justify-center text-lg text-accent-yellow flex-shrink-0 mr-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">Event Coverage</h3>
+                        <p class="text-xs text-slate-300 mb-2">Comprehensive event coverage</p>
+                        <div class="text-accent-yellow text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Service 4 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="300">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-yellow/20 to-amber-600/20 rounded-lg flex items-center justify-center text-lg text-accent-yellow flex-shrink-0">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Event Coverage</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Comprehensive coverage for corporate events, cultural
-                                    celebrations, and conferences. We capture the essence and emotions.</p>
-                                <div class="flex items-center text-accent-yellow font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+                <!-- Service 5 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-xl flex items-center justify-center text-lg text-accent-purple flex-shrink-0 mr-4">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">Digital Videos</h3>
+                        <p class="text-xs text-slate-300 mb-2">Social media content</p>
+                        <div class="text-accent-purple text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Service 5 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="400">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-purple/20 to-purple-600/20 rounded-lg flex items-center justify-center text-lg text-accent-purple flex-shrink-0">
-                                        <i class="fas fa-video"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Digital Videos</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Engaging videos optimized for social media, websites,
-                                    and online campaigns. We craft content that enhances brand engagement.</p>
-                                <div class="flex items-center text-accent-purple font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Service 6 Accordion -->
-                        <div class="service-accordion glass-effect" data-aos="custom-fade-up" data-aos-duration="800"
-                            data-aos-delay="500">
-                            <button class="service-accordion-header">
-                                <div class="flex">
-                                    <div
-                                        class="w-10 h-10 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-lg flex items-center justify-center text-lg text-accent-indigo flex-shrink-0">
-                                        <i class="fas fa-camera"></i>
-                                    </div>
-                                    <h3 class="font-semibold">Photography</h3>
-                                </div>
-                                <i class="fas fa-chevron-down text-accent-yellow transition-transform duration-300"></i>
-                            </button>
-                            <div class="service-accordion-content">
-                                <p class="text-body text-sm mb-3">Visually stunning images for products, corporate
-                                    portraits, and events. We ensure every shot meets highest quality standards.</p>
-                                <div class="flex items-center text-accent-indigo font-semibold text-sm">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </div>
-                            </div>
+                <!-- Service 6 -->
+                <div class="service-item glass-effect rounded-xl p-4 flex items-start">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-indigo/20 to-indigo-600/20 rounded-xl flex items-center justify-center text-lg text-accent-indigo flex-shrink-0 mr-4">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-white mb-1">Photography</h3>
+                        <p class="text-xs text-slate-300 mb-2">Professional photography</p>
+                        <div class="text-accent-indigo text-xs font-semibold">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
+<style>
+    /* Service card hover effects */
+    .service-card {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .service-item {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .service-item:hover {
+        transform: translateX(5px);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Glass effect */
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px);
+    }
+
+    /* Ensure proper spacing */
+    #services .container {
+        padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 767px) {
+        .service-item {
+            padding: 1rem;
+        }
+        
+        #services .container {
+            padding-top: 4rem !important;
+            padding-bottom: 4rem !important;
+        }
+    }
+
+    /* Tablet optimizations */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .service-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
         <!-- Live Recording Packages Section -->
         <section id="packages" class="section relative">
             <!-- Background -->
