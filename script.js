@@ -33,6 +33,7 @@ let velocity = 0;
 let lastX = 0;
 let lastTime = 0;
 let isMobile = false;
+let isInCarousel = false;
 
 // Initialize horizontal scrolling with Swiper for mobile only
 function initHorizontalScroll() {
@@ -106,12 +107,15 @@ function initSwiperMobile() {
                 setupTouchPrevention();
             },
             slideChange: function () {
-                const activeIndex = this.activeIndex;
-                const activeSlide = this.slides[activeIndex];
-                if (activeSlide) {
-                    const sectionId = activeSlide.id;
-                    setActiveSection(sectionId);
-                    currentSectionIndex = activeIndex;
+                // Only change section if not in carousel
+                if (!isInCarousel) {
+                    const activeIndex = this.activeIndex;
+                    const activeSlide = this.slides[activeIndex];
+                    if (activeSlide) {
+                        const sectionId = activeSlide.id;
+                        setActiveSection(sectionId);
+                        currentSectionIndex = activeIndex;
+                    }
                 }
             },
             resize: function () {
@@ -132,35 +136,113 @@ function initSwiperMobile() {
 function setupTouchPrevention() {
     if (!isMobile) return;
     
-    // Find all scrollable content areas within sections
-    const scrollableElements = document.querySelectorAll('#packages, .package-carousel, [data-allow-vertical-scroll]');
+    // Find the package carousel specifically
+    const packageCarousel = document.querySelector('.package-carousel');
+    const scrollableElements = document.querySelectorAll('#packages, [data-allow-vertical-scroll]');
     
+    // Add touch prevention for the entire packages section (vertical scrolling)
     scrollableElements.forEach(element => {
         element.addEventListener('touchstart', handleTouchStartScrollable, { passive: true });
         element.addEventListener('touchmove', handleTouchMoveScrollable, { passive: false });
         element.addEventListener('touchend', handleTouchEndScrollable, { passive: true });
     });
+    
+    // Add specific prevention for the package carousel (horizontal scrolling)
+    if (packageCarousel) {
+        packageCarousel.addEventListener('touchstart', handleCarouselTouchStart, { passive: true });
+        packageCarousel.addEventListener('touchmove', handleCarouselTouchMove, { passive: false });
+        packageCarousel.addEventListener('touchend', handleCarouselTouchEnd, { passive: true });
+        packageCarousel.addEventListener('touchcancel', handleCarouselTouchEnd, { passive: true });
+    }
 }
 
-// Touch event handlers for scrollable content
-function handleTouchStartScrollable(e) {
+// Specific handlers for package carousel
+function handleCarouselTouchStart(e) {
     if (!isMobile) return;
     
     const element = e.currentTarget;
     element.isScrolling = null;
     element.startY = e.touches[0].clientY;
     element.startX = e.touches[0].clientX;
-    element.initialScrollTop = element.scrollTop;
     element.initialScrollLeft = element.scrollLeft;
     
-    // Store the swiper instance
-    element.swiper = window.sectionsSwiper;
+    // Set flag to prevent section switching
+    isInCarousel = true;
+    
+    // Temporarily disable Swiper
+    if (window.sectionsSwiper) {
+        window.sectionsSwiper.allowTouchMove = false;
+    }
+}
+
+function handleCarouselTouchMove(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    const currentY = e.touches[0].clientY;
+    const currentX = e.touches[0].clientX;
+    
+    const diffY = Math.abs(currentY - element.startY);
+    const diffX = Math.abs(currentX - element.startX);
+    
+    // Determine scroll direction on first significant movement
+    if (element.isScrolling === null && (diffY > 5 || diffX > 5)) {
+        element.isScrolling = diffY > diffX ? 'vertical' : 'horizontal';
+    }
+    
+    // Completely prevent section switching when in carousel
+    e.stopPropagation();
+    e.preventDefault();
+    
+    // If horizontal movement, allow carousel scrolling
+    if (element.isScrolling === 'horizontal') {
+        const deltaX = currentX - element.startX;
+        element.scrollLeft = element.initialScrollLeft - deltaX;
+    }
+}
+
+function handleCarouselTouchEnd(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    element.isScrolling = null;
+    element.startY = null;
+    element.startX = null;
+    
+    // Re-enable Swiper after a short delay
+    setTimeout(() => {
+        isInCarousel = false;
+        if (window.sectionsSwiper) {
+            window.sectionsSwiper.allowTouchMove = true;
+        }
+    }, 100);
+}
+
+// Update the general scrollable touch handlers
+function handleTouchStartScrollable(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    // Skip if this is a carousel interaction
+    if (e.target.closest('.package-carousel')) {
+        return;
+    }
+    
+    element.isScrolling = null;
+    element.startY = e.touches[0].clientY;
+    element.startX = e.touches[0].clientX;
+    element.initialScrollTop = element.scrollTop;
 }
 
 function handleTouchMoveScrollable(e) {
     if (!isMobile) return;
     
     const element = e.currentTarget;
+    // Skip if this is a carousel interaction
+    if (e.target.closest('.package-carousel')) {
+        return;
+    }
+    
     const currentY = e.touches[0].clientY;
     const currentX = e.touches[0].clientX;
     
@@ -185,18 +267,17 @@ function handleTouchMoveScrollable(e) {
             return;
         }
     }
-    
-    // If horizontal scrolling is detected, allow Swiper to handle it
-    if (element.isScrolling === 'horizontal') {
-        // Let the event propagate to Swiper
-        return;
-    }
 }
 
 function handleTouchEndScrollable(e) {
     if (!isMobile) return;
     
     const element = e.currentTarget;
+    // Skip if this is a carousel interaction
+    if (e.target.closest('.package-carousel')) {
+        return;
+    }
+    
     element.isScrolling = null;
     element.startY = null;
     element.startX = null;
@@ -632,7 +713,15 @@ document.addEventListener('wheel', function (e) {
     // Only handle wheel events on desktop (when Swiper isn't active)
     if (isMobile) return;
     
-    // Check if we're inside a scrollable element
+    // Check if we're inside the package carousel
+    const inCarousel = e.target.closest('.package-carousel');
+    if (inCarousel) {
+        // Completely prevent section switching when in carousel
+        e.stopPropagation();
+        return;
+    }
+    
+    // Check if we're inside other scrollable elements
     const scrollableElement = e.target.closest('#packages, [data-allow-vertical-scroll]');
     if (scrollableElement) {
         // Allow vertical scrolling within the element

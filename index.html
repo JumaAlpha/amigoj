@@ -822,120 +822,113 @@
         id="overlay"></div>
 
     <!-- Enhanced Glassmorphism Sidebar -->
-    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-96 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto"
+    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-80 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto bg-slate-900/95 backdrop-blur-md border-l border-slate-700/50"
         id="sidebar">
-        <!-- Close Button for Mobile -->
-        <div class="absolute top-4 right-4 z-10 sm:hidden">
+        <!-- Close Button -->
+        <div class="absolute top-4 right-4 z-10">
             <button
-                class="close-sidebar w-10 h-10 rounded-full bg-dark-800/80 flex items-center justify-center text-white text-lg hover:bg-accent-yellow hover:text-dark-900 transition-all duration-300 glow">
+                class="close-sidebar w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300 text-lg hover:bg-slate-700 hover:text-white transition-all duration-300">
                 <i class="fas fa-times"></i>
             </button>
         </div>
 
         <!-- Profile Section -->
-        <div class="sidebar-profile flex flex-col items-center py-8 px-4 sm:px-8 rounded-b-2xl mb-6 mt-4 sm:mt-0">
+        <div class="sidebar-profile flex flex-col items-center py-8 px-6 rounded-b-2xl mb-4 mt-4">
             <div
-                class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-3xl sm:text-4xl shadow-2xl shadow-amber-500/40 mb-6 overflow-hidden glow floating">
+                class="w-24 h-24 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full flex items-center justify-center font-bold text-white text-3xl shadow-xl mb-6 overflow-hidden border-2 border-slate-600">
                 <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
                     alt="AMIJOJI COMPANY" class="w-full h-full object-cover rounded-full">
             </div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white text-center px-2 mb-2">AMIJOJI COMPANY LIMITED</h2>
-            <p class="text-accent-yellow font-semibold text-lg mb-4">Visual Storytelling Excellence</p>
-            <div class="flex gap-4">
+            <h2 class="text-xl font-bold text-white text-center mb-2">AMIJOJI COMPANY LIMITED</h2>
+            <p class="text-slate-400 font-medium text-sm mb-4">Visual Storytelling Excellence</p>
+            <div class="flex gap-3">
                 <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
                 <a href="#"
-                    class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover-lift glow">
+                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
                     <i class="fab fa-youtube"></i>
                 </a>
             </div>
         </div>
 
         <!-- Navigation Links -->
-        <div class="sidebar-links flex flex-col gap-2 flex-1 px-4">
+        <div class="sidebar-links flex flex-col gap-1 flex-1 px-4">
             <a href="#home"
-                class="sidebar-link nav-link text-slate-200 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4 active-sidebar-link"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="home">
-                <i class="fas fa-home text-accent-yellow w-6 text-center text-lg"></i>
+                <i class="fas fa-home text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Home</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
             </a>
             <a href="#about"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="about">
-                <i class="fas fa-building text-accent-indigo w-6 text-center text-lg"></i>
+                <i class="fas fa-building text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">About Us</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
             </a>
             <a href="#services"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="services">
-                <i class="fas fa-photo-video text-accent-purple w-6 text-center text-lg"></i>
+                <i class="fas fa-photo-video text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Services</span>
-                <i class="fas fa-chevron-right text-accent-purple/70 text-sm"></i>
             </a>
             <a href="#packages"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="packages">
-                <i class="fas fa-money-bill-wave text-accent-yellow w-6 text-center text-lg"></i>
+                <i class="fas fa-money-bill-wave text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Packages</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
             </a>
             <a href="#portfolio"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="portfolio">
-                <i class="fas fa-briefcase text-accent-indigo w-6 text-center text-lg"></i>
+                <i class="fas fa-briefcase text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Portfolio</span>
-                <i class="fas fa-chevron-right text-accent-indigo/70 text-sm"></i>
             </a>
             <a href="#clients"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="clients">
-                <i class="fas fa-star text-accent-yellow w-6 text-center text-lg"></i>
+                <i class="fas fa-star text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Our Clients</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
             </a>
             <a href="#contact"
-                class="sidebar-link nav-link text-slate-300 text-lg font-semibold py-4 px-6 rounded-xl transition-all flex items-center gap-4"
+                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
                 data-section="contact">
-                <i class="fas fa-envelope text-accent-yellow w-6 text-center text-lg"></i>
+                <i class="fas fa-envelope text-blue-500 w-5 text-center text-base"></i>
                 <span class="flex-1">Contact</span>
-                <i class="fas fa-chevron-right text-accent-yellow/70 text-sm"></i>
             </a>
         </div>
 
         <!-- Expertise Badges -->
-        <div class="px-4 mt-6 mb-8">
-            <h3 class="text-slate-400 font-semibold text-sm uppercase tracking-wider mb-4 pl-2">Our Expertise</h3>
-            <div class="role-badges flex flex-wrap gap-3 justify-center sm:justify-start">
+        <div class="px-4 mt-6 mb-6">
+            <h3 class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-3 pl-2">Our Expertise</h3>
+            <div class="role-badges flex flex-wrap gap-2 justify-center">
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
                     Live Coverage
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
                     Content Creation
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
                     TV Commercials
                 </div>
                 <div
-                    class="badge bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-slate-300 py-2 px-4 rounded-full text-sm font-semibold border border-indigo-500/30 badge-glow">
+                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
                     Event Coverage
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="border-t border-slate-700/50 mt-auto py-6 px-6">
-            <p class="text-slate-400 text-sm text-center">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence
+        <div class="border-t border-slate-700/50 mt-auto py-4 px-6">
+            <p class="text-slate-500 text-xs text-center">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence
                 since 2016.</p>
         </div>
     </div>
@@ -1985,7 +1978,7 @@
                             </div>
 
                             <button onclick="openPackageModal('essential')"
-                                class="btn w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
+                                class="btn w-full bg-slate-700 hover:bg-orange-500 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
                                 Select Essential
                             </button>
                         </div>
@@ -2021,7 +2014,7 @@
                             </div>
 
                             <button onclick="openPackageModal('professional')"
-                                class="btn w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
+                                class="btn w-full bg-purple-500 hover:bg-purple-400 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
                                 Select Professional
                             </button>
                         </div>
@@ -2038,7 +2031,7 @@
                             <div class="space-y-4 mb-8">
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-blue-400 mr-3 text-sm"></i>
-                                    <span class="text-sm text-slate-300">27 Camera Setup</span>
+                                    <span class="text-sm text-slate-300">22 Camera Setup</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-check text-blue-400 mr-3 text-sm"></i>
@@ -2051,7 +2044,7 @@
                             </div>
 
                             <button onclick="openPackageModal('premium')"
-                                class="btn w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
+                                class="btn w-full bg-slate-700 hover:bg-blue-500 text-white py-4 rounded-lg font-semibold transition-all duration-300 group-hover:scale-105">
                                 Select Premium
                             </button>
                         </div>
@@ -2085,7 +2078,7 @@
                                 </div>
 
                                 <button onclick="openPackageModal('essential')"
-                                    class="btn w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                    class="btn w-full bg-slate-700 hover:bg-orange-500 text-white py-3 rounded-lg font-semibold transition-all duration-300">
                                     Select Essential
                                 </button>
                             </div>
@@ -2121,7 +2114,7 @@
                                 </div>
 
                                 <button onclick="openPackageModal('professional')"
-                                    class="btn w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                    class="btn w-full bg-purple-500 hover:bg-purple-400 text-white py-3 rounded-lg font-semibold transition-all duration-300">
                                     Select Professional
                                 </button>
                             </div>
@@ -2151,7 +2144,7 @@
                                 </div>
 
                                 <button onclick="openPackageModal('premium')"
-                                    class="btn w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                    class="btn w-full bg-slate-700 hover:bg-blue-500 text-white py-3 rounded-lg font-semibold transition-all duration-300">
                                     Select Premium
                                 </button>
                             </div>
@@ -2179,6 +2172,54 @@
                 </div>
             </div>
         </section>
+
+        <!-- Package Modal -->
+        <div id="packageModal" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-dark-900/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
+                </div>
+
+                <div
+                    class="modal-content relative bg-dark-800 rounded-xl max-w-lg w-full mx-auto overflow-hidden transform transition-all">
+                    <div class="absolute top-0 right-0 pt-4 pr-4">
+                        <button type="button" class="text-slate-400 hover:text-white" onclick="closePackageModal()">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <h3 id="packageModalTitle" class="text-xl font-bold text-white mb-2">Package Details</h3>
+                            <div id="packagePrice" class="text-3xl font-bold text-accent-yellow mb-1"></div>
+                            <p id="packageDescription" class="text-slate-300 text-sm"></p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-white mb-3">What's Included</h4>
+                            <ul id="packageFeatures" class="space-y-2 text-sm text-slate-300"></ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-white mb-2">Perfect For</h4>
+                            <p id="packageAudience" class="text-sm text-slate-300"></p>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button onclick="closePackageModal()"
+                                class="btn flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Back to Packages
+                            </button>
+                            <button onclick="proceedWithPackage()"
+                                class="btn flex-1 bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Package
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <style>
             /* Enhanced package card styles */
             .package-card {
@@ -2248,23 +2289,29 @@
                 }
             }
 
-            /* Better text contrast */
-            .text-slate-300 {
-                color: rgb(203 213 225);
+            /* Modal Styles */
+            .modal {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
             }
 
-            .text-slate-400 {
-                color: rgb(148 163 184);
+            .modal.show {
+                opacity: 1;
+                visibility: visible;
             }
 
-            /* Enhanced glass effect */
-            .glass-effect {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(16px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+            .modal-content {
+                transform: scale(0.9);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .modal.show .modal-content {
+                transform: scale(1);
+                opacity: 1;
             }
         </style>
-
         <script>
             // Add these package modal functions back to your JavaScript
 
