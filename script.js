@@ -50,7 +50,7 @@ function initHorizontalScroll() {
     }
 }
 
-// Initialize Swiper for mobile devices
+// Initialize Swiper for mobile devices with vertical scrolling support
 function initSwiperMobile() {
     console.log('Initializing Swiper for mobile');
     
@@ -72,7 +72,7 @@ function initSwiperMobile() {
         sectionsContainer.appendChild(wrapper);
     }
 
-    // Initialize Swiper
+    // Initialize Swiper with better touch handling
     const swiper = new Swiper('.sections-container', {
         direction: 'horizontal',
         slidesPerView: 1,
@@ -96,10 +96,14 @@ function initSwiperMobile() {
         freeMode: false,
         simulateTouch: true,
         
+        // Add touch event prevention for scrollable content
         on: {
             init: function () {
                 setActiveSection('home');
                 console.log('Swiper initialized successfully');
+                
+                // Add touch event listeners to prevent horizontal swiping in scrollable areas
+                setupTouchPrevention();
             },
             slideChange: function () {
                 const activeIndex = this.activeIndex;
@@ -122,6 +126,80 @@ function initSwiperMobile() {
 
     // Store swiper instance globally
     window.sectionsSwiper = swiper;
+}
+
+// New function to prevent horizontal swiping in scrollable areas
+function setupTouchPrevention() {
+    if (!isMobile) return;
+    
+    // Find all scrollable content areas within sections
+    const scrollableElements = document.querySelectorAll('#packages, .package-carousel, [data-allow-vertical-scroll]');
+    
+    scrollableElements.forEach(element => {
+        element.addEventListener('touchstart', handleTouchStartScrollable, { passive: true });
+        element.addEventListener('touchmove', handleTouchMoveScrollable, { passive: false });
+        element.addEventListener('touchend', handleTouchEndScrollable, { passive: true });
+    });
+}
+
+// Touch event handlers for scrollable content
+function handleTouchStartScrollable(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    element.isScrolling = null;
+    element.startY = e.touches[0].clientY;
+    element.startX = e.touches[0].clientX;
+    element.initialScrollTop = element.scrollTop;
+    element.initialScrollLeft = element.scrollLeft;
+    
+    // Store the swiper instance
+    element.swiper = window.sectionsSwiper;
+}
+
+function handleTouchMoveScrollable(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    const currentY = e.touches[0].clientY;
+    const currentX = e.touches[0].clientX;
+    
+    const diffY = Math.abs(currentY - element.startY);
+    const diffX = Math.abs(currentX - element.startX);
+    
+    // Determine scroll direction on first significant movement
+    if (element.isScrolling === null && (diffY > 5 || diffX > 5)) {
+        element.isScrolling = diffY > diffX ? 'vertical' : 'horizontal';
+    }
+    
+    // If vertical scrolling is detected and we're not at scroll boundaries
+    if (element.isScrolling === 'vertical') {
+        const isAtTop = element.scrollTop === 0;
+        const isAtBottom = element.scrollTop >= element.scrollHeight - element.clientHeight - 1;
+        const isScrollingUp = currentY > element.startY;
+        const isScrollingDown = currentY < element.startY;
+        
+        // Only prevent horizontal swipe if we're not at the top/bottom boundaries
+        if (!(isAtTop && isScrollingUp) && !(isAtBottom && isScrollingDown)) {
+            e.stopPropagation();
+            return;
+        }
+    }
+    
+    // If horizontal scrolling is detected, allow Swiper to handle it
+    if (element.isScrolling === 'horizontal') {
+        // Let the event propagate to Swiper
+        return;
+    }
+}
+
+function handleTouchEndScrollable(e) {
+    if (!isMobile) return;
+    
+    const element = e.currentTarget;
+    element.isScrolling = null;
+    element.startY = null;
+    element.startX = null;
 }
 
 // Initialize custom scrolling for desktop
@@ -549,11 +627,42 @@ if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
 
-// Mouse wheel navigation for desktop only
+// Enhanced wheel event handler with vertical scrolling support
 document.addEventListener('wheel', function (e) {
     // Only handle wheel events on desktop (when Swiper isn't active)
     if (isMobile) return;
     
+    // Check if we're inside a scrollable element
+    const scrollableElement = e.target.closest('#packages, [data-allow-vertical-scroll]');
+    if (scrollableElement) {
+        // Allow vertical scrolling within the element
+        const isAtTop = scrollableElement.scrollTop === 0;
+        const isAtBottom = scrollableElement.scrollTop >= scrollableElement.scrollHeight - scrollableElement.clientHeight - 1;
+        const isScrollingUp = e.deltaY < 0;
+        const isScrollingDown = e.deltaY > 0;
+        
+        // Only prevent default if we're at boundaries and trying to scroll out
+        if ((isAtTop && isScrollingUp) || (isAtBottom && isScrollingDown)) {
+            e.preventDefault();
+            
+            if (isScrolling) return;
+            isScrolling = true;
+
+            if (isScrollingDown && currentSectionIndex < sections.length - 1) {
+                smoothScrollToIndex(currentSectionIndex + 1);
+            } else if (isScrollingUp && currentSectionIndex > 0) {
+                smoothScrollToIndex(currentSectionIndex - 1);
+            }
+
+            setTimeout(() => {
+                isScrolling = false;
+            }, 600);
+        }
+        // Otherwise, allow normal vertical scrolling within the element
+        return;
+    }
+    
+    // Default behavior for non-scrollable areas
     e.preventDefault();
 
     if (isScrolling) return;
@@ -683,6 +792,47 @@ if (contactForm) {
     });
 }
 
+// Add CSS to ensure proper scrolling behavior
+const packageStyles = `
+    /* Ensure sections can scroll vertically on mobile */
+    .swiper-slide {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        height: 100vh;
+    }
+
+    /* Package carousel should only scroll horizontally */
+    .package-carousel {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .package-carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Ensure packages section content is scrollable */
+    #packages .container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Allow vertical scrolling within package cards if needed */
+    .package-card {
+        max-height: none;
+        overflow: visible;
+    }
+`;
+
+// Inject the styles
+const styleSheet = document.createElement('style');
+styleSheet.textContent = packageStyles;
+document.head.appendChild(styleSheet);
+
 // Handle window resize and orientation changes
 window.addEventListener('resize', function () {
     AOS.refresh();
@@ -719,6 +869,13 @@ window.addEventListener('resize', function () {
     } else if (sectionsContainer && !isMobile) {
         // Update scroll position on desktop resize
         sectionsContainer.scrollLeft = currentSectionIndex * window.innerWidth;
+    }
+    
+    // Re-setup touch prevention for mobile
+    if (newIsMobile) {
+        setTimeout(() => {
+            setupTouchPrevention();
+        }, 100);
     }
 });
 
