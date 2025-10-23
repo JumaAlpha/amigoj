@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.67, maximum-scale=0.67, user-scalable=no">
     <title>AMIJOJI COMPANY LIMITED - Premium Production Services</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,12 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- External CSS -->
     <link rel="stylesheet" href="style.css">
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
         :root {
             --accent-yellow: #f59e0b;
             --accent-purple: #8b5cf6;
@@ -48,6 +53,7 @@
             color: #fff;
             min-height: 100vh;
             line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
         }
 
         .section {
@@ -822,117 +828,152 @@
         id="overlay"></div>
 
     <!-- Enhanced Glassmorphism Sidebar -->
-    <div class="sidebar-glass fixed top-0 right-[-100%] w-full sm:w-80 h-full z-[99] transition-all duration-500 ease-in-out flex flex-col overflow-y-auto bg-slate-900/95 backdrop-blur-md border-l border-slate-700/50"
+    <div class="sidebar-glass fixed top-0 right-[-100%] w-80 h-full z-50 bg-dark-800/70 backdrop-blur-xl flex flex-col border-l border-slate-700/50 shadow-2xl"
         id="sidebar">
-        <!-- Close Button -->
-        <div class="absolute top-4 right-4 z-10">
-            <button
-                class="close-sidebar w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300 text-lg hover:bg-slate-700 hover:text-white transition-all duration-300">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- Profile Section -->
-        <div class="sidebar-profile flex flex-col items-center py-8 px-6 rounded-b-2xl mb-4 mt-4">
-            <div
-                class="w-24 h-24 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full flex items-center justify-center font-bold text-white text-3xl shadow-xl mb-6 overflow-hidden border-2 border-slate-600">
-                <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1139&q=80"
-                    alt="AMIJOJI COMPANY" class="w-full h-full object-cover rounded-full">
+        <!-- Header with Navbar Transparency -->
+        <div class="p-8 bg-dark-800/70 backdrop-blur-md border-b border-slate-700/50">
+            <div class="flex justify-between items-start mb-6">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-white mb-2">AMIJOJI</h2>
+                    <p class="text-accent-yellow/80 text-sm font-light">Visual Storytelling Excellence</p>
+                </div>
+                <button
+                    class="close-sidebar w-10 h-10 rounded-full flex items-center justify-center text-slate-300 hover:bg-accent-yellow/20 transition-all duration-300 ml-4 backdrop-blur-sm">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
             </div>
-            <h2 class="text-xl font-bold text-white text-center mb-2">AMIJOJI COMPANY LIMITED</h2>
-            <p class="text-slate-400 font-medium text-sm mb-4">Visual Storytelling Excellence</p>
-            <div class="flex gap-3">
-                <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#"
-                    class="social-icon w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 text-base transition-all duration-300 hover:bg-slate-700 hover:text-white">
-                    <i class="fab fa-youtube"></i>
-                </a>
+
+            <!-- Stats with Navbar Transparency -->
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-dark-700/50 backdrop-blur-sm rounded-lg p-2 border border-slate-600/50">
+                    <div class="text-accent-yellow font-bold text-sm">150+</div>
+                    <div class="text-slate-400 text-xs">Projects</div>
+                </div>
+                <div class="bg-dark-700/50 backdrop-blur-sm rounded-lg p-2 border border-slate-600/50">
+                    <div class="text-accent-purple font-bold text-sm">50+</div>
+                    <div class="text-slate-400 text-xs">Clients</div>
+                </div>
+                <div class="bg-dark-700/50 backdrop-blur-sm rounded-lg p-2 border border-slate-600/50">
+                    <div class="text-accent-indigo font-bold text-sm">7+</div>
+                    <div class="text-slate-400 text-xs">Years</div>
+                </div>
             </div>
         </div>
 
-        <!-- Navigation Links -->
-        <div class="sidebar-links flex flex-col gap-1 flex-1 px-4">
-            <a href="#home"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="home">
-                <i class="fas fa-home text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Home</span>
-            </a>
-            <a href="#about"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="about">
-                <i class="fas fa-building text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">About Us</span>
-            </a>
-            <a href="#services"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="services">
-                <i class="fas fa-photo-video text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Services</span>
-            </a>
-            <a href="#packages"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="packages">
-                <i class="fas fa-money-bill-wave text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Packages</span>
-            </a>
-            <a href="#portfolio"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="portfolio">
-                <i class="fas fa-briefcase text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Portfolio</span>
-            </a>
-            <a href="#clients"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="clients">
-                <i class="fas fa-star text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Our Clients</span>
-            </a>
+        <!-- Navigation with Navbar Transparency -->
+        <div class="flex-1 p-6">
+            <div class="grid grid-cols-2 gap-3">
+                <a href="#home"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-yellow/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-yellow/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-yellow">Home</div>
+                </a>
+                <a href="#about"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-indigo/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-indigo/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-indigo">About</div>
+                </a>
+                <a href="#services"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-purple/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-purple/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-purple">Services</div>
+                </a>
+                <a href="#packages"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-yellow/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-yellow/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-yellow">Packages</div>
+                </a>
+                <a href="#portfolio"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-indigo/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-indigo/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-indigo">Portfolio</div>
+                </a>
+                <a href="#clients"
+                    class="nav-link group bg-dark-700/50 backdrop-blur-sm hover:bg-accent-purple/10 rounded-xl p-4 text-center transition-all duration-300 border border-slate-600/50 hover:border-accent-purple/50">
+                    <div class="text-slate-200 font-medium text-sm group-hover:text-accent-purple">Clients</div>
+                </a>
+            </div>
+
+            <!-- Contact Button -->
             <a href="#contact"
-                class="sidebar-link nav-link text-slate-300 text-base font-medium py-3 px-4 rounded-lg transition-all flex items-center gap-3 hover:bg-slate-800/50 hover:text-white border-l-2 border-transparent hover:border-blue-500"
-                data-section="contact">
-                <i class="fas fa-envelope text-blue-500 w-5 text-center text-base"></i>
-                <span class="flex-1">Contact</span>
+                class="nav-link block mt-6 bg-gradient-to-r from-accent-yellow to-amber-600 hover:from-accent-yellow hover:to-amber-500 rounded-xl p-4 text-center transition-all duration-300 border border-amber-500/50 hover:border-amber-400 shadow-lg shadow-amber-500/20">
+                <div class="text-dark-900 font-semibold text-sm">Get In Touch</div>
             </a>
         </div>
 
-        <!-- Expertise Badges -->
-        <div class="px-4 mt-6 mb-6">
-            <h3 class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-3 pl-2">Our Expertise</h3>
-            <div class="role-badges flex flex-wrap gap-2 justify-center">
-                <div
-                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
-                    Live Coverage
-                </div>
-                <div
-                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
-                    Content Creation
-                </div>
-                <div
-                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
-                    TV Commercials
-                </div>
-                <div
-                    class="badge bg-slate-800/70 text-slate-300 py-1.5 px-3 rounded text-xs font-medium border border-slate-700">
-                    Event Coverage
-                </div>
+        <!-- Expertise with Navbar Transparency -->
+        <div class="p-6 border-t border-slate-700/50">
+            <h3 class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-3">Our Expertise</h3>
+            <div class="flex flex-wrap gap-2">
+                <span
+                    class="bg-accent-yellow/10 text-accent-yellow px-3 py-1.5 rounded-lg text-xs font-medium border border-accent-yellow/20">Live
+                    Coverage</span>
+                <span
+                    class="bg-accent-purple/10 text-accent-purple px-3 py-1.5 rounded-lg text-xs font-medium border border-accent-purple/20">TV
+                    Commercials</span>
+                <span
+                    class="bg-accent-indigo/10 text-accent-indigo px-3 py-1.5 rounded-lg text-xs font-medium border border-accent-indigo/20">Event
+                    Production</span>
+                <span
+                    class="bg-accent-yellow/10 text-accent-yellow px-3 py-1.5 rounded-lg text-xs font-medium border border-accent-yellow/20">Content
+                    Creation</span>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="border-t border-slate-700/50 mt-auto py-4 px-6">
-            <p class="text-slate-500 text-xs text-center">© 2023 AMIJOJI COMPANY LIMITED. Crafting visual excellence
-                since 2016.</p>
+        <!-- Footer with Navbar Transparency -->
+        <div class="p-4 bg-dark-800/70 backdrop-blur-md border-t border-slate-700/50">
+            <div class="flex justify-center gap-4 mb-3">
+                <a href="#"
+                    class="w-8 h-8 rounded-lg bg-dark-700/50 backdrop-blur-sm border border-slate-600/50 flex items-center justify-center text-slate-400 hover:bg-accent-yellow hover:text-dark-900 transition-all">
+                    <i class="fab fa-instagram text-xs"></i>
+                </a>
+                <a href="#"
+                    class="w-8 h-8 rounded-lg bg-dark-700/50 backdrop-blur-sm border border-slate-600/50 flex items-center justify-center text-slate-400 hover:bg-accent-indigo hover:text-white transition-all">
+                    <i class="fab fa-linkedin-in text-xs"></i>
+                </a>
+                <a href="#"
+                    class="w-8 h-8 rounded-lg bg-dark-700/50 backdrop-blur-sm border border-slate-600/50 flex items-center justify-center text-slate-400 hover:bg-red-500 hover:text-white transition-all">
+                    <i class="fab fa-youtube text-xs"></i>
+                </a>
+            </div>
+            <div class="text-center">
+                <p class="text-slate-500 text-xs">© 2023 AMIJOJI COMPANY</p>
+            </div>
         </div>
     </div>
 
+    <style>
+        .sidebar-glass {
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                -8px 0 32px rgba(0, 0, 0, 0.4),
+                inset 1px 0 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-glass.active {
+            right: 0;
+        }
+
+        .nav-link.active {
+            background: rgba(245, 158, 11, 0.15) !important;
+            backdrop-filter: blur(16px);
+            border-color: rgba(245, 158, 11, 0.4) !important;
+            color: #f59e0b !important;
+        }
+
+        .close-sidebar:hover {
+            transform: rotate(90deg);
+            background: rgba(245, 158, 11, 0.15) !important;
+        }
+
+        /* Hover effects matching navbar */
+        .nav-link:not(.active):hover {
+            transform: translateY(-2px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Smooth transitions matching navbar */
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+        }
+    </style>
     <!-- Scroll to top button -->
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
@@ -941,12 +982,12 @@
     <!-- Sections Container -->
     <div class="sections-container">
         <!-- Home Section -->
-        <section id="home" class="section active relative min-h-screen">
-            <!-- Video Background with Gradient Overlay -->
+        <section id="home" class="section active relative min-h-screen overflow-hidden">
+            <!-- Enhanced Video Background -->
             <div class="absolute inset-0 z-0">
                 <!-- Video Background -->
                 <div class="w-full h-full">
-                    <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover"
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover scale-105"
                         poster="aj_img.jpg" id="hero-video">
                         <source src="hero-video.mp4" type="video/mp4">
                         <source src="hero-video.webm" type="video/webm">
@@ -955,108 +996,163 @@
                 </div>
                 <!-- Enhanced Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
-                    lg:bg-gradient-to-r lg:from-dark-900 lg:via-dark-900/80 lg:to-transparent"></div>
+            lg:bg-gradient-to-r lg:from-dark-900 lg:via-dark-900/80 lg:to-transparent"></div>
+                <!-- Animated Grid Pattern -->
+                <div
+                    class="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(251,191,36,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.1)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]">
+                </div>
             </div>
 
             <!-- Content -->
             <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
                 <div class="w-full">
-                    <!-- Main Content - Hidden on mobile -->
+                    <!-- Enhanced Desktop Content -->
                     <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1000">
-                        <!-- Welcome Text with Unique Typing Effect -->
-                        <div class="mb-4">
-                            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">
-                                <span class="typing-container">
-                                    <span class="text-slate-100">I'm </span>
-                                    <span class="special-name typing-animation">Amigo Johnson</span>
+                        <!-- Welcome Badge -->
+
+                        <!-- Enhanced Welcome Text -->
+                        <div class="mb-6">
+                            <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
+                                <span
+                                    class="block text-slate-200 text-xl md:text-2xl font-light tracking-wider mb-2">I'M</span>
+                                <span
+                                    class="bg-gradient-to-r from-accent-yellow via-accent-purple to-accent-indigo bg-clip-text text-transparent"
+                                    style="font-family: 'Caveat', cursive; font-weight: 700;">
+                                    Amigo Johnson
                                 </span>
                             </h1>
                         </div>
 
-                        <!-- Enhanced Rotating Titles with Indentation -->
-                        <div class="fade-animation min-h-[60px] mb-6 sm:mb-8 ml-8">
+                        <!-- Enhanced Rotating Titles -->
+                        <div class="fade-animation min-h-[80px] mb-8 ml-8">
                             <div
-                                class="fade-wrapper relative w-full text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-100">
-                                <div class="fade-text active flex items-center gap-3" id="text-1">
-                                    <i class="fas fa-palette text-accent-yellow"></i>
+                                class="fade-wrapper relative w-full text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-100">
+                                <div class="fade-text active flex items-center gap-4" id="text-1">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple">
+                                    </div>
                                     Creative Director
                                 </div>
-                                <div class="fade-text flex items-center gap-3" id="text-2">
-                                    <i class="fas fa-theater-masks text-accent-purple"></i>
+                                <div class="fade-text flex items-center gap-4" id="text-2">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo">
+                                    </div>
                                     Stage Director
                                 </div>
-                                <div class="fade-text flex items-center gap-3" id="text-3">
-                                    <i class="fas fa-video text-accent-indigo"></i>
+                                <div class="fade-text flex items-center gap-4" id="text-3">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-indigo to-accent-yellow">
+                                    </div>
                                     Video Producer
                                 </div>
-                                <div class="fade-text flex items-center gap-3" id="text-4">
-                                    <i class="fas fa-volume-up text-accent-yellow"></i>
-                                    Sound Engineer
+                                <div class="fade-text flex items-center gap-4" id="text-4">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple">
+                                    </div>
+                                    Video Editor
                                 </div>
-                                <div class="fade-text flex items-center gap-3" id="text-5">
-                                    <i class="fas fa-broadcast-tower text-accent-purple"></i>
+                                <div class="fade-text flex items-center gap-4" id="text-5">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo">
+                                    </div>
                                     Live Stream Producer
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Description -->
-                        <p class="text-slate-300 text-lg sm:text-xl mb-8 max-w-xl leading-relaxed ml-8">
-                            Crafting unforgettable experiences through stage direction, video production,
-                            and sound engineering. Bringing creative visions to life with technical excellence.
-                        </p>
+                        <!-- Enhanced Description -->
+                        <div class="mb-10 ml-8 relative">
+                            <div
+                                class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-yellow to-accent-purple rounded-full">
+                            </div>
+                            <p class="text-slate-300 text-xl leading-relaxed pl-6">
+                                Crafting unforgettable experiences through stage direction, video production,
+                                and sound engineering. Bringing creative visions to life with technical excellence.
+                            </p>
+                        </div>
 
-                        <!-- Stats -->
-                        <div class="flex flex-wrap gap-6 sm:gap-8 mb-8 ml-8">
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">150+</div>
-                                <div class="text-slate-400 text-sm">Projects</div>
+                        <!-- Enhanced Stats -->
+                        <div class="flex flex-wrap gap-8 mb-10 ml-8">
+                            <div class="text-center group">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                                        <i class="fas fa-project-diagram text-accent-yellow text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-yellow">150+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Projects</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-purple">50+</div>
-                                <div class="text-slate-400 text-sm">Clients</div>
+                            <div class="text-center group">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:-rotate-6">
+                                        <i class="fas fa-users text-accent-purple text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-purple">50+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Clients</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-indigo">10+</div>
-                                <div class="text-slate-400 text-sm">Years</div>
+                            <div class="text-center group">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-indigo/20 to-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                                        <i class="fas fa-calendar-alt text-accent-indigo text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-indigo">10+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Years</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl sm:text-3xl font-bold text-accent-yellow">12</div>
-                                <div class="text-slate-400 text-sm">Awards</div>
+                            <div class="text-center group">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:-rotate-6">
+                                        <i class="fas fa-trophy text-accent-yellow text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-yellow">12</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Awards</div>
                             </div>
                         </div>
 
-                        <!-- Buttons -->
-                        <div class="flex flex-col sm:flex-row gap-4 mb-8 ml-8">
+                        <!-- Enhanced Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 mb-10 ml-8">
                             <button onclick="openVideoModal()"
-                                class="btn bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-indigo-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/50 flex items-center justify-center gap-2">
-                                <i class="fas fa-play-circle"></i>
-                                View Portfolio
+                                class="group relative overflow-hidden bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/30 flex items-center justify-center gap-3">
+                                <span class="relative z-10 flex items-center gap-3">
+                                    <i
+                                        class="fas fa-play-circle group-hover:scale-110 transition-transform duration-300"></i>
+                                    View Portfolio
+                                </span>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000">
+                                </div>
                             </button>
                             <button onclick="scrollToSection('contact')"
-                                class="btn bg-transparent text-white border border-slate-500 py-3 px-8 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 flex items-center justify-center gap-2">
-                                <i class="fas fa-envelope"></i>
+                                class="group bg-transparent text-white border-2 border-slate-500 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:bg-white/10 hover:border-white hover:scale-105 flex items-center justify-center gap-3">
+                                <i class="fas fa-envelope group-hover:scale-110 transition-transform duration-300"></i>
                                 Contact Me
                             </button>
                         </div>
 
-                        <!-- Social Links -->
+                        <!-- Enhanced Social Links -->
                         <div class="social-links flex gap-4 ml-8">
                             <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-instagram"></i>
+                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
+                                <i class="fab fa-instagram group-hover:scale-110 transition-transform duration-300"></i>
                             </a>
                             <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-youtube"></i>
+                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:-rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
+                                <i class="fab fa-youtube group-hover:scale-110 transition-transform duration-300"></i>
                             </a>
                             <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-linkedin-in"></i>
+                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
+                                <i
+                                    class="fab fa-linkedin-in group-hover:scale-110 transition-transform duration-300"></i>
                             </a>
                             <a href="#"
-                                class="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-lg transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:-translate-y-1">
-                                <i class="fab fa-twitter"></i>
+                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:-rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
+                                <i class="fab fa-twitter group-hover:scale-110 transition-transform duration-300"></i>
                             </a>
                         </div>
                     </div>
@@ -1065,67 +1161,120 @@
 
             <!-- Enhanced Mobile Profile Section - Bottom Right -->
             <div class="lg:hidden absolute bottom-20 right-4 z-20">
-                <div
-                    class="mobile-profile glass-effect rounded-2xl p-4 backdrop-blur-lg border border-white/10 max-w-[280px]">
-                    <!-- Minimal Name & Title -->
-                    <div class="text-right mb-4">
-                        <h2 class="text-lg font-bold text-white mb-1">Amigo Johnson</h2>
-                        <p class="text-accent-yellow text-xs font-medium mb-3">Creative Director</p>
+                <div class="mobile-profile group relative">
+                    <!-- Main Card -->
+                    <div
+                        class="glass-effect rounded-2xl p-4 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/30 relative overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:border-accent-yellow/30 max-w-[280px]">
+                        <!-- Background Gradient Effect -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 via-transparent to-accent-purple/5 opacity-50">
+                        </div>
 
-                        <!-- Compact Description -->
-                        <p class="text-slate-300 text-xs leading-relaxed mb-3">
-                            Crafting unforgettable experiences through stage direction, video production, and sound
-                            engineering.
-                        </p>
+                        <!-- Animated Border -->
+                        <div
+                            class="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-yellow/0 via-accent-yellow/10 to-accent-purple/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="relative z-10">
+                            <!-- Profile Header -->
+                            <div class="text-right mb-4">
+                                <!-- Name with Gradient -->
+                                <h2 class="text-lg font-bold text-white mb-1 bg-gradient-to-r from-accent-yellow to-accent-purple bg-clip-text text-transparent"
+                                    style="font-family: 'Caveat', cursive; font-size: 1.25em; font-weight: 600;">
+                                    Amigo Johnson
+                                </h2>
+                                <!-- Title with Icon -->
+                                <div class="flex items-center justify-end gap-1 mb-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-accent-yellow animate-pulse"></div>
+                                    <p class="text-accent-yellow text-xs font-medium">Creative Director</p>
+                                </div>
+
+                                <!-- Compact Description -->
+                                <p
+                                    class="text-slate-300 text-xs leading-relaxed mb-3 bg-white/5 rounded-lg p-2 border border-white/10">
+                                    Crafting unforgettable experiences through stage direction, video production, and
+                                    sound engineering.
+                                </p>
+                            </div>
+
+                            <!-- Enhanced Action Buttons -->
+                            <div class="flex justify-end gap-3 mb-4">
+                                <button onclick="openVideoModal()"
+                                    class="icon-btn group relative w-10 h-10 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-500/60"
+                                    aria-label="View Portfolio">
+                                    <i
+                                        class="fas fa-play-circle text-xs group-hover:scale-110 transition-transform duration-300"></i>
+                                    <div
+                                        class="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </button>
+                                <button onclick="scrollToSection('contact')"
+                                    class="icon-btn group relative w-10 h-10 rounded-full bg-white/15 text-white border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white/25 hover:border-white/50"
+                                    aria-label="Contact Me">
+                                    <i
+                                        class="fas fa-envelope text-xs group-hover:scale-110 transition-transform duration-300"></i>
+                                    <div
+                                        class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </button>
+                            </div>
+
+                            <!-- Enhanced Stats Grid -->
+                            <div class="grid grid-cols-3 gap-2 text-xs mb-3">
+                                <div
+                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-yellow/30 transition-all duration-300">
+                                    <div
+                                        class="font-bold text-accent-yellow text-sm group-hover:scale-110 transition-transform duration-300">
+                                        150+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Projects</div>
+                                </div>
+                                <div
+                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-purple/30 transition-all duration-300">
+                                    <div
+                                        class="font-bold text-accent-purple text-sm group-hover:scale-110 transition-transform duration-300">
+                                        50+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Clients</div>
+                                </div>
+                                <div
+                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-indigo/30 transition-all duration-300">
+                                    <div
+                                        class="font-bold text-accent-indigo text-sm group-hover:scale-110 transition-transform duration-300">
+                                        10+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Years</div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Social Links -->
+                            <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+                                <a href="#"
+                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:rotate-12"
+                                    aria-label="Instagram">
+                                    <i
+                                        class="fab fa-instagram group-hover:scale-110 transition-transform duration-300"></i>
+                                </a>
+                                <a href="#"
+                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-rotate-12"
+                                    aria-label="YouTube">
+                                    <i
+                                        class="fab fa-youtube group-hover:scale-110 transition-transform duration-300"></i>
+                                </a>
+                                <a href="#"
+                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:rotate-12"
+                                    aria-label="LinkedIn">
+                                    <i
+                                        class="fab fa-linkedin-in group-hover:scale-110 transition-transform duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Icon-only Buttons -->
-                    <div class="flex justify-end gap-3 mb-4">
-                        <button onclick="openVideoModal()"
-                            class="icon-btn w-9 h-9 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-indigo-500/40"
-                            aria-label="View Portfolio">
-                            <i class="fas fa-play-circle text-xs"></i>
-                        </button>
-                        <button onclick="scrollToSection('contact')"
-                            class="icon-btn w-9 h-9 rounded-full bg-white/20 text-white border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-110"
-                            aria-label="Contact Me">
-                            <i class="fas fa-envelope text-xs"></i>
-                        </button>
+                    <!-- Floating Elements -->
+                    <div
+                        class="absolute -top-2 -right-2 w-4 h-4 bg-accent-yellow rounded-full opacity-60 animate-pulse">
                     </div>
-
-                    <!-- Minimal Stats - Compact Layout -->
-                    <div class="grid grid-cols-3 gap-2 text-xs">
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-yellow text-sm">150+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Projects</div>
-                        </div>
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-purple text-sm">50+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Clients</div>
-                        </div>
-                        <div class="text-center p-2 rounded-lg bg-white/5">
-                            <div class="font-bold text-accent-indigo text-sm">10+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Years</div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Social Links -->
-                    <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-white/10">
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#"
-                            class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110"
-                            aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                    <div
+                        class="absolute -bottom-2 -left-2 w-3 h-3 bg-accent-purple rounded-full opacity-40 animate-pulse delay-1000">
                     </div>
                 </div>
             </div>
@@ -1146,12 +1295,112 @@
             </div>
         </section>
 
+        <style>
+            /* Enhanced animations */
+            .fade-text {
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .fade-text.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Smooth hover transitions */
+            .social-icon,
+            .btn,
+            .icon-btn {
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Gradient text animation */
+            @keyframes gradientShift {
+                0% {
+                    background-position: 0% 50%;
+                }
+
+                50% {
+                    background-position: 100% 50%;
+                }
+
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            .bg-gradient-to-r {
+                background-size: 200% 200%;
+                animation: gradientShift 6s ease infinite;
+            }
+
+            /* Enhanced glass effect */
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+            }
+
+            /* Mobile card entrance animation */
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px) scale(0.95);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            .mobile-profile {
+                animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+        </style>
+
+        <script>
+            // Enhanced title rotation with smooth transitions
+            document.addEventListener('DOMContentLoaded', function () {
+                const titles = document.querySelectorAll('.fade-text');
+                let currentIndex = 0;
+
+                function rotateTitles() {
+                    // Fade out current title
+                    titles[currentIndex].classList.remove('active');
+
+                    // Update index
+                    currentIndex = (currentIndex + 1) % titles.length;
+
+                    // Fade in next title
+                    setTimeout(() => {
+                        titles[currentIndex].classList.add('active');
+                    }, 500);
+                }
+
+                // Start rotation
+                setInterval(rotateTitles, 3000);
+
+                // Mobile card interaction
+                const mobileCard = document.querySelector('.mobile-profile');
+                if (mobileCard) {
+                    mobileCard.addEventListener('click', function () {
+                        this.classList.toggle('active');
+                    });
+                }
+            });
+        </script>
         <!-- About Section -->
         <section id="about" class="section relative">
             <!-- Enhanced Background -->
             <div class="absolute inset-0 z-0">
                 <div class="w-full h-full relative">
-                    <img src="story.jpg" alt="About Us Background" class="w-full h-full object-cover">
+                    <img src="story.jpg" alt="About Us Background" class="w-full h-full object-cover scale-105">
                     <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90 
                 lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/80 lg:to-dark-800/90"></div>
                 </div>
@@ -1161,139 +1410,179 @@
             <div
                 class="container max-w-7xl mx-auto px-3 sm:px-4 pt-20 sm:pt-24 pb-6 lg:py-12 h-full flex items-center relative z-10">
                 <div class="w-full">
-                    <!-- Header Section -->
+                    <!-- Header Section with Home Section Fonts -->
                     <div class="text-center mb-4 sm:mb-6 lg:mb-8">
-                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2 font-bold text-white">Our Story &
-                            Values</h2>
-                        <p class="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl mx-auto px-2">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
+                            style="font-family: 'Inter', sans-serif; font-weight: 700;">
+                            Our Story &
+                            <span
+                                class="bg-gradient-to-r from-accent-yellow to-accent-purple bg-clip-text text-transparent"
+                                style="font-family: 'Caveat', cursive; font-weight: 600;">
+                                Values
+                            </span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto px-2 leading-relaxed"
+                            style="font-family: 'Inter', sans-serif; font-weight: 400;">
                             Founded in 2016, we lead visual storytelling in Tanzania with passion and innovation.
                         </p>
                     </div>
 
                     <!-- Mobile Tabs -->
                     <div class="lg:hidden">
-                        <!-- Tab Headers with Navigation Indicators -->
+                        <!-- Enhanced Tab Headers -->
                         <div class="flex border-b border-white/20 mb-3 sm:mb-4">
                             <button
-                                class="tab-button active flex-1 py-3 px-1 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300 relative"
+                                class="tab-button active flex-1 py-3 px-1 text-center font-semibold text-accent-yellow border-b-2 border-accent-yellow transition-all duration-300 relative group"
                                 data-tab="story">
                                 <div class="flex flex-col items-center">
-                                    <i class="fas fa-history text-sm sm:text-base mb-1"></i>
-                                    <span class="text-xs">Our Story</span>
-                                </div>
-                                <!-- Navigation Indicator -->
-                                <div
-                                    class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-accent-yellow text-xs animate-bounce">
-                                    <i class="fas fa-chevron-down"></i>
+                                    <i
+                                        class="fas fa-history text-sm sm:text-base mb-1 group-hover:scale-110 transition-transform duration-300"></i>
+                                    <span class="text-xs" style="font-family: 'Inter', sans-serif;">Our Story</span>
                                 </div>
                             </button>
                             <button
-                                class="tab-button flex-1 py-3 px-1 text-center font-semibold text-slate-400 transition-all duration-300 relative"
+                                class="tab-button flex-1 py-3 px-1 text-center font-semibold text-slate-400 transition-all duration-300 relative group"
                                 data-tab="values">
                                 <div class="flex flex-col items-center">
-                                    <i class="fas fa-star text-sm sm:text-base mb-1"></i>
-                                    <span class="text-xs">Our Values</span>
-                                </div>
-                                <!-- Navigation Indicator -->
-                                <div
-                                    class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-slate-400 text-xs opacity-0">
-                                    <i class="fas fa-chevron-down"></i>
+                                    <i
+                                        class="fas fa-star text-sm sm:text-base mb-1 group-hover:scale-110 transition-transform duration-300"></i>
+                                    <span class="text-xs" style="font-family: 'Inter', sans-serif;">Our Values</span>
                                 </div>
                             </button>
                         </div>
 
-                        <!-- Tab Content -->
+                        <!-- Enhanced Tab Content -->
                         <div class="tab-content active" id="story-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10">
-                                <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-2 font-semibold">Our
-                                    Journey</h3>
-                                <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                            <div
+                                class="glass-effect rounded-xl p-4 backdrop-blur-lg border border-white/10 relative overflow-hidden">
+                                <!-- Background Accent -->
+                                <div
+                                    class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent-yellow/5 to-transparent rounded-full -translate-y-10 translate-x-10">
+                                </div>
+
+                                <h3 class="text-accent-yellow text-base font-semibold mb-3 flex items-center gap-2"
+                                    style="font-family: 'Inter', sans-serif; font-weight: 600;">
+                                    <i class="fas fa-rocket"></i>
+                                    Our Journey
+                                </h3>
+                                <div class="space-y-2 text-sm text-slate-300 relative z-10"
+                                    style="font-family: 'Inter', sans-serif; font-weight: 400;">
                                     <p>Founded by Johnson Jimmy Sangu, we set new standards in production services
                                         through visual storytelling excellence.</p>
                                     <p>Since 2016, we've built a strong reputation as Tanzania's leading production
                                         company.</p>
                                 </div>
 
-                                <!-- Stats Grid for Mobile -->
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+                                <!-- Enhanced Stats Grid -->
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
                                     <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-yellow">150+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Projects</div>
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="text-lg font-bold text-accent-yellow group-hover:scale-110 transition-transform duration-300"
+                                            style="font-family: 'Inter', sans-serif;">150+</div>
+                                        <div class="text-xs text-slate-400" style="font-family: 'Inter', sans-serif;">
+                                            Projects</div>
                                     </div>
                                     <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-purple">50+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Clients</div>
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-purple/30 transition-all duration-300">
+                                        <div class="text-lg font-bold text-accent-purple group-hover:scale-110 transition-transform duration-300"
+                                            style="font-family: 'Inter', sans-serif;">50+</div>
+                                        <div class="text-xs text-slate-400" style="font-family: 'Inter', sans-serif;">
+                                            Clients</div>
                                     </div>
                                     <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-indigo">7+
-                                        </div>
-                                        <div class="text-xs text-slate-400">Years</div>
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-indigo/30 transition-all duration-300">
+                                        <div class="text-lg font-bold text-accent-indigo group-hover:scale-110 transition-transform duration-300"
+                                            style="font-family: 'Inter', sans-serif;">7+</div>
+                                        <div class="text-xs text-slate-400" style="font-family: 'Inter', sans-serif;">
+                                            Years</div>
                                     </div>
                                     <div
-                                        class="text-center glass-effect-light rounded p-2 sm:p-3 backdrop-blur-md border border-white/5">
-                                        <div class="text-base sm:text-lg md:text-xl font-bold text-accent-yellow">12
-                                        </div>
-                                        <div class="text-xs text-slate-400">Awards</div>
+                                        class="text-center glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="text-lg font-bold text-accent-yellow group-hover:scale-110 transition-transform duration-300"
+                                            style="font-family: 'Inter', sans-serif;">12</div>
+                                        <div class="text-xs text-slate-400" style="font-family: 'Inter', sans-serif;">
+                                            Awards</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-content hidden" id="values-tab">
-                            <div class="glass-effect rounded-lg p-3 sm:p-4 backdrop-blur-lg border border-white/10">
-                                <h3 class="text-accent-yellow text-sm sm:text-base md:text-lg mb-3 font-semibold">Our
-                                    Values</h3>
-                                <div class="space-y-2">
-                                    <!-- Reduced size value items -->
-                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-xs">95%</span>
+                            <div
+                                class="glass-effect rounded-xl p-4 backdrop-blur-lg border border-white/10 relative overflow-hidden">
+                                <!-- Background Accent -->
+                                <div
+                                    class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent-purple/5 to-transparent rounded-full -translate-y-10 translate-x-10">
+                                </div>
+
+                                <h3 class="text-accent-yellow text-base font-semibold mb-3 flex items-center gap-2"
+                                    style="font-family: 'Inter', sans-serif; font-weight: 600;">
+                                    <i class="fas fa-gem"></i>
+                                    Our Values
+                                </h3>
+                                <div class="space-y-3 relative z-10">
+                                    <!-- Enhanced Value Items -->
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm font-semibold text-white"
+                                                style="font-family: 'Inter', sans-serif;">Creativity</h4>
+                                            <span class="text-accent-yellow font-bold text-sm"
+                                                style="font-family: 'Inter', sans-serif;">95%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Pushing storytelling boundaries</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                        <p class="text-xs text-slate-300 mb-2"
+                                            style="font-family: 'Inter', sans-serif;">Pushing storytelling boundaries
+                                        </p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
                                                 data-width="95%"></div>
                                         </div>
                                     </div>
 
-                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-xs">90%</span>
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm font-semibold text-white"
+                                                style="font-family: 'Inter', sans-serif;">Excellence</h4>
+                                            <span class="text-accent-yellow font-bold text-sm"
+                                                style="font-family: 'Inter', sans-serif;">90%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Highest quality standards</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                        <p class="text-xs text-slate-300 mb-2"
+                                            style="font-family: 'Inter', sans-serif;">Highest quality standards</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
                                                 data-width="90%"></div>
                                         </div>
                                     </div>
 
-                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-xs">92%</span>
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm font-semibold text-white"
+                                                style="font-family: 'Inter', sans-serif;">Collaboration</h4>
+                                            <span class="text-accent-yellow font-bold text-sm"
+                                                style="font-family: 'Inter', sans-serif;">92%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Teamwork for best results</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                        <p class="text-xs text-slate-300 mb-2"
+                                            style="font-family: 'Inter', sans-serif;">Teamwork for best results</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
                                                 data-width="92%"></div>
                                         </div>
                                     </div>
 
-                                    <div class="glass-effect-light rounded p-2 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h4 class="text-xs font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-xs">88%</span>
+                                    <div
+                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="text-sm font-semibold text-white"
+                                                style="font-family: 'Inter', sans-serif;">Innovation</h4>
+                                            <span class="text-accent-yellow font-bold text-sm"
+                                                style="font-family: 'Inter', sans-serif;">88%</span>
                                         </div>
-                                        <p class="text-xs text-slate-300 mb-1">Embracing new technologies</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
+                                        <p class="text-xs text-slate-300 mb-2"
+                                            style="font-family: 'Inter', sans-serif;">Embracing new technologies</p>
+                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
                                                 data-width="88%"></div>
                                         </div>
                                     </div>
@@ -1302,104 +1591,157 @@
                         </div>
                     </div>
 
-                    <!-- Desktop Layout -->
+                    <!-- Enhanced Desktop Layout -->
                     <div class="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-8 items-start">
                         <!-- Story Section -->
                         <div class="relative">
                             <div
-                                class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full">
-                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 font-semibold">Our Journey</h3>
-                                <div class="space-y-3 text-sm xl:text-base text-slate-300">
-                                    <p>Founded by Johnson Jimmy Sangu, we've set new standards in production services
-                                        through exceptional visual storytelling.</p>
-                                    <p>Since 2016, we've grown into Tanzania's premier production company, known for
-                                        quality and innovation.</p>
-                                    <p>We continuously evolve with cutting-edge equipment and emerging technologies.</p>
+                                class="glass-effect rounded-xl p-6 backdrop-blur-lg border border-white/10 h-full relative overflow-hidden">
+                                <!-- Background Accent -->
+                                <div
+                                    class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent-yellow/5 to-transparent rounded-full -translate-y-16 translate-x-16">
                                 </div>
 
-                                <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4 mt-5 xl:mt-6">
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-yellow mb-1">150+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Projects</div>
+                                <div class="relative z-10">
+                                    <h3 class="text-accent-yellow text-xl mb-4 font-semibold flex items-center gap-3"
+                                        style="font-family: 'Inter', sans-serif; font-weight: 600;">
+                                        <div
+                                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center">
+                                            <i class="fas fa-rocket text-accent-yellow"></i>
+                                        </div>
+                                        Our Journey
+                                    </h3>
+                                    <div class="space-y-3 text-base text-slate-300 leading-relaxed"
+                                        style="font-family: 'Inter', sans-serif; font-weight: 400;">
+                                        <p>Founded by Johnson Jimmy Sangu, we've set new standards in production
+                                            services through exceptional visual storytelling.</p>
+                                        <p>Since 2016, we've grown into Tanzania's premier production company, known for
+                                            quality and innovation.</p>
+                                        <p>We continuously evolve with cutting-edge equipment and emerging technologies.
+                                        </p>
                                     </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-purple mb-1">50+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Clients</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-indigo mb-1">7+</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Years</div>
-                                    </div>
-                                    <div
-                                        class="text-center glass-effect-light rounded-lg p-3 xl:p-4 backdrop-blur-md border border-white/5">
-                                        <div class="text-xl xl:text-2xl font-bold text-accent-yellow mb-1">12</div>
-                                        <div class="text-xs xl:text-sm text-slate-400">Awards</div>
+
+                                    <!-- Enhanced Stats Grid -->
+                                    <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+                                        <div
+                                            class="text-center glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="text-2xl font-bold text-accent-yellow mb-1 group-hover:scale-110 transition-transform duration-300"
+                                                style="font-family: 'Inter', sans-serif;">150+</div>
+                                            <div class="text-sm text-slate-400"
+                                                style="font-family: 'Inter', sans-serif;">Projects</div>
+                                        </div>
+                                        <div
+                                            class="text-center glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-purple/30 transition-all duration-300">
+                                            <div class="text-2xl font-bold text-accent-purple mb-1 group-hover:scale-110 transition-transform duration-300"
+                                                style="font-family: 'Inter', sans-serif;">50+</div>
+                                            <div class="text-sm text-slate-400"
+                                                style="font-family: 'Inter', sans-serif;">Clients</div>
+                                        </div>
+                                        <div
+                                            class="text-center glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-indigo/30 transition-all duration-300">
+                                            <div class="text-2xl font-bold text-accent-indigo mb-1 group-hover:scale-110 transition-transform duration-300"
+                                                style="font-family: 'Inter', sans-serif;">7+</div>
+                                            <div class="text-sm text-slate-400"
+                                                style="font-family: 'Inter', sans-serif;">Years</div>
+                                        </div>
+                                        <div
+                                            class="text-center glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="text-2xl font-bold text-accent-yellow mb-1 group-hover:scale-110 transition-transform duration-300"
+                                                style="font-family: 'Inter', sans-serif;">12</div>
+                                            <div class="text-sm text-slate-400"
+                                                style="font-family: 'Inter', sans-serif;">Awards</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Values Section - Reduced Size -->
+                        <!-- Values Section -->
                         <div class="h-full">
                             <div
-                                class="glass-effect rounded-xl p-5 xl:p-6 backdrop-blur-lg border border-white/10 h-full">
-                                <h3 class="text-accent-yellow text-lg xl:text-xl mb-4 font-semibold">Our Values</h3>
-                                <div class="space-y-3">
-                                    <div
-                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h4 class="text-base font-semibold text-white">Creativity</h4>
-                                            <span class="text-accent-yellow font-bold text-sm">95%</span>
-                                        </div>
-                                        <p class="text-sm text-slate-300 mb-2">Pushing boundaries in visual
-                                            storytelling.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="95%"></div>
-                                        </div>
-                                    </div>
+                                class="glass-effect rounded-xl p-6 backdrop-blur-lg border border-white/10 h-full relative overflow-hidden">
+                                <!-- Background Accent -->
+                                <div
+                                    class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent-purple/5 to-transparent rounded-full -translate-y-16 translate-x-16">
+                                </div>
 
-                                    <div
-                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h4 class="text-base font-semibold text-white">Excellence</h4>
-                                            <span class="text-accent-yellow font-bold text-sm">90%</span>
+                                <div class="relative z-10">
+                                    <h3 class="text-accent-yellow text-xl mb-4 font-semibold flex items-center gap-3"
+                                        style="font-family: 'Inter', sans-serif; font-weight: 600;">
+                                        <div
+                                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center">
+                                            <i class="fas fa-gem text-accent-purple"></i>
                                         </div>
-                                        <p class="text-sm text-slate-300 mb-2">Maintaining highest quality standards.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="90%"></div>
+                                        Our Values
+                                    </h3>
+                                    <div class="space-y-4">
+                                        <!-- Enhanced Value Items -->
+                                        <div
+                                            class="glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="flex justify-between items-center mb-3">
+                                                <h4 class="text-base font-semibold text-white"
+                                                    style="font-family: 'Inter', sans-serif;">Creativity</h4>
+                                                <span class="text-accent-yellow font-bold text-lg"
+                                                    style="font-family: 'Inter', sans-serif;">95%</span>
+                                            </div>
+                                            <p class="text-sm text-slate-300 mb-3"
+                                                style="font-family: 'Inter', sans-serif;">Pushing boundaries in visual
+                                                storytelling.</p>
+                                            <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                                <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
+                                                    data-width="95%"></div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div
-                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h4 class="text-base font-semibold text-white">Collaboration</h4>
-                                            <span class="text-accent-yellow font-bold text-sm">92%</span>
+                                        <div
+                                            class="glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="flex justify-between items-center mb-3">
+                                                <h4 class="text-base font-semibold text-white"
+                                                    style="font-family: 'Inter', sans-serif;">Excellence</h4>
+                                                <span class="text-accent-yellow font-bold text-lg"
+                                                    style="font-family: 'Inter', sans-serif;">90%</span>
+                                            </div>
+                                            <p class="text-sm text-slate-300 mb-3"
+                                                style="font-family: 'Inter', sans-serif;">Maintaining highest quality
+                                                standards.</p>
+                                            <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                                <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
+                                                    data-width="90%"></div>
+                                            </div>
                                         </div>
-                                        <p class="text-sm text-slate-300 mb-2">Achieving excellence through teamwork.
-                                        </p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="92%"></div>
-                                        </div>
-                                    </div>
 
-                                    <div
-                                        class="glass-effect-light rounded-lg p-3 backdrop-blur-md border border-white/5">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h4 class="text-base font-semibold text-white">Innovation</h4>
-                                            <span class="text-accent-yellow font-bold text-sm">88%</span>
+                                        <div
+                                            class="glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="flex justify-between items-center mb-3">
+                                                <h4 class="text-base font-semibold text-white"
+                                                    style="font-family: 'Inter', sans-serif;">Collaboration</h4>
+                                                <span class="text-accent-yellow font-bold text-lg"
+                                                    style="font-family: 'Inter', sans-serif;">92%</span>
+                                            </div>
+                                            <p class="text-sm text-slate-300 mb-3"
+                                                style="font-family: 'Inter', sans-serif;">Achieving excellence through
+                                                teamwork.</p>
+                                            <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                                <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
+                                                    data-width="92%"></div>
+                                            </div>
                                         </div>
-                                        <p class="text-sm text-slate-300 mb-2">Embracing latest technologies.</p>
-                                        <div class="skill-bar bg-slate-700 rounded-full h-1.5 overflow-hidden">
-                                            <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full"
-                                                data-width="88%"></div>
+
+                                        <div
+                                            class="glass-effect-light rounded-xl p-4 backdrop-blur-md border border-white/5 group hover:border-accent-yellow/30 transition-all duration-300">
+                                            <div class="flex justify-between items-center mb-3">
+                                                <h4 class="text-base font-semibold text-white"
+                                                    style="font-family: 'Inter', sans-serif;">Innovation</h4>
+                                                <span class="text-accent-yellow font-bold text-lg"
+                                                    style="font-family: 'Inter', sans-serif;">88%</span>
+                                            </div>
+                                            <p class="text-sm text-slate-300 mb-3"
+                                                style="font-family: 'Inter', sans-serif;">Embracing latest technologies.
+                                            </p>
+                                            <div class="skill-bar bg-slate-700 rounded-full h-2 overflow-hidden">
+                                                <div class="skill-progress bg-gradient-to-r from-accent-yellow to-amber-400 h-full rounded-full transition-all duration-1000"
+                                                    data-width="88%"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1411,78 +1753,57 @@
         </section>
 
         <style>
-            /* Ensure full-screen background on mobile */
-            #about .absolute.inset-0 {
-                position: fixed !important;
-                height: 100vh !important;
+            /* Enhanced glass effects */
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
             }
 
-            #about .absolute.inset-0 img {
-                height: 100vh !important;
-                object-fit: cover !important;
-            }
-
-            /* Mobile navigation indicators */
-            .tab-button.active .fa-chevron-down {
-                animation: bounce 2s infinite;
-            }
-
-            @keyframes bounce {
-
-                0%,
-                20%,
-                50%,
-                80%,
-                100% {
-                    transform: translateY(0);
-                }
-
-                40% {
-                    transform: translateY(-5px);
-                }
-
-                60% {
-                    transform: translateY(-3px);
-                }
-            }
-
-            /* Reduced value section sizes */
             .glass-effect-light {
-                padding: 0.5rem !important;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
-            .skill-bar {
-                height: 0.5rem !important;
+            /* Progress bar animations */
+            .skill-progress {
+                width: 0%;
+                transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
-            /* Mobile-specific adjustments */
-            @media (max-width: 1023px) {
-                #about .container {
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                }
-
-                .tab-button {
-                    position: relative;
-                }
+            /* Hover animations */
+            .group:hover .group-hover\:scale-110 {
+                transform: scale(1.1);
             }
 
-            /* Desktop adjustments */
-            @media (min-width: 1024px) {
-                #about .absolute.inset-0 {
-                    position: absolute !important;
-                    height: 100% !important;
-                }
+            /* Smooth transitions */
+            .transition-all {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-                #about .absolute.inset-0 img {
-                    height: 100% !important;
-                }
+            /* Font consistency with home section */
+            #about h2,
+            #about h3,
+            #about h4 {
+                font-family: 'Inter', sans-serif;
+            }
+
+            #about .gradient-text {
+                font-family: 'Caveat', cursive;
+                font-weight: 600;
+            }
+
+            #about p,
+            #about span:not(.gradient-text) {
+                font-family: 'Inter', sans-serif;
             }
         </style>
 
         <script>
-            // Tab functionality for mobile
+            // Tab functionality
             document.addEventListener('DOMContentLoaded', function () {
                 const tabButtons = document.querySelectorAll('.tab-button');
                 const tabContents = document.querySelectorAll('.tab-content');
@@ -1495,16 +1816,10 @@
                         tabButtons.forEach(btn => {
                             btn.classList.remove('active', 'text-accent-yellow', 'border-accent-yellow');
                             btn.classList.add('text-slate-400');
-                            // Hide all navigation indicators
-                            btn.querySelector('.fa-chevron-down').classList.add('opacity-0');
-                            btn.querySelector('.fa-chevron-down').classList.remove('animate-bounce');
                         });
 
                         this.classList.add('active', 'text-accent-yellow', 'border-accent-yellow');
                         this.classList.remove('text-slate-400');
-                        // Show navigation indicator for active tab
-                        this.querySelector('.fa-chevron-down').classList.remove('opacity-0');
-                        this.querySelector('.fa-chevron-down').classList.add('animate-bounce');
 
                         // Update active tab content
                         tabContents.forEach(content => {
@@ -1512,12 +1827,41 @@
                             content.classList.remove('active');
                         });
 
-                        document.getElementById(`${tabId}-tab`).classList.remove('hidden');
-                        document.getElementById(`${tabId}-tab`).classList.add('active');
+                        const activeContent = document.getElementById(`${tabId}-tab`);
+                        activeContent.classList.remove('hidden');
+                        activeContent.classList.add('active');
+
+                        // Animate progress bars
+                        setTimeout(() => {
+                            animateProgressBars(activeContent);
+                        }, 300);
                     });
                 });
+
+                // Animate progress bars
+                function animateProgressBars(container) {
+                    const progressBars = container.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        bar.style.width = width;
+                    });
+                }
+
+                // Initial animation
+                animateProgressBars(document.querySelector('.tab-content.active'));
+
+                // Animate on scroll into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateProgressBars(entry.target);
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                observer.observe(document.getElementById('about'));
             });
-        </script>
+        </script>F
         <!-- Services Section -->
         <section id="services" class="section relative">
             <!-- New Background with Pattern -->
