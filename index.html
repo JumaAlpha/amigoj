@@ -1937,529 +1937,539 @@
             }
         </style>
         <section id="packages" class="section relative">
-    <!-- Background -->
-    <div class="absolute inset-0 z-0">
-        <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90"></div>
-    </div>
-
-    <!-- Content -->
-    <div class="container max-w-7xl mx-auto px-4 py-20 h-full flex items-center relative z-10">
-        <div class="w-full">
-            <!-- Section Header -->
-            <div class="text-center mb-12">
-                <h2 class="text-2xl font-bold mb-3 text-white">Live Recording Packages</h2>
-                <p class="text-sm text-slate-300">Professional video production for events & performances</p>
+            <!-- Background -->
+            <div class="absolute inset-0 z-0">
+                <div class="w-full h-full bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-dark-900/90 via-dark-900/70 to-dark-900/90"></div>
             </div>
 
-            <!-- Desktop Layout (3 columns) -->
-            <div class="hidden md:grid md:grid-cols-3 gap-6 mb-12">
-                <!-- Essential Package -->
-                <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
-                    <div class="text-center mb-6">
-                        <h3 class="text-lg font-bold mb-2">Essential</h3>
-                        <div class="price text-3xl font-bold text-accent-yellow">$3,800</div>
-                        <span class="text-sm text-slate-400">USD</span>
+            <!-- Content -->
+            <div class="container max-w-7xl mx-auto px-4 py-20 h-full flex items-center relative z-10">
+                <div class="w-full">
+                    <!-- Section Header -->
+                    <div class="text-center mb-12">
+                        <h2 class="text-2xl font-bold mb-3 text-white">Live Recording Packages</h2>
+                        <p class="text-sm text-slate-300">Professional video production for events & performances</p>
                     </div>
 
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-accent-yellow mr-3"></i>
-                            <span class="text-sm">13 Camera Setup</span>
+                    <!-- Desktop Layout (3 columns) -->
+                    <div class="hidden md:grid md:grid-cols-3 gap-6 mb-12">
+                        <!-- Essential Package -->
+                        <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-bold mb-2">Essential</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$3,800</div>
+                                <span class="text-sm text-slate-400">USD</span>
+                            </div>
+
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                    <span class="text-sm">13 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                    <span class="text-sm">Professional Directing</span>
+                                </div>
+                                <div class="flex items-center opacity-60">
+                                    <i class="fas fa-times text-slate-500 mr-3"></i>
+                                    <span class="text-sm text-slate-500">No Post Production</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openPackageModal('essential')"
+                                class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Essential
+                            </button>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-accent-yellow mr-3"></i>
-                            <span class="text-sm">Professional Directing</span>
+
+                        <!-- Professional Package -->
+                        <div
+                            class="package-card glass-effect rounded-xl p-6 border-2 border-accent-yellow relative transform scale-105">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                                <span class="bg-accent-yellow text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
+                                    Most Popular
+                                </span>
+                            </div>
+
+                            <div class="text-center mb-6 pt-2">
+                                <h3 class="text-lg font-bold mb-2">Professional</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$5,700</div>
+                                <span class="text-sm text-slate-400">USD</span>
+                            </div>
+
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">22 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">Advanced Directing</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-amber-400 mr-3"></i>
+                                    <span class="text-sm">Basic Post Production</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openPackageModal('professional')"
+                                class="btn w-full bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Professional
+                            </button>
                         </div>
-                        <div class="flex items-center opacity-60">
-                            <i class="fas fa-times text-slate-500 mr-3"></i>
-                            <span class="text-sm text-slate-500">No Post Production</span>
+
+                        <!-- Premium Package -->
+                        <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-bold mb-2">Premium</h3>
+                                <div class="price text-3xl font-bold text-accent-yellow">$7,600</div>
+                                <span class="text-sm text-slate-400">USD</span>
+                            </div>
+
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">22 Camera Setup</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">Premium Directing</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check text-purple-400 mr-3"></i>
+                                    <span class="text-sm">Full Post Production</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openPackageModal('premium')"
+                                class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Premium
+                            </button>
                         </div>
                     </div>
 
-                    <button onclick="openPackageModal('essential')"
-                        class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                        Select Essential
-                    </button>
+                    <!-- Mobile Layout (Carousel) -->
+                    <div class="md:hidden relative mb-12">
+                        <div class="package-carousel overflow-x-auto snap-x snap-mandatory flex gap-4 pb-4">
+                            <!-- Essential Package -->
+                            <div
+                                class="package-card glass-effect rounded-xl p-6 border border-white/10 min-w-[85vw] snap-center">
+                                <div class="text-center mb-6">
+                                    <h3 class="text-lg font-bold mb-2">Essential</h3>
+                                    <div class="price text-3xl font-bold text-accent-yellow">$3,800</div>
+                                    <span class="text-sm text-slate-400">USD</span>
+                                </div>
+
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                        <span class="text-sm">13 Camera Setup</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-accent-yellow mr-3"></i>
+                                        <span class="text-sm">Professional Directing</span>
+                                    </div>
+                                    <div class="flex items-center opacity-60">
+                                        <i class="fas fa-times text-slate-500 mr-3"></i>
+                                        <span class="text-sm text-slate-500">No Post Production</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="openPackageModal('essential')"
+                                    class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                    Select Essential
+                                </button>
+                            </div>
+
+                            <!-- Professional Package -->
+                            <div
+                                class="package-card glass-effect rounded-xl p-6 border-2 border-accent-yellow min-w-[85vw] snap-center relative">
+                                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                                    <span
+                                        class="bg-accent-yellow text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
+                                        Most Popular
+                                    </span>
+                                </div>
+
+                                <div class="text-center mb-6 pt-2">
+                                    <h3 class="text-lg font-bold mb-2">Professional</h3>
+                                    <div class="price text-3xl font-bold text-accent-yellow">$5,700</div>
+                                    <span class="text-sm text-slate-400">USD</span>
+                                </div>
+
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-amber-400 mr-3"></i>
+                                        <span class="text-sm">22 Camera Setup</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-amber-400 mr-3"></i>
+                                        <span class="text-sm">Advanced Directing</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-amber-400 mr-3"></i>
+                                        <span class="text-sm">Basic Post Production</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="openPackageModal('professional')"
+                                    class="btn w-full bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
+                                    Select Professional
+                                </button>
+                            </div>
+
+                            <!-- Premium Package -->
+                            <div
+                                class="package-card glass-effect rounded-xl p-6 border border-white/10 min-w-[85vw] snap-center">
+                                <div class="text-center mb-6">
+                                    <h3 class="text-lg font-bold mb-2">Premium</h3>
+                                    <div class="price text-3xl font-bold text-accent-yellow">$7,600</div>
+                                    <span class="text-sm text-slate-400">USD</span>
+                                </div>
+
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-purple-400 mr-3"></i>
+                                        <span class="text-sm">22 Camera Setup</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-purple-400 mr-3"></i>
+                                        <span class="text-sm">Premium Directing</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-check text-purple-400 mr-3"></i>
+                                        <span class="text-sm">Full Post Production</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="openPackageModal('premium')"
+                                    class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                    Select Premium
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Carousel Indicators -->
+                        <div class="flex justify-center mt-4 space-x-2">
+                            <div class="w-2 h-2 rounded-full bg-accent-yellow"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-600"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-600"></div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="text-center max-w-md mx-auto">
+                        <div class="glass-effect rounded-xl p-6 border border-white/10">
+                            <h3 class="text-lg font-bold mb-3">Custom Package?</h3>
+                            <p class="text-sm text-slate-400 mb-6">Tailored solutions for your specific needs</p>
+                            <button onclick="scrollToSection('contact')"
+                                class="btn bg-gradient-to-r from-accent-indigo to-accent-purple hover:from-purple-600 hover:to-indigo-600 text-white py-3 px-8 rounded-lg font-semibold transition-all duration-300 w-full">
+                                Get Custom Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Package Modal -->
+        <div id="packageModal" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-dark-900/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
                 </div>
 
-                <!-- Professional Package -->
                 <div
-                    class="package-card glass-effect rounded-xl p-6 border-2 border-accent-yellow relative transform scale-105">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <span class="bg-accent-yellow text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
-                            Most Popular
-                        </span>
+                    class="modal-content relative bg-dark-800 rounded-xl max-w-lg w-full mx-auto overflow-hidden transform transition-all">
+                    <div class="absolute top-0 right-0 pt-4 pr-4">
+                        <button type="button" class="text-slate-400 hover:text-white" onclick="closePackageModal()">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
                     </div>
 
-                    <div class="text-center mb-6 pt-2">
-                        <h3 class="text-lg font-bold mb-2">Professional</h3>
-                        <div class="price text-3xl font-bold text-accent-yellow">$5,700</div>
-                        <span class="text-sm text-slate-400">USD</span>
-                    </div>
-
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-amber-400 mr-3"></i>
-                            <span class="text-sm">22 Camera Setup</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-amber-400 mr-3"></i>
-                            <span class="text-sm">Advanced Directing</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-amber-400 mr-3"></i>
-                            <span class="text-sm">Basic Post Production</span>
-                        </div>
-                    </div>
-
-                    <button onclick="openPackageModal('professional')"
-                        class="btn w-full bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
-                        Select Professional
-                    </button>
-                </div>
-
-                <!-- Premium Package -->
-                <div class="package-card glass-effect rounded-xl p-6 border border-white/10">
-                    <div class="text-center mb-6">
-                        <h3 class="text-lg font-bold mb-2">Premium</h3>
-                        <div class="price text-3xl font-bold text-accent-yellow">$7,600</div>
-                        <span class="text-sm text-slate-400">USD</span>
-                    </div>
-
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-purple-400 mr-3"></i>
-                            <span class="text-sm">22 Camera Setup</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-purple-400 mr-3"></i>
-                            <span class="text-sm">Premium Directing</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-purple-400 mr-3"></i>
-                            <span class="text-sm">Full Post Production</span>
-                        </div>
-                    </div>
-
-                    <button onclick="openPackageModal('premium')"
-                        class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                        Select Premium
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Layout (Carousel) -->
-            <div class="md:hidden relative mb-12">
-                <div class="package-carousel overflow-x-auto snap-x snap-mandatory flex gap-4 pb-4">
-                    <!-- Essential Package -->
-                    <div class="package-card glass-effect rounded-xl p-6 border border-white/10 min-w-[85vw] snap-center">
+                    <div class="p-6">
                         <div class="text-center mb-6">
-                            <h3 class="text-lg font-bold mb-2">Essential</h3>
-                            <div class="price text-3xl font-bold text-accent-yellow">$3,800</div>
-                            <span class="text-sm text-slate-400">USD</span>
+                            <h3 id="packageModalTitle" class="text-xl font-bold text-white mb-2">Package Details</h3>
+                            <div id="packagePrice" class="text-3xl font-bold text-accent-yellow mb-1"></div>
+                            <p id="packageDescription" class="text-slate-300 text-sm"></p>
                         </div>
 
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span class="text-sm">13 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-accent-yellow mr-3"></i>
-                                <span class="text-sm">Professional Directing</span>
-                            </div>
-                            <div class="flex items-center opacity-60">
-                                <i class="fas fa-times text-slate-500 mr-3"></i>
-                                <span class="text-sm text-slate-500">No Post Production</span>
-                            </div>
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-white mb-3">What's Included</h4>
+                            <ul id="packageFeatures" class="space-y-2 text-sm text-slate-300"></ul>
                         </div>
 
-                        <button onclick="openPackageModal('essential')"
-                            class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                            Select Essential
-                        </button>
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-white mb-2">Perfect For</h4>
+                            <p id="packageAudience" class="text-sm text-slate-300"></p>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button onclick="closePackageModal()"
+                                class="btn flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                                Back to Packages
+                            </button>
+                            <button onclick="proceedWithPackage()"
+                                class="btn flex-1 bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
+                                Select Package
+                            </button>
+                        </div>
                     </div>
-
-                    <!-- Professional Package -->
-                    <div class="package-card glass-effect rounded-xl p-6 border-2 border-accent-yellow min-w-[85vw] snap-center relative">
-                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                            <span class="bg-accent-yellow text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
-                                Most Popular
-                            </span>
-                        </div>
-
-                        <div class="text-center mb-6 pt-2">
-                            <h3 class="text-lg font-bold mb-2">Professional</h3>
-                            <div class="price text-3xl font-bold text-accent-yellow">$5,700</div>
-                            <span class="text-sm text-slate-400">USD</span>
-                        </div>
-
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-amber-400 mr-3"></i>
-                                <span class="text-sm">22 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-amber-400 mr-3"></i>
-                                <span class="text-sm">Advanced Directing</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-amber-400 mr-3"></i>
-                                <span class="text-sm">Basic Post Production</span>
-                            </div>
-                        </div>
-
-                        <button onclick="openPackageModal('professional')"
-                            class="btn w-full bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
-                            Select Professional
-                        </button>
-                    </div>
-
-                    <!-- Premium Package -->
-                    <div class="package-card glass-effect rounded-xl p-6 border border-white/10 min-w-[85vw] snap-center">
-                        <div class="text-center mb-6">
-                            <h3 class="text-lg font-bold mb-2">Premium</h3>
-                            <div class="price text-3xl font-bold text-accent-yellow">$7,600</div>
-                            <span class="text-sm text-slate-400">USD</span>
-                        </div>
-
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-purple-400 mr-3"></i>
-                                <span class="text-sm">22 Camera Setup</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-purple-400 mr-3"></i>
-                                <span class="text-sm">Premium Directing</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-purple-400 mr-3"></i>
-                                <span class="text-sm">Full Post Production</span>
-                            </div>
-                        </div>
-
-                        <button onclick="openPackageModal('premium')"
-                            class="btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                            Select Premium
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Carousel Indicators -->
-                <div class="flex justify-center mt-4 space-x-2">
-                    <div class="w-2 h-2 rounded-full bg-accent-yellow"></div>
-                    <div class="w-2 h-2 rounded-full bg-slate-600"></div>
-                    <div class="w-2 h-2 rounded-full bg-slate-600"></div>
-                </div>
-            </div>
-
-            <!-- CTA Section -->
-            <div class="text-center max-w-md mx-auto">
-                <div class="glass-effect rounded-xl p-6 border border-white/10">
-                    <h3 class="text-lg font-bold mb-3">Custom Package?</h3>
-                    <p class="text-sm text-slate-400 mb-6">Tailored solutions for your specific needs</p>
-                    <button onclick="scrollToSection('contact')"
-                        class="btn bg-gradient-to-r from-accent-indigo to-accent-purple hover:from-purple-600 hover:to-indigo-600 text-white py-3 px-8 rounded-lg font-semibold transition-all duration-300 w-full">
-                        Get Custom Quote
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Package Modal -->
-<div id="packageModal" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-dark-900/90 backdrop-blur-sm" onclick="closePackageModal()"></div>
-        </div>
-
-        <div class="modal-content relative bg-dark-800 rounded-xl max-w-lg w-full mx-auto overflow-hidden transform transition-all">
-            <div class="absolute top-0 right-0 pt-4 pr-4">
-                <button type="button" class="text-slate-400 hover:text-white" onclick="closePackageModal()">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="p-6">
-                <div class="text-center mb-6">
-                    <h3 id="packageModalTitle" class="text-xl font-bold text-white mb-2">Package Details</h3>
-                    <div id="packagePrice" class="text-3xl font-bold text-accent-yellow mb-1"></div>
-                    <p id="packageDescription" class="text-slate-300 text-sm"></p>
-                </div>
-                
-                <div class="mb-6">
-                    <h4 class="text-lg font-semibold text-white mb-3">What's Included</h4>
-                    <ul id="packageFeatures" class="space-y-2 text-sm text-slate-300"></ul>
-                </div>
-                
-                <div class="mb-6">
-                    <h4 class="text-lg font-semibold text-white mb-2">Perfect For</h4>
-                    <p id="packageAudience" class="text-sm text-slate-300"></p>
-                </div>
-                
-                <div class="flex space-x-3">
-                    <button onclick="closePackageModal()" class="btn flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                        Back to Packages
-                    </button>
-                    <button onclick="proceedWithPackage()" class="btn flex-1 bg-accent-yellow hover:bg-amber-400 text-dark-900 py-3 rounded-lg font-semibold transition-all duration-300">
-                        Select Package
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* Fix layout and spacing */
-    #packages {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-    }
-
-    #packages .container {
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-
-    .package-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-    }
-
-    .package-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .package-card.transform {
-        transform: scale(1.05);
-    }
-
-    .btn {
-        transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-    }
-
-    /* Mobile Carousel */
-    .package-carousel {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
-    }
-    
-    .package-carousel::-webkit-scrollbar {
-        display: none; /* Chrome, Safari and Opera */
-    }
-    
-    /* Modal Styles */
-    .modal {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    
-    .modal.show {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .modal-content {
-        transform: scale(0.9);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    
-    .modal.show .modal-content {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 767px) {
-        #packages .container {
-            padding-top: 4rem !important;
-        }
-
-        .package-card.transform {
-            transform: none;
-        }
-
-        .grid-cols-1 {
-            gap: 2rem;
-        }
-        
-        .package-card {
-            padding: 1.5rem;
-        }
-    }
-
-    @media (min-width: 768px) and (max-width: 1023px) {
-        .package-card {
-            padding: 1.5rem;
-        }
-    }
-</style>
-
-<script>
-    // Package Modal Functions
-    let selectedPackage = '';
-
-    function openPackageModal(packageType) {
-        selectedPackage = packageType;
-        const modal = document.getElementById('packageModal');
-
-        // Set package details based on type
-        setPackageDetails(packageType);
-
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            modal.classList.add('show');
-        }, 10);
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closePackageModal() {
-        const modal = document.getElementById('packageModal');
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
-        document.body.style.overflow = 'auto';
-        selectedPackage = '';
-    }
-
-    function setPackageDetails(packageType) {
-        const packages = {
-            essential: {
-                name: 'Essential Package',
-                price: '$3,800',
-                description: 'Professional live recording with comprehensive 13-camera coverage for basic to medium events.',
-                features: [
-                    '13-Camera Video Capturing',
-                    'Professional Video Directing',
-                    'Multi-Angle Coverage',
-                    'Basic Audio Recording',
-                    'Professional Camera Operators',
-                    '1080p HD Quality',
-                    '8 Hours Coverage',
-                    'Standard Equipment Setup',
-                    'Live Switching Capability',
-                    'Direct Monitoring'
-                ],
-                audience: 'Church services, small concerts, corporate events, conferences, basic live productions'
-            },
-            professional: {
-                name: 'Professional Package',
-                price: '$5,700',
-                description: 'Advanced production with extensive 22-camera coverage for high-quality live events and broadcasts.',
-                features: [
-                    '22-Camera Video Capturing',
-                    'Advanced Video Directing',
-                    'Comprehensive Multi-Angle Coverage',
-                    'Professional Audio Recording',
-                    'Expert Camera Operators + Director',
-                    '4K Ultra HD Quality',
-                    'Basic Post Production',
-                    'Live Streaming Setup',
-                    '12 Hours Coverage',
-                    'Professional Lighting Setup',
-                    'Real-time Video Mixing',
-                    'Audio Post-Processing'
-                ],
-                audience: 'Large church events, concerts, conferences, weddings, broadcast-quality productions'
-            },
-            premium: {
-                name: 'Premium Package',
-                price: '$7,600',
-                description: 'Broadcast-grade production with comprehensive 22-camera coverage and full post-production suite.',
-                features: [
-                    '22-Camera Video Capturing',
-                    'Premium Video Directing',
-                    'Extensive Multi-Angle Coverage',
-                    'Professional Audio Engineering',
-                    'Expert Camera Operators + Director',
-                    '4K Ultra HD Quality + Drone Footage',
-                    'Full Post Production Suite',
-                    'Live Streaming + Recording',
-                    'Color Grading & Graphics',
-                    'Dedicated Project Manager',
-                    '16 Hours Coverage',
-                    'Cinematic Lighting Setup',
-                    'Broadcast-Quality Output',
-                    'Custom Graphics Package'
-                ],
-                audience: 'Major concerts, festivals, large church events, corporate broadcasts, professional productions'
+        <style>
+            /* Fix layout and spacing */
+            #packages {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
             }
-        };
 
-        const package = packages[packageType];
-        if (!package) return;
+            #packages .container {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
 
-        document.getElementById('packageModalTitle').textContent = package.name;
-        document.getElementById('packagePrice').textContent = package.price;
-        document.getElementById('packageName').textContent = package.name;
-        document.getElementById('packageDescription').textContent = package.description;
-        document.getElementById('packageAudience').textContent = package.audience;
+            .package-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            }
 
-        // Build features list
-        const featuresList = document.getElementById('packageFeatures');
-        featuresList.innerHTML = '';
-        package.features.forEach(feature => {
-            const li = document.createElement('li');
-            li.className = 'flex items-center';
-            li.innerHTML = `<i class="fas fa-check text-accent-yellow mr-3"></i><span>${feature}</span>`;
-            featuresList.appendChild(li);
-        });
-    }
+            .package-card:hover {
+                transform: translateY(-5px);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
 
-    function proceedWithPackage() {
-        closePackageModal();
+            .package-card.transform {
+                transform: scale(1.05);
+            }
 
-        // Scroll to contact section after a brief delay
-        setTimeout(() => {
-            scrollToSection('contact');
+            .btn {
+                transition: all 0.3s ease;
+            }
 
-            // Pre-fill the contact form
-            setTimeout(() => {
-                const projectTypeField = document.querySelector('input[placeholder="Project Type"]');
-                if (projectTypeField) {
-                    const packageName = document.getElementById('packageName').textContent;
-                    projectTypeField.value = `${packageName} - Live Recording`;
+            .btn:hover {
+                transform: translateY(-2px);
+            }
+
+            /* Mobile Carousel */
+            .package-carousel {
+                scrollbar-width: none;
+                /* Firefox */
+                -ms-overflow-style: none;
+                /* IE and Edge */
+            }
+
+            .package-carousel::-webkit-scrollbar {
+                display: none;
+                /* Chrome, Safari and Opera */
+            }
+
+            /* Modal Styles */
+            .modal {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            .modal.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .modal-content {
+                transform: scale(0.9);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .modal.show .modal-content {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 767px) {
+                #packages .container {
+                    padding-top: 4rem !important;
                 }
 
-                // Show success message
-                const successMessage = document.createElement('div');
-                successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-                successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
-                document.body.appendChild(successMessage);
+                .package-card.transform {
+                    transform: none;
+                }
 
+                .grid-cols-1 {
+                    gap: 2rem;
+                }
+
+                .package-card {
+                    padding: 1.5rem;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 1023px) {
+                .package-card {
+                    padding: 1.5rem;
+                }
+            }
+        </style>
+
+        <script>
+            // Package Modal Functions
+            let selectedPackage = '';
+
+            function openPackageModal(packageType) {
+                selectedPackage = packageType;
+                const modal = document.getElementById('packageModal');
+
+                // Set package details based on type
+                setPackageDetails(packageType);
+
+                modal.classList.remove('hidden');
                 setTimeout(() => {
-                    successMessage.remove();
-                }, 5000);
-            }, 500);
-        }, 300);
-    }
+                    modal.classList.add('show');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
 
-    // Add package modal to existing Escape key handler
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            closePackageModal();
-            closeVideoModal(); // Keep existing video modal functionality
-        }
-    });
+            function closePackageModal() {
+                const modal = document.getElementById('packageModal');
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = 'auto';
+                selectedPackage = '';
+            }
 
-    // Add fade-in animation for success message
-    const style = document.createElement('style');
-    style.textContent = `
+            function setPackageDetails(packageType) {
+                const packages = {
+                    essential: {
+                        name: 'Essential Package',
+                        price: '$3,800',
+                        description: 'Professional live recording with comprehensive 13-camera coverage for basic to medium events.',
+                        features: [
+                            '13-Camera Video Capturing',
+                            'Professional Video Directing',
+                            'Multi-Angle Coverage',
+                            'Basic Audio Recording',
+                            'Professional Camera Operators',
+                            '1080p HD Quality',
+                            '8 Hours Coverage',
+                            'Standard Equipment Setup',
+                            'Live Switching Capability',
+                            'Direct Monitoring'
+                        ],
+                        audience: 'Church services, small concerts, corporate events, conferences, basic live productions'
+                    },
+                    professional: {
+                        name: 'Professional Package',
+                        price: '$5,700',
+                        description: 'Advanced production with extensive 22-camera coverage for high-quality live events and broadcasts.',
+                        features: [
+                            '22-Camera Video Capturing',
+                            'Advanced Video Directing',
+                            'Comprehensive Multi-Angle Coverage',
+                            'Professional Audio Recording',
+                            'Expert Camera Operators + Director',
+                            '4K Ultra HD Quality',
+                            'Basic Post Production',
+                            'Live Streaming Setup',
+                            '12 Hours Coverage',
+                            'Professional Lighting Setup',
+                            'Real-time Video Mixing',
+                            'Audio Post-Processing'
+                        ],
+                        audience: 'Large church events, concerts, conferences, weddings, broadcast-quality productions'
+                    },
+                    premium: {
+                        name: 'Premium Package',
+                        price: '$7,600',
+                        description: 'Broadcast-grade production with comprehensive 22-camera coverage and full post-production suite.',
+                        features: [
+                            '22-Camera Video Capturing',
+                            'Premium Video Directing',
+                            'Extensive Multi-Angle Coverage',
+                            'Professional Audio Engineering',
+                            'Expert Camera Operators + Director',
+                            '4K Ultra HD Quality + Drone Footage',
+                            'Full Post Production Suite',
+                            'Live Streaming + Recording',
+                            'Color Grading & Graphics',
+                            'Dedicated Project Manager',
+                            '16 Hours Coverage',
+                            'Cinematic Lighting Setup',
+                            'Broadcast-Quality Output',
+                            'Custom Graphics Package'
+                        ],
+                        audience: 'Major concerts, festivals, large church events, corporate broadcasts, professional productions'
+                    }
+                };
+
+                const package = packages[packageType];
+                if (!package) return;
+
+                document.getElementById('packageModalTitle').textContent = package.name;
+                document.getElementById('packagePrice').textContent = package.price;
+                document.getElementById('packageName').textContent = package.name;
+                document.getElementById('packageDescription').textContent = package.description;
+                document.getElementById('packageAudience').textContent = package.audience;
+
+                // Build features list
+                const featuresList = document.getElementById('packageFeatures');
+                featuresList.innerHTML = '';
+                package.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center';
+                    li.innerHTML = `<i class="fas fa-check text-accent-yellow mr-3"></i><span>${feature}</span>`;
+                    featuresList.appendChild(li);
+                });
+            }
+
+            function proceedWithPackage() {
+                closePackageModal();
+
+                // Scroll to contact section after a brief delay
+                setTimeout(() => {
+                    scrollToSection('contact');
+
+                    // Pre-fill the contact form
+                    setTimeout(() => {
+                        const projectTypeField = document.querySelector('input[placeholder="Project Type"]');
+                        if (projectTypeField) {
+                            const packageName = document.getElementById('packageName').textContent;
+                            projectTypeField.value = `${packageName} - Live Recording`;
+                        }
+
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
+                        successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${packageName} selected! Please complete the form below.`;
+                        document.body.appendChild(successMessage);
+
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 5000);
+                    }, 500);
+                }, 300);
+            }
+
+            // Add package modal to existing Escape key handler
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closePackageModal();
+                    closeVideoModal(); // Keep existing video modal functionality
+                }
+            });
+
+            // Add fade-in animation for success message
+            const style = document.createElement('style');
+            style.textContent = `
         @keyframes fade-in {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -2468,8 +2478,8 @@
             animation: fade-in 0.3s ease-out;
         }
     `;
-    document.head.appendChild(style);
-</script>
+            document.head.appendChild(style);
+        </script>
         <!-- Portfolio Section -->
         <section id="portfolio" class="section">
             <div class="container max-w-7xl mx-auto px-4 py-4 h-full flex items-center">
