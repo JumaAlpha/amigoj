@@ -24,6 +24,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         :root {
+            --font-primary: 'Poppins', sans-serif;
+            --font-accent: 'Caveat', cursive;
+            --font-secondary: 'Inter', sans-serif;
             --accent-yellow: #f59e0b;
             --accent-purple: #8b5cf6;
             --accent-indigo: #6366f1;
@@ -45,7 +48,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -78,6 +80,7 @@
             margin: 0 auto;
             padding: 0 1rem;
         }
+
 
         /* ===== GLASS EFFECTS ===== */
         .glass-effect {
@@ -771,6 +774,221 @@
                 }
             }
         }
+    </script>
+    <script defer>
+        // Loading Screen JavaScript
+        // Enhanced Loading Screen with Comprehensive Loading Detection
+        document.addEventListener('DOMContentLoaded', function () {
+            let resourcesLoaded = false;
+            let scriptsLoaded = false;
+            let domReady = false;
+            let totalResources = 0;
+            let loadedResources = 0;
+
+            // Check if DOM is ready
+            function checkDOMReady() {
+                domReady = true;
+                checkAllLoaded();
+            }
+
+            // Monitor external resources
+            function monitorResources() {
+                const resources = document.querySelectorAll('img, video, source, link[rel="stylesheet"]');
+                totalResources = resources.length;
+
+                if (totalResources === 0) {
+                    resourcesLoaded = true;
+                    checkAllLoaded();
+                    return;
+                }
+
+                resources.forEach(resource => {
+                    if (resource.complete || resource.readyState === 4) {
+                        resourceLoaded();
+                    } else {
+                        resource.addEventListener('load', resourceLoaded);
+                        resource.addEventListener('error', resourceLoaded); // Count errors as loaded too
+                    }
+                });
+
+                // Fallback timeout for resources
+                setTimeout(() => {
+                    resourcesLoaded = true;
+                    checkAllLoaded();
+                }, 5000);
+            }
+
+            function resourceLoaded() {
+                loadedResources++;
+                if (loadedResources >= totalResources) {
+                    resourcesLoaded = true;
+                    checkAllLoaded();
+                }
+            }
+
+            // Monitor script loading
+            function monitorScripts() {
+                const scripts = document.querySelectorAll('script[src]');
+                const totalScripts = scripts.length;
+                let loadedScripts = 0;
+
+                if (totalScripts === 0) {
+                    scriptsLoaded = true;
+                    checkAllLoaded();
+                    return;
+                }
+
+                scripts.forEach(script => {
+                    if (script.readyState === 'complete' || script.readyState === 'loaded') {
+                        scriptLoaded();
+                    } else {
+                        script.addEventListener('load', scriptLoaded);
+                        script.addEventListener('error', scriptLoaded); // Count errors as loaded too
+                    }
+                });
+
+                function scriptLoaded() {
+                    loadedScripts++;
+                    if (loadedScripts >= totalScripts) {
+                        scriptsLoaded = true;
+                        checkAllLoaded();
+                    }
+                }
+
+                // Fallback timeout for scripts
+                setTimeout(() => {
+                    scriptsLoaded = true;
+                    checkAllLoaded();
+                }, 5000);
+            }
+
+            // Check if all conditions are met
+            function checkAllLoaded() {
+                if (domReady && resourcesLoaded && scriptsLoaded) {
+                    completeLoading();
+                }
+            }
+
+            // Complete loading sequence
+            function completeLoading() {
+                // Create animated name letters
+                const nameLine = document.getElementById('nameLine');
+                const name = "AMIJOJI COMPANY";
+                const nameLetters = name.split('');
+
+                nameLetters.forEach((letter, index) => {
+                    const span = document.createElement('span');
+                    if (letter === ' ') {
+                        span.className = 'space';
+                    } else {
+                        span.className = 'name-letter';
+                        span.textContent = letter;
+                        span.style.animationDelay = `${index * 0.06}s`;
+                    }
+                    nameLine.appendChild(span);
+                });
+
+                // Create animated title letters
+                const titleLine = document.getElementById('titleLine');
+                const title = "PREMIUM PRODUCTION SERVICES";
+                const titleLetters = title.split('');
+
+                titleLetters.forEach((letter, index) => {
+                    const span = document.createElement('span');
+                    if (letter === ' ') {
+                        span.className = 'title-space';
+                    } else {
+                        span.className = 'title-letter';
+                        span.textContent = letter;
+                        span.style.animationDelay = `${(nameLetters.length * 0.06) + (index * 0.04) + 0.8}s`;
+                    }
+                    titleLine.appendChild(span);
+                });
+
+                // Progress bar animation
+                const progressBar = document.getElementById('progressBar');
+                const percentage = document.getElementById('percentage');
+                const completionGlow = document.getElementById('completionGlow');
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+
+                let progress = 0;
+                const targetProgress = 100;
+
+                const interval = setInterval(() => {
+                    // More realistic loading curve
+                    if (progress < 85) {
+                        progress += Math.random() * 2.5;
+                    } else {
+                        progress += Math.random() * 0.8;
+                    }
+
+                    if (progress >= targetProgress) {
+                        progress = targetProgress;
+                        clearInterval(interval);
+
+                        // Enhanced completion sequence
+                        setTimeout(() => {
+                            // Create completion glow effect
+                            completionGlow.style.width = '200vw';
+                            completionGlow.style.height = '200vh';
+                            completionGlow.style.opacity = '0.1';
+
+                            // Enhanced fade out
+                            setTimeout(() => {
+                                loadingScreen.style.opacity = '0';
+                                loadingScreen.style.pointerEvents = 'none';
+
+                                setTimeout(() => {
+                                    loadingScreen.style.display = 'none';
+                                    if (mainContent) {
+                                        mainContent.classList.add('loaded');
+                                        mainContent.style.visibility = 'visible';
+                                        mainContent.style.opacity = '1';
+                                    }
+
+                                    // Trigger any post-loading animations
+                                    if (typeof AOS !== 'undefined') {
+                                        AOS.refresh();
+                                    }
+
+                                    // Dispatch custom event for other scripts
+                                    window.dispatchEvent(new Event('appLoaded'));
+                                }, 800);
+                            }, 400);
+                        }, 600);
+                    }
+
+                    if (progressBar) progressBar.style.width = `${progress}%`;
+                    if (percentage) percentage.textContent = `${Math.round(progress)}%`;
+                }, 120);
+            }
+
+            // Initialize monitoring
+            checkDOMReady();
+            monitorResources();
+            monitorScripts();
+
+            // Fallback - if something goes wrong, load anyway after 8 seconds
+            setTimeout(() => {
+                if (document.getElementById('loadingScreen').style.display !== 'none') {
+                    console.warn('Loading timeout - forcing completion');
+                    completeLoading();
+                }
+            }, 8000);
+        });
+
+        // Additional check for window load as backup
+        window.addEventListener('load', function () {
+            // This ensures everything is loaded, but we're already handling it above
+            console.log('Window fully loaded');
+        });
+
+        // Error handling for failed resources
+        window.addEventListener('error', function (e) {
+            console.log('Resource loading error:', e.target.src || e.target.href);
+            // Don't block loading for individual errors
+        }, true);
     </script>
 </head>
 
@@ -1788,7 +2006,7 @@
             #about h2,
             #about h3,
             #about h4 {
-                font-family: 'Inter', sans-serif;
+                font-family: 'Poppins', sans-serif;
             }
 
             #about .gradient-text {
@@ -1798,7 +2016,7 @@
 
             #about p,
             #about span:not(.gradient-text) {
-                font-family: 'Inter', sans-serif;
+                font-family: 'Poppins', sans-serif;
             }
         </style>
 
@@ -3500,6 +3718,40 @@
             </div>
         </div>
     </div>
+    <div id="loadingScreen">
+        <div class="loading-container">
+            <!-- Logo -->
+            <div class="logo">
+                <div class="logo-inner"></div>
+            </div>
+
+            <!-- Name -->
+            <div class="name-line" id="nameLine">
+                <!-- Letters will be added by JavaScript -->
+            </div>
+
+            <!-- Title -->
+            <div class="title-line" id="titleLine">
+                <!-- Letters will be added by JavaScript -->
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-section">
+                <div class="progress-text">Loading Portfolio</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="percentage" id="percentage">0%</div>
+            </div>
+        </div>
+
+        <div class="completion-glow" id="completionGlow"></div>
+
+        <div class="brand-footer">
+            AMIJOJI COMPANY LIMITED
+        </div>
+    </div>
+
     <script>
         // Initialize AOS
         document.addEventListener('DOMContentLoaded', function () {
