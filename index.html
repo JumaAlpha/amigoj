@@ -1228,28 +1228,407 @@
     <!-- Fixed Navbar -->
     <nav class="navbar-fixed" id="navbar">
         <div class="navbar-container">
-            <div class="glass-effect flex justify-between items-center py-3 md:py-4 px-4 md:px-8 rounded-2xl mt-4 md:mt-6 mx-3 md:mx-5"
+            <div class="nav-content glass-effect flex justify-between items-center py-3 md:py-4 px-4 md:px-8 rounded-2xl mt-4 md:mt-6 mx-3 md:mx-5 transition-all duration-500 ease-out"
                 id="navContent">
-                <div class="flex items-center gap-3">
+
+                <!-- Logo Section -->
+                <div class="flex items-center gap-3 cursor-pointer" id="logoTrigger">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-lg md:text-xl shadow-lg shadow-amber-500/40 glow">
+                        class="logo-circle w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-accent-yellow to-amber-600 rounded-full flex items-center justify-center font-bold text-white text-lg md:text-xl shadow-lg shadow-amber-500/40 transition-all duration-300 hover:scale-105">
                         AM
                     </div>
-                    <div>
-                        <span class="text-lg md:text-xl font-bold hidden sm:block">AMIJOJI COMPANY</span>
-                        <span class="text-accent-yellow text-sm hidden sm:block">Premium Production Services</span>
+                    <div class="logo-text transition-all duration-500 ease-out overflow-hidden">
+                        <span
+                            class="company-name text-lg md:text-xl font-bold hidden sm:block transition-all duration-400">AMIJOJI
+                            COMPANY</span>
+                        <span
+                            class="company-tagline text-accent-yellow text-sm hidden sm:block transition-all duration-400">Premium
+                            Production Services</span>
                     </div>
                 </div>
 
-                <div class="hamburger flex flex-col justify-between w-7 h-5 md:w-8 md:h-6 cursor-pointer z-50 group"
+                <!-- Expand Indicator (Mobile Only) -->
+                <div class="expand-indicator md:hidden text-slate-200 transition-all duration-300 ease-out"
+                    id="expandIndicator">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </div>
+
+                <!-- Hamburger Menu -->
+                <div class="hamburger-menu flex flex-col justify-between w-7 h-5 md:w-8 md:h-6 cursor-pointer z-50 group transition-all duration-300 ease-out"
                     id="hamburger">
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
-                    <span class="h-0.5 w-full bg-slate-200 rounded transition-all group-hover:bg-accent-yellow"></span>
+                    <span
+                        class="hamburger-line h-0.5 w-full bg-slate-200 rounded transition-all duration-300 group-hover:bg-accent-yellow"></span>
+                    <span
+                        class="hamburger-line h-0.5 w-full bg-slate-200 rounded transition-all duration-300 group-hover:bg-accent-yellow"></span>
+                    <span
+                        class="hamburger-line h-0.5 w-full bg-slate-200 rounded transition-all duration-300 group-hover:bg-accent-yellow"></span>
                 </div>
             </div>
         </div>
     </nav>
+
+    <style>
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+            .navbar-fixed {
+                position: fixed;
+                top: 1rem;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 0 1rem;
+            }
+
+            .nav-content {
+                margin: 0 !important;
+                transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* COLLAPSED STATE */
+            .navbar-fixed.collapsed .nav-content {
+                width: 70px !important;
+                max-width: 70px !important;
+                padding: 12px !important;
+                margin-left: 0 !important;
+                transform: scale(0.95);
+            }
+
+            .navbar-fixed.collapsed .logo-text {
+                opacity: 0 !important;
+                width: 0 !important;
+                transform: translateX(-20px) !important;
+                pointer-events: none;
+            }
+
+            .navbar-fixed.collapsed .company-name,
+            .navbar-fixed.collapsed .company-tagline {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            .navbar-fixed.collapsed .expand-indicator {
+                opacity: 1 !important;
+                transform: translateX(0) scale(1) !important;
+            }
+
+            .navbar-fixed.collapsed .hamburger-menu {
+                opacity: 0 !important;
+                transform: translateX(20px) scale(0.8) !important;
+                pointer-events: none;
+            }
+
+            /* EXPANDED STATE */
+            .navbar-fixed.expanded .nav-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 12px 20px !important;
+                transform: scale(1);
+            }
+
+            .navbar-fixed.expanded .logo-text {
+                opacity: 1 !important;
+                width: auto !important;
+                transform: translateX(0) !important;
+                pointer-events: all;
+            }
+
+            .navbar-fixed.expanded .company-name,
+            .navbar-fixed.expanded .company-tagline {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .navbar-fixed.expanded .expand-indicator {
+                opacity: 0 !important;
+                transform: translateX(-15px) scale(0.8) !important;
+                pointer-events: none;
+            }
+
+            .navbar-fixed.expanded .hamburger-menu {
+                opacity: 1 !important;
+                transform: translateX(0) scale(1) !important;
+                pointer-events: all;
+            }
+
+            /* SUCCESS ANIMATION */
+            .navbar-fixed.success-animation .nav-content {
+                animation: successPulse 0.8s ease-in-out;
+            }
+
+            @keyframes successPulse {
+                0% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+                }
+
+                50% {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.3);
+                }
+
+                100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+                }
+            }
+
+            /* DEMO ANIMATION */
+            .navbar-fixed.demo-animation .nav-content {
+                animation: navDemo 3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            @keyframes navDemo {
+                0% {
+                    width: 70px !important;
+                    padding: 12px !important;
+                    transform: scale(0.95);
+                }
+
+                30% {
+                    width: 100% !important;
+                    padding: 12px 20px !important;
+                    transform: scale(1.02);
+                }
+
+                50% {
+                    width: 100% !important;
+                    padding: 12px 20px !important;
+                    transform: scale(1);
+                }
+
+                80% {
+                    width: 70px !important;
+                    padding: 12px !important;
+                    transform: scale(0.95);
+                }
+
+                100% {
+                    width: 70px !important;
+                    padding: 12px !important;
+                    transform: scale(0.95);
+                }
+            }
+
+            .navbar-fixed.demo-animation .logo-text {
+                animation: textDemo 3s ease-in-out;
+            }
+
+            @keyframes textDemo {
+
+                0%,
+                80%,
+                100% {
+                    opacity: 0;
+                    width: 0;
+                    transform: translateX(-20px);
+                }
+
+                30%,
+                50% {
+                    opacity: 1;
+                    width: auto;
+                    transform: translateX(0);
+                }
+            }
+
+            .navbar-fixed.demo-animation .expand-indicator {
+                animation: indicatorDemo 3s ease-in-out;
+            }
+
+            @keyframes indicatorDemo {
+
+                0%,
+                80%,
+                100% {
+                    opacity: 1;
+                    transform: translateX(0) scale(1);
+                }
+
+                30%,
+                50% {
+                    opacity: 0;
+                    transform: translateX(-15px) scale(0.8);
+                }
+            }
+
+            .navbar-fixed.demo-animation .hamburger-menu {
+                animation: hamburgerDemo 3s ease-in-out;
+            }
+
+            @keyframes hamburgerDemo {
+
+                0%,
+                80%,
+                100% {
+                    opacity: 0;
+                    transform: translateX(20px) scale(0.8);
+                }
+
+                30%,
+                50% {
+                    opacity: 1;
+                    transform: translateX(0) scale(1);
+                }
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            .navbar-fixed .nav-content {
+                margin: 0 auto !important;
+                width: auto !important;
+                max-width: none !important;
+            }
+
+            .expand-indicator {
+                display: none !important;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.getElementById('navbar');
+            const logoTrigger = document.getElementById('logoTrigger');
+            const navContent = document.getElementById('navContent');
+
+            let isAnimating = false;
+            let successCount = 0;
+            let demoShown = false;
+
+            // Check if mobile view
+            function isMobileView() {
+                return window.innerWidth < 768;
+            }
+
+            // Initialize navbar
+            function initNavbar() {
+                if (isMobileView()) {
+                    navbar.classList.add('collapsed');
+                    navbar.classList.remove('expanded');
+                    navContent.style.width = '70px';
+                    navContent.style.maxWidth = '70px';
+                    navContent.style.padding = '12px';
+                } else {
+                    navbar.classList.remove('collapsed', 'expanded');
+                    navContent.style.width = '';
+                    navContent.style.maxWidth = '';
+                    navContent.style.padding = '';
+                }
+            }
+
+            // Success animation
+            function playSuccessAnimation() {
+                navbar.classList.add('success-animation');
+                setTimeout(() => {
+                    navbar.classList.remove('success-animation');
+                }, 800);
+            }
+
+            // Toggle navbar with success tracking
+            function toggleNavbar() {
+                if (!isMobileView() || isAnimating) return;
+
+                isAnimating = true;
+
+                if (navbar.classList.contains('collapsed')) {
+                    // Expand
+                    navbar.classList.remove('collapsed');
+                    navbar.classList.add('expanded');
+                    navContent.style.width = '100%';
+                    navContent.style.maxWidth = '100%';
+                    navContent.style.padding = '12px 20px';
+
+                    setTimeout(() => {
+                        isAnimating = false;
+                        successCount++;
+                        checkAndPlayDemo();
+                    }, 600);
+                } else {
+                    // Collapse
+                    navbar.classList.remove('expanded');
+                    navbar.classList.add('collapsed');
+                    navContent.style.width = '70px';
+                    navContent.style.maxWidth = '70px';
+                    navContent.style.padding = '12px';
+
+                    setTimeout(() => {
+                        isAnimating = false;
+                        successCount++;
+                        checkAndPlayDemo();
+                    }, 600);
+                }
+            }
+
+            // Check if we should play demo animation
+            function checkAndPlayDemo() {
+                // Play success animation for every successful toggle
+                playSuccessAnimation();
+
+                // Play demo animation after every 2 successful toggles
+                if (successCount % 2 === 0 && successCount > 0) {
+                    playDemoAnimation();
+                }
+            }
+
+            // Demo animation
+            function playDemoAnimation() {
+                if (isAnimating) return;
+
+                isAnimating = true;
+                navbar.classList.add('demo-animation');
+
+                setTimeout(() => {
+                    navbar.classList.remove('demo-animation');
+                    // Ensure final state is collapsed
+                    navbar.classList.add('collapsed');
+                    navbar.classList.remove('expanded');
+                    navContent.style.width = '70px';
+                    navContent.style.maxWidth = '70px';
+                    navContent.style.padding = '12px';
+                    isAnimating = false;
+
+                    // Play success after demo
+                    setTimeout(playSuccessAnimation, 200);
+                }, 3000);
+            }
+
+            // Initial demo animation
+            function showInitialDemo() {
+                if (!isMobileView() || demoShown) return;
+
+                demoShown = true;
+                setTimeout(() => {
+                    playDemoAnimation();
+                }, 1000);
+            }
+
+            // Wait for loading screen
+            function waitForLoadingScreen() {
+                const loadingScreen = document.getElementById('loadingScreen');
+
+                if (loadingScreen && (loadingScreen.style.display !== 'none' || loadingScreen.style.opacity !== '0')) {
+                    setTimeout(waitForLoadingScreen, 100);
+                } else {
+                    initNavbar();
+                    setTimeout(() => {
+                        if (isMobileView()) {
+                            showInitialDemo();
+                        }
+                    }, 800);
+                }
+            }
+
+            // Event listeners
+            logoTrigger.addEventListener('click', toggleNavbar);
+            window.addEventListener('resize', initNavbar);
+
+            // Start
+            setTimeout(waitForLoadingScreen, 500);
+        });
+    </script>
 
     <!-- Navigation Dots -->
     <div class="nav-dots" id="navDots">
@@ -1431,346 +1810,378 @@
         <!-- Home Section -->
 
         <section id="home" class="section active relative min-h-screen overflow-hidden">
-    <!-- Enhanced Video Background -->
-    <div class="absolute inset-0 z-0">
-        <!-- Video Background -->
-        <div class="w-full h-full">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover scale-105"
-                poster="aj_img.jpg" id="hero-video">
-                <source src="hero-video.mp4" type="video/mp4">
-                <source src="hero-video.webm" type="video/webm">
-                <img src="aj_img.jpg" alt="Amigo Johnson">
-            </video>
-        </div>
-        <!-- Enhanced Gradient Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
+            <!-- Enhanced Video Background -->
+            <div class="absolute inset-0 z-0">
+                <!-- Video Background -->
+                <div class="w-full h-full">
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover lg:object-cover scale-105"
+                        poster="aj_img.jpg" id="hero-video">
+                        <source src="hero-video.mp4" type="video/mp4">
+                        <source src="hero-video.webm" type="video/webm">
+                        <img src="aj_img.jpg" alt="Amigo Johnson">
+                    </video>
+                </div>
+                <!-- Enhanced Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
             lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/85 lg:to-transparent"></div>
-        
-        <!-- Animated Grid Pattern -->
-        <div class="absolute inset-0 opacity-15 bg-[linear-gradient(rgba(251,191,36,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.15)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]">
-        </div>
-    </div>
 
-    <!-- Content -->
-    <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
-        <div class="w-full">
-            <!-- Enhanced Desktop Content -->
-            <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1200">
-                <!-- Welcome Header -->
-                <div class="mb-8">
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
-                        <span class="block text-slate-200 text-xl md:text-2xl font-light tracking-wider mb-2">I'M</span>
-                        <span class="bg-gradient-to-r from-accent-yellow via-accent-purple to-accent-indigo bg-clip-text text-transparent"
-                            style="font-family: 'Caveat', cursive; font-weight: 700;">
-                            Amigo Johnson
-                        </span>
-                    </h1>
-                </div>
-
-                <!-- Enhanced Rotating Titles -->
-                <div class="fade-animation min-h-[80px] mb-8">
-                    <div class="fade-wrapper relative w-full text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-100">
-                        <div class="fade-text active flex items-center gap-4" id="text-1">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple"></div>
-                            Creative Director
-                        </div>
-                        <div class="fade-text flex items-center gap-4" id="text-2">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo"></div>
-                            Stage Director
-                        </div>
-                        <div class="fade-text flex items-center gap-4" id="text-3">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-indigo to-accent-yellow"></div>
-                            Video Producer
-                        </div>
-                        <div class="fade-text flex items-center gap-4" id="text-4">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple"></div>
-                            Video Editor
-                        </div>
-                        <div class="fade-text flex items-center gap-4" id="text-5">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo"></div>
-                            Live Stream Producer
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Enhanced Description -->
-                <div class="mb-10 relative">
-                    <div class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-yellow to-accent-purple rounded-full"></div>
-                    <p class="text-slate-300 text-xl leading-relaxed pl-6">
-                        Crafting unforgettable experiences through stage direction, video production,
-                        and sound engineering. Bringing creative visions to life with technical excellence.
-                    </p>
-                </div>
-
-                <!-- Enhanced Stats -->
-                <div class="flex flex-wrap gap-8 mb-10">
-                    <div class="text-center">
-                        <div class="relative mb-3">
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
-                                <i class="fas fa-project-diagram text-accent-yellow text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="text-3xl font-bold text-accent-yellow">150+</div>
-                        <div class="text-slate-400 text-sm font-medium mt-1">Projects</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="relative mb-3">
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center mx-auto">
-                                <i class="fas fa-users text-accent-purple text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="text-3xl font-bold text-accent-purple">50+</div>
-                        <div class="text-slate-400 text-sm font-medium mt-1">Clients</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="relative mb-3">
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-indigo/20 to-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-center mx-auto">
-                                <i class="fas fa-calendar-alt text-accent-indigo text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="text-3xl font-bold text-accent-indigo">10+</div>
-                        <div class="text-slate-400 text-sm font-medium mt-1">Years</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="relative mb-3">
-                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
-                                <i class="fas fa-trophy text-accent-yellow text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="text-3xl font-bold text-accent-yellow">12</div>
-                        <div class="text-slate-400 text-sm font-medium mt-1">Awards</div>
-                    </div>
-                </div>
-
-                <!-- Enhanced Buttons with Effects -->
-                <div class="flex flex-col sm:flex-row gap-4 mb-10">
-                    <button onclick="openVideoModal()"
-                        class="group relative overflow-hidden bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/30 flex items-center justify-center gap-3">
-                        <span class="relative z-10 flex items-center gap-3">
-                            <i class="fas fa-play-circle group-hover:scale-110 transition-transform duration-300"></i>
-                            View Portfolio
-                        </span>
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000">
-                        </div>
-                    </button>
-                    <button onclick="scrollToSection('contact')"
-                        class="group bg-transparent text-white border-2 border-slate-500 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:bg-white/10 hover:border-white hover:scale-105 flex items-center justify-center gap-3">
-                        <i class="fas fa-envelope group-hover:scale-110 transition-transform duration-300"></i>
-                        Contact Me
-                    </button>
-                </div>
-
-                <!-- Enhanced Social Links -->
-                <div class="social-links flex gap-4">
-                    <a href="#"
-                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#"
-                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#"
-                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#"
-                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
-                        <i class="fab fa-twitter"></i>
-                    </a>
+                <!-- Animated Grid Pattern -->
+                <div
+                    class="absolute inset-0 opacity-15 bg-[linear-gradient(rgba(251,191,36,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.15)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]">
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Simple Mobile Profile Section -->
-    <div class="lg:hidden absolute bottom-20 right-4 z-20">
-        <div class="mobile-profile">
-            <!-- Simple Mobile Card -->
-            <div class="bg-dark-800/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/40 max-w-[280px]">
-                <!-- Content -->
-                <div class="text-right">
-                    <!-- Profile Header -->
-                    <div class="mb-4">
-                        <h2 class="text-lg font-bold text-white mb-1 bg-gradient-to-r from-accent-yellow to-accent-purple bg-clip-text text-transparent"
-                            style="font-family: 'Caveat', cursive;">
-                            Amigo Johnson
-                        </h2>
-                        <div class="flex items-center justify-end gap-1 mb-2">
-                            <div class="w-1.5 h-1.5 rounded-full bg-accent-yellow"></div>
-                            <p class="text-accent-yellow text-xs font-medium">Creative Director</p>
+            <!-- Content -->
+            <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
+                <div class="w-full">
+                    <!-- Enhanced Desktop Content -->
+                    <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1200">
+                        <!-- Welcome Header -->
+                        <div class="mb-8">
+                            <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
+                                <span
+                                    class="block text-slate-200 text-xl md:text-2xl font-light tracking-wider mb-2">I'M</span>
+                                <span
+                                    class="bg-gradient-to-r from-accent-yellow via-accent-purple to-accent-indigo bg-clip-text text-transparent"
+                                    style="font-family: 'Caveat', cursive; font-weight: 700;">
+                                    Amigo Johnson
+                                </span>
+                            </h1>
                         </div>
-                        <p class="text-slate-300 text-xs leading-relaxed mb-3">
-                            Crafting unforgettable experiences through stage direction, video production, and sound engineering.
-                        </p>
-                    </div>
 
-                    <!-- Action Buttons with Effects -->
-                    <div class="flex justify-end gap-3 mb-4">
-                        <button onclick="openVideoModal()"
-                            class="group relative w-10 h-10 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 active:scale-110"
-                            aria-label="View Portfolio">
-                            <i class="fas fa-play-circle text-xs group-active:scale-110 transition-transform duration-300"></i>
-                            <div class="absolute inset-0 rounded-full bg-white/20 opacity-0 group-active:opacity-100 transition-opacity duration-300">
+                        <!-- Enhanced Rotating Titles -->
+                        <div class="fade-animation min-h-[80px] mb-8">
+                            <div
+                                class="fade-wrapper relative w-full text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-100">
+                                <div class="fade-text active flex items-center gap-4" id="text-1">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple">
+                                    </div>
+                                    Creative Director
+                                </div>
+                                <div class="fade-text flex items-center gap-4" id="text-2">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo">
+                                    </div>
+                                    Stage Director
+                                </div>
+                                <div class="fade-text flex items-center gap-4" id="text-3">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-indigo to-accent-yellow">
+                                    </div>
+                                    Video Producer
+                                </div>
+                                <div class="fade-text flex items-center gap-4" id="text-4">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-yellow to-accent-purple">
+                                    </div>
+                                    Video Editor
+                                </div>
+                                <div class="fade-text flex items-center gap-4" id="text-5">
+                                    <div
+                                        class="w-3 h-3 rounded-full bg-gradient-to-r from-accent-purple to-accent-indigo">
+                                    </div>
+                                    Live Stream Producer
+                                </div>
                             </div>
-                        </button>
-                        <button onclick="scrollToSection('contact')"
-                            class="group relative w-10 h-10 rounded-full text-white border border-white/30 flex items-center justify-center transition-all duration-300 active:bg-white/10 active:border-white active:scale-110"
-                            aria-label="Contact Me">
-                            <i class="fas fa-envelope text-xs group-active:scale-110 transition-transform duration-300"></i>
-                            <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-active:opacity-100 transition-opacity duration-300">
+                        </div>
+
+                        <!-- Enhanced Description -->
+                        <div class="mb-10 relative">
+                            <div
+                                class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-yellow to-accent-purple rounded-full">
                             </div>
-                        </button>
-                    </div>
+                            <p class="text-slate-300 text-xl leading-relaxed pl-6">
+                                Crafting unforgettable experiences through stage direction, video production,
+                                and sound engineering. Bringing creative visions to life with technical excellence.
+                            </p>
+                        </div>
 
-                    <!-- Stats Grid -->
-                    <div class="grid grid-cols-3 gap-2 text-xs mb-3">
-                        <div class="text-center p-2 rounded-xl border border-white/10">
-                            <div class="font-bold text-accent-yellow text-sm">150+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Projects</div>
+                        <!-- Enhanced Stats -->
+                        <div class="flex flex-wrap gap-8 mb-10">
+                            <div class="text-center">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
+                                        <i class="fas fa-project-diagram text-accent-yellow text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-yellow">150+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Projects</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center mx-auto">
+                                        <i class="fas fa-users text-accent-purple text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-purple">50+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Clients</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-indigo/20 to-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-center mx-auto">
+                                        <i class="fas fa-calendar-alt text-accent-indigo text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-indigo">10+</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Years</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="relative mb-3">
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
+                                        <i class="fas fa-trophy text-accent-yellow text-xl"></i>
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-bold text-accent-yellow">12</div>
+                                <div class="text-slate-400 text-sm font-medium mt-1">Awards</div>
+                            </div>
                         </div>
-                        <div class="text-center p-2 rounded-xl border border-white/10">
-                            <div class="font-bold text-accent-purple text-sm">50+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Clients</div>
-                        </div>
-                        <div class="text-center p-2 rounded-xl border border-white/10">
-                            <div class="font-bold text-accent-indigo text-sm">10+</div>
-                            <div class="text-slate-400 text-[10px] mt-1">Years</div>
-                        </div>
-                    </div>
 
-                    <!-- Social Links -->
-                    <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
-                        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
-                            aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
-                            aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
-                            aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                        <!-- Enhanced Buttons with Effects -->
+                        <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                            <button onclick="openVideoModal()"
+                                class="group relative overflow-hidden bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/30 flex items-center justify-center gap-3">
+                                <span class="relative z-10 flex items-center gap-3">
+                                    <i
+                                        class="fas fa-play-circle group-hover:scale-110 transition-transform duration-300"></i>
+                                    View Portfolio
+                                </span>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000">
+                                </div>
+                            </button>
+                            <button onclick="scrollToSection('contact')"
+                                class="group bg-transparent text-white border-2 border-slate-500 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:bg-white/10 hover:border-white hover:scale-105 flex items-center justify-center gap-3">
+                                <i class="fas fa-envelope group-hover:scale-110 transition-transform duration-300"></i>
+                                Contact Me
+                            </button>
+                        </div>
+
+                        <!-- Enhanced Social Links -->
+                        <div class="social-links flex gap-4">
+                            <a href="#"
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#"
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#"
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#"
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Scroll Indicators -->
-    <div class="absolute bottom-8 right-8 z-20 hidden lg:flex items-center gap-3 text-slate-300">
-        <div class="flex items-center gap-2">
-            <span class="text-sm font-medium">Scroll horizontally</span>
-            <i class="fas fa-arrow-right text-accent-yellow"></i>
-        </div>
-    </div>
+            <!-- Simple Mobile Profile Section -->
+            <div class="lg:hidden absolute bottom-20 right-4 z-20">
+                <div class="mobile-profile">
+                    <!-- Simple Mobile Card -->
+                    <div
+                        class="bg-dark-800/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/40 max-w-[280px]">
+                        <!-- Content -->
+                        <div class="text-right">
+                            <!-- Profile Header -->
+                            <div class="mb-4">
+                                <h2 class="text-lg font-bold text-white mb-1 bg-gradient-to-r from-accent-yellow to-accent-purple bg-clip-text text-transparent"
+                                    style="font-family: 'Caveat', cursive;">
+                                    Amigo Johnson
+                                </h2>
+                                <div class="flex items-center justify-end gap-1 mb-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-accent-yellow"></div>
+                                    <p class="text-accent-yellow text-xs font-medium">Creative Director</p>
+                                </div>
+                                <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                    Crafting unforgettable experiences through stage direction, video production, and
+                                    sound engineering.
+                                </p>
+                            </div>
 
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-        <div class="text-accent-yellow">
-            <i class="fas fa-chevron-down text-xl"></i>
-        </div>
-    </div>
-</section>
+                            <!-- Action Buttons with Effects -->
+                            <div class="flex justify-end gap-3 mb-4">
+                                <button onclick="openVideoModal()"
+                                    class="group relative w-10 h-10 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 active:scale-110"
+                                    aria-label="View Portfolio">
+                                    <i
+                                        class="fas fa-play-circle text-xs group-active:scale-110 transition-transform duration-300"></i>
+                                    <div
+                                        class="absolute inset-0 rounded-full bg-white/20 opacity-0 group-active:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </button>
+                                <button onclick="scrollToSection('contact')"
+                                    class="group relative w-10 h-10 rounded-full text-white border border-white/30 flex items-center justify-center transition-all duration-300 active:bg-white/10 active:border-white active:scale-110"
+                                    aria-label="Contact Me">
+                                    <i
+                                        class="fas fa-envelope text-xs group-active:scale-110 transition-transform duration-300"></i>
+                                    <div
+                                        class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-active:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                </button>
+                            </div>
 
-<style>
-    /* Enhanced animations */
-    .fade-text {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+                            <!-- Stats Grid -->
+                            <div class="grid grid-cols-3 gap-2 text-xs mb-3">
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-yellow text-sm">150+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Projects</div>
+                                </div>
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-purple text-sm">50+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Clients</div>
+                                </div>
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-indigo text-sm">10+</div>
+                                    <div class="text-slate-400 text-[10px] mt-1">Years</div>
+                                </div>
+                            </div>
 
-    .fade-text.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
+                            <!-- Social Links -->
+                            <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+                                <a href="#"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
+                                    aria-label="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
+                                    aria-label="YouTube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 active:scale-110"
+                                    aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    /* Mobile card entrance animation */
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
+            <!-- Scroll Indicators -->
+            <div class="absolute bottom-8 right-8 z-20 hidden lg:flex items-center gap-3 text-slate-300">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-medium">Scroll horizontally</span>
+                    <i class="fas fa-arrow-right text-accent-yellow"></i>
+                </div>
+            </div>
 
-    .mobile-profile {
-        animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+                <div class="text-accent-yellow">
+                    <i class="fas fa-chevron-down text-xl"></i>
+                </div>
+            </div>
+        </section>
 
-    /* Desktop hover effects (only on large screens) */
-    @media (min-width: 1024px) {
-        .social-links a:hover {
-            background: #fbbf24;
-            color: #1e293b;
-            transform: scale(1.1);
-        }
+        <style>
+            /* Enhanced animations */
+            .fade-text {
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-        /* Desktop button hover effects */
-        button:hover {
-            transform: scale(1.05);
-        }
+            .fade-text.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
 
-        .text-center:hover .w-16 {
-            transform: scale(1.1);
-        }
-    }
+            /* Mobile card entrance animation */
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px) scale(0.95);
+                }
 
-    /* Button effects for all devices */
-    button {
-        transition: all 0.3s ease;
-    }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
 
-    /* Mobile active states (for touch devices) */
-    @media (max-width: 1023px) {
-        button:active {
-            transform: scale(0.95);
-        }
-        
-        .social-links a:active {
-            transform: scale(0.95);
-        }
-    }
+            .mobile-profile {
+                animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
 
-    /* Simple transitions for all devices */
-    .social-links a,
-    button,
-    .w-16 {
-        transition: all 0.3s ease;
-    }
-</style>
+            /* Desktop hover effects (only on large screens) */
+            @media (min-width: 1024px) {
+                .social-links a:hover {
+                    background: #fbbf24;
+                    color: #1e293b;
+                    transform: scale(1.1);
+                }
 
-<script>
-    // Enhanced title rotation with smooth transitions
-    document.addEventListener('DOMContentLoaded', function () {
-        const titles = document.querySelectorAll('.fade-text');
-        let currentIndex = 0;
+                /* Desktop button hover effects */
+                button:hover {
+                    transform: scale(1.05);
+                }
 
-        function rotateTitles() {
-            // Fade out current title
-            titles[currentIndex].classList.remove('active');
+                .text-center:hover .w-16 {
+                    transform: scale(1.1);
+                }
+            }
 
-            // Update index
-            currentIndex = (currentIndex + 1) % titles.length;
+            /* Button effects for all devices */
+            button {
+                transition: all 0.3s ease;
+            }
 
-            // Fade in next title
-            setTimeout(() => {
-                titles[currentIndex].classList.add('active');
-            }, 500);
-        }
+            /* Mobile active states (for touch devices) */
+            @media (max-width: 1023px) {
+                button:active {
+                    transform: scale(0.95);
+                }
 
-        // Start rotation
-        setInterval(rotateTitles, 3000);
-    });
-</script>
+                .social-links a:active {
+                    transform: scale(0.95);
+                }
+            }
+
+            /* Simple transitions for all devices */
+            .social-links a,
+            button,
+            .w-16 {
+                transition: all 0.3s ease;
+            }
+        </style>
+
+        <script>
+            // Enhanced title rotation with smooth transitions
+            document.addEventListener('DOMContentLoaded', function () {
+                const titles = document.querySelectorAll('.fade-text');
+                let currentIndex = 0;
+
+                function rotateTitles() {
+                    // Fade out current title
+                    titles[currentIndex].classList.remove('active');
+
+                    // Update index
+                    currentIndex = (currentIndex + 1) % titles.length;
+
+                    // Fade in next title
+                    setTimeout(() => {
+                        titles[currentIndex].classList.add('active');
+                    }, 500);
+                }
+
+                // Start rotation
+                setInterval(rotateTitles, 3000);
+            });
+        </script>
         <!-- About Section -->
         <section id="about" class="section relative">
             <!-- Enhanced Background -->
