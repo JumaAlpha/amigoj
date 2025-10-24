@@ -35,6 +35,12 @@ let lastTime = 0;
 let isMobile = false;
 let isInCarousel = false;
 
+// Mouse wheel scrolling variables
+let wheelTimeout;
+let wheelDelta = 0;
+const wheelThreshold = 50; // Minimum wheel delta to trigger section change
+const wheelCooldown = 800; // Cooldown between section changes
+
 // Initialize horizontal scrolling with Swiper for mobile only
 function initHorizontalScroll() {
     sectionsContainer = document.querySelector('.sections-container');
@@ -81,6 +87,7 @@ function initSwiperMobile() {
         mousewheel: {
             forceToAxis: true,
             sensitivity: 1,
+            eventsTarget: 'container',
         },
         keyboard: {
             enabled: true,
@@ -340,9 +347,62 @@ function initCustomDesktopScrolling() {
 
     setupTouchEvents();
     setupScrollEvents();
+    setupMouseWheelScrolling();
     
     // Initialize first section
     setActiveSection('home');
+}
+
+// Mouse wheel scrolling for desktop
+function setupMouseWheelScrolling() {
+    if (isMobile) return;
+    
+    document.addEventListener('wheel', handleMouseWheel, { passive: false });
+}
+
+function handleMouseWheel(e) {
+    if (isMobile || isScrolling) return;
+    
+    // Check if we're inside the package carousel or other scrollable elements
+    const inCarousel = e.target.closest('.package-carousel');
+    const scrollableElement = e.target.closest('#packages, [data-allow-vertical-scroll]');
+    
+    if (inCarousel || scrollableElement) {
+        // Allow normal scrolling in these elements
+        return;
+    }
+    
+    e.preventDefault();
+    
+    // Accumulate wheel delta
+    wheelDelta += Math.abs(e.deltaY);
+    
+    // Clear existing timeout
+    clearTimeout(wheelTimeout);
+    
+    // If accumulated delta exceeds threshold, trigger section change
+    if (wheelDelta >= wheelThreshold) {
+        const isScrollingDown = e.deltaY > 0;
+        
+        if (isScrollingDown && currentSectionIndex < sections.length - 1) {
+            smoothScrollToIndex(currentSectionIndex + 1);
+        } else if (!isScrollingDown && currentSectionIndex > 0) {
+            smoothScrollToIndex(currentSectionIndex - 1);
+        }
+        
+        // Reset wheel delta and set cooldown
+        wheelDelta = 0;
+        isScrolling = true;
+        
+        setTimeout(() => {
+            isScrolling = false;
+        }, wheelCooldown);
+    }
+    
+    // Reset wheel delta after a short time if no further wheel events
+    wheelTimeout = setTimeout(() => {
+        wheelDelta = 0;
+    }, 300);
 }
 
 // Custom desktop scrolling functions
@@ -707,68 +767,6 @@ function rotateText() {
 if (fadeTexts.length > 0) {
     setInterval(rotateText, 3000);
 }
-
-// Enhanced wheel event handler with vertical scrolling support
-document.addEventListener('wheel', function (e) {
-    // Only handle wheel events on desktop (when Swiper isn't active)
-    if (isMobile) return;
-    
-    // Check if we're inside the package carousel
-    const inCarousel = e.target.closest('.package-carousel');
-    if (inCarousel) {
-        // Completely prevent section switching when in carousel
-        e.stopPropagation();
-        return;
-    }
-    
-    // Check if we're inside other scrollable elements
-    const scrollableElement = e.target.closest('#packages, [data-allow-vertical-scroll]');
-    if (scrollableElement) {
-        // Allow vertical scrolling within the element
-        const isAtTop = scrollableElement.scrollTop === 0;
-        const isAtBottom = scrollableElement.scrollTop >= scrollableElement.scrollHeight - scrollableElement.clientHeight - 1;
-        const isScrollingUp = e.deltaY < 0;
-        const isScrollingDown = e.deltaY > 0;
-        
-        // Only prevent default if we're at boundaries and trying to scroll out
-        if ((isAtTop && isScrollingUp) || (isAtBottom && isScrollingDown)) {
-            e.preventDefault();
-            
-            if (isScrolling) return;
-            isScrolling = true;
-
-            if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-                smoothScrollToIndex(currentSectionIndex + 1);
-            } else if (isScrollingUp && currentSectionIndex > 0) {
-                smoothScrollToIndex(currentSectionIndex - 1);
-            }
-
-            setTimeout(() => {
-                isScrolling = false;
-            }, 600);
-        }
-        // Otherwise, allow normal vertical scrolling within the element
-        return;
-    }
-    
-    // Default behavior for non-scrollable areas
-    e.preventDefault();
-
-    if (isScrolling) return;
-    isScrolling = true;
-
-    const isScrollingDown = e.deltaY > 0;
-
-    if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        smoothScrollToIndex(currentSectionIndex + 1);
-    } else if (!isScrollingDown && currentSectionIndex > 0) {
-        smoothScrollToIndex(currentSectionIndex - 1);
-    }
-
-    setTimeout(() => {
-        isScrolling = false;
-    }, 600);
-}, { passive: false });
 
 // Enhanced keyboard navigation (works for both)
 document.addEventListener('keydown', function (e) {

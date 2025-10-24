@@ -24,23 +24,39 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         :root {
-            --font-primary: 'Poppins', sans-serif;
-            --font-accent: 'Caveat', cursive;
-            --font-secondary: 'Inter', sans-serif;
-            --accent-yellow: #f59e0b;
-            --accent-purple: #8b5cf6;
-            --accent-indigo: #6366f1;
-            --dark-100: #f1f5f9;
-            --dark-200: #e2e8f0;
-            --dark-300: #cbd5e1;
-            --dark-400: #94a3b8;
-            --dark-500: #64748b;
-            --dark-600: #475569;
-            --dark-700: #334155;
-            --dark-800: #1e293b;
-            --dark-900: #0f172a;
-            --text-body: #c0c0d0;
-            --bg-dark: #0f0f1a;
+            /* Core Brand Colors  */
+            --primary-dark: #0f172a;
+            /* Main backgrounds */
+            --secondary-dark: #1e293b;
+            /* Cards, containers */
+            --accent-gold: #f59e0b;
+            /* Primary accent */
+            --accent-gold-light: #fbbf24;
+            /* Hover states */
+
+            /* Neutral Tones  */
+            --text-primary: #f8fafc;
+            /* Headlines */
+            --text-secondary: #cbd5e1;
+            /* Body text */
+            --text-muted: #94a3b8;
+            /* Captions, labels */
+
+            /* Functional Colors - NEW */
+            --success: #10b981;
+            /* Positive states */
+            --error: #ef4444;
+            /* Errors, warnings */
+
+            /* Keep existing for compatibility */
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+
+            /* Remove conflicting colors */
+            /* --accent-purple: #8b5cf6; */
+            /* --accent-indigo: #6366f1; */
         }
 
         /* ===== BASE STYLES ===== */
@@ -80,6 +96,7 @@
             margin: 0 auto;
             padding: 0 1rem;
         }
+
 
 
         /* ===== GLASS EFFECTS ===== */
@@ -133,7 +150,7 @@
 
         /* ===== HOME SECTION ===== */
         #home {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            /* background: var(--primary-dark); */
         }
 
         #home video {
@@ -775,224 +792,436 @@
             }
         }
     </script>
-    <script defer>
-        // Loading Screen JavaScript
-        // Enhanced Loading Screen with Comprehensive Loading Detection
-        document.addEventListener('DOMContentLoaded', function () {
-            let resourcesLoaded = false;
-            let scriptsLoaded = false;
-            let domReady = false;
-            let totalResources = 0;
-            let loadedResources = 0;
 
-            // Check if DOM is ready
-            function checkDOMReady() {
-                domReady = true;
-                checkAllLoaded();
-            }
-
-            // Monitor external resources
-            function monitorResources() {
-                const resources = document.querySelectorAll('img, video, source, link[rel="stylesheet"]');
-                totalResources = resources.length;
-
-                if (totalResources === 0) {
-                    resourcesLoaded = true;
-                    checkAllLoaded();
-                    return;
-                }
-
-                resources.forEach(resource => {
-                    if (resource.complete || resource.readyState === 4) {
-                        resourceLoaded();
-                    } else {
-                        resource.addEventListener('load', resourceLoaded);
-                        resource.addEventListener('error', resourceLoaded); // Count errors as loaded too
-                    }
-                });
-
-                // Fallback timeout for resources
-                setTimeout(() => {
-                    resourcesLoaded = true;
-                    checkAllLoaded();
-                }, 5000);
-            }
-
-            function resourceLoaded() {
-                loadedResources++;
-                if (loadedResources >= totalResources) {
-                    resourcesLoaded = true;
-                    checkAllLoaded();
-                }
-            }
-
-            // Monitor script loading
-            function monitorScripts() {
-                const scripts = document.querySelectorAll('script[src]');
-                const totalScripts = scripts.length;
-                let loadedScripts = 0;
-
-                if (totalScripts === 0) {
-                    scriptsLoaded = true;
-                    checkAllLoaded();
-                    return;
-                }
-
-                scripts.forEach(script => {
-                    if (script.readyState === 'complete' || script.readyState === 'loaded') {
-                        scriptLoaded();
-                    } else {
-                        script.addEventListener('load', scriptLoaded);
-                        script.addEventListener('error', scriptLoaded); // Count errors as loaded too
-                    }
-                });
-
-                function scriptLoaded() {
-                    loadedScripts++;
-                    if (loadedScripts >= totalScripts) {
-                        scriptsLoaded = true;
-                        checkAllLoaded();
-                    }
-                }
-
-                // Fallback timeout for scripts
-                setTimeout(() => {
-                    scriptsLoaded = true;
-                    checkAllLoaded();
-                }, 5000);
-            }
-
-            // Check if all conditions are met
-            function checkAllLoaded() {
-                if (domReady && resourcesLoaded && scriptsLoaded) {
-                    completeLoading();
-                }
-            }
-
-            // Complete loading sequence
-            function completeLoading() {
-                // Create animated name letters
-                const nameLine = document.getElementById('nameLine');
-                const name = "AMIJOJI COMPANY";
-                const nameLetters = name.split('');
-
-                nameLetters.forEach((letter, index) => {
-                    const span = document.createElement('span');
-                    if (letter === ' ') {
-                        span.className = 'space';
-                    } else {
-                        span.className = 'name-letter';
-                        span.textContent = letter;
-                        span.style.animationDelay = `${index * 0.06}s`;
-                    }
-                    nameLine.appendChild(span);
-                });
-
-                // Create animated title letters
-                const titleLine = document.getElementById('titleLine');
-                const title = "PREMIUM PRODUCTION SERVICES";
-                const titleLetters = title.split('');
-
-                titleLetters.forEach((letter, index) => {
-                    const span = document.createElement('span');
-                    if (letter === ' ') {
-                        span.className = 'title-space';
-                    } else {
-                        span.className = 'title-letter';
-                        span.textContent = letter;
-                        span.style.animationDelay = `${(nameLetters.length * 0.06) + (index * 0.04) + 0.8}s`;
-                    }
-                    titleLine.appendChild(span);
-                });
-
-                // Progress bar animation
-                const progressBar = document.getElementById('progressBar');
-                const percentage = document.getElementById('percentage');
-                const completionGlow = document.getElementById('completionGlow');
-                const loadingScreen = document.getElementById('loadingScreen');
-                const mainContent = document.getElementById('mainContent');
-
-                let progress = 0;
-                const targetProgress = 100;
-
-                const interval = setInterval(() => {
-                    // More realistic loading curve
-                    if (progress < 85) {
-                        progress += Math.random() * 2.5;
-                    } else {
-                        progress += Math.random() * 0.8;
-                    }
-
-                    if (progress >= targetProgress) {
-                        progress = targetProgress;
-                        clearInterval(interval);
-
-                        // Enhanced completion sequence
-                        setTimeout(() => {
-                            // Create completion glow effect
-                            completionGlow.style.width = '200vw';
-                            completionGlow.style.height = '200vh';
-                            completionGlow.style.opacity = '0.1';
-
-                            // Enhanced fade out
-                            setTimeout(() => {
-                                loadingScreen.style.opacity = '0';
-                                loadingScreen.style.pointerEvents = 'none';
-
-                                setTimeout(() => {
-                                    loadingScreen.style.display = 'none';
-                                    if (mainContent) {
-                                        mainContent.classList.add('loaded');
-                                        mainContent.style.visibility = 'visible';
-                                        mainContent.style.opacity = '1';
-                                    }
-
-                                    // Trigger any post-loading animations
-                                    if (typeof AOS !== 'undefined') {
-                                        AOS.refresh();
-                                    }
-
-                                    // Dispatch custom event for other scripts
-                                    window.dispatchEvent(new Event('appLoaded'));
-                                }, 800);
-                            }, 400);
-                        }, 600);
-                    }
-
-                    if (progressBar) progressBar.style.width = `${progress}%`;
-                    if (percentage) percentage.textContent = `${Math.round(progress)}%`;
-                }, 120);
-            }
-
-            // Initialize monitoring
-            checkDOMReady();
-            monitorResources();
-            monitorScripts();
-
-            // Fallback - if something goes wrong, load anyway after 8 seconds
-            setTimeout(() => {
-                if (document.getElementById('loadingScreen').style.display !== 'none') {
-                    console.warn('Loading timeout - forcing completion');
-                    completeLoading();
-                }
-            }, 8000);
-        });
-
-        // Additional check for window load as backup
-        window.addEventListener('load', function () {
-            // This ensures everything is loaded, but we're already handling it above
-            console.log('Window fully loaded');
-        });
-
-        // Error handling for failed resources
-        window.addEventListener('error', function (e) {
-            console.log('Resource loading error:', e.target.src || e.target.href);
-            // Don't block loading for individual errors
-        }, true);
-    </script>
 </head>
 
 <body class="text-slate-100 antialiased">
+    <div id="loadingScreen">
+        <!-- Simple Background -->
+        <div class="simple-background"></div>
+
+        <!-- Minimal Content -->
+        <div class="simple-content">
+            <!-- Progress Circle -->
+            <div class="progress-circle">
+                <div class="circle-background"></div>
+                <div class="circle-progress" id="circleProgress"></div>
+                <div class="circle-spinner" id="circleSpinner"></div>
+                <div class="circle-center">
+                    <span class="percentage" id="percentage">0%</span>
+                </div>
+            </div>
+
+            <!-- Text Content -->
+            <div class="text-content">
+                <h1 class="company-name">AMIJOJI</h1>
+                <p class="profession">Creative Director</p>
+                <p class="loading-text" id="loadingText">Initializing...</p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f23;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .simple-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .simple-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .progress-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .circle-background {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .circle-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top: 2px solid #fbbf24;
+            border-right: 2px solid #fbbf24;
+            border-radius: 50%;
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+        }
+
+        .circle-spinner {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: 86px;
+            height: 86px;
+            border: 2px solid transparent;
+            border-top: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .circle-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .percentage {
+            color: #fbbf24;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .company-name {
+            color: #ffffff;
+            font-size: 1.8em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .profession {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8em;
+            font-weight: 300;
+            margin: 0;
+            min-height: 1.2em;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script>
+            (function () {
+                // Elements
+                const circleProgress = document.getElementById('circleProgress');
+                const circleSpinner = document.getElementById('circleSpinner');
+                const percentage = document.getElementById('percentage');
+                const loadingText = document.getElementById('loadingText');
+                const loadingScreen = document.getElementById('loadingScreen');
+
+                // State
+                let progress = 0;
+                let displayProgress = 0;
+                let resourcesLoaded = 0;
+                let totalResources = 0;
+                let domReady = false;
+                let windowLoaded = false;
+                let progressInterval;
+                let countingInterval;
+                let isPageFullyLoaded = false;
+
+                // Initialize at 0%
+                function initializeLoader() {
+                    progress = 0;
+                    displayProgress = 0;
+                    circleProgress.style.transform = 'rotate(45deg)';
+                    percentage.textContent = '0%';
+                    loadingText.textContent = 'Initializing...';
+
+                    // Start spinner animation
+                    circleSpinner.style.animation = 'spin 1.5s linear infinite';
+                }
+
+                // Smooth counting animation
+                function startCountingAnimation() {
+                    clearInterval(countingInterval);
+                    countingInterval = setInterval(() => {
+                        if (displayProgress < progress) {
+                            displayProgress += 1;
+                            percentage.textContent = `${displayProgress}%`;
+
+                            // Update circle progress
+                            const degrees = (displayProgress / 100) * 360;
+                            circleProgress.style.transform = `rotate(${45 + degrees}deg)`;
+
+                            if (displayProgress >= progress) {
+                                clearInterval(countingInterval);
+                            }
+                        }
+                    }, 20);
+                }
+
+                function updateProgress() {
+                    let calculatedProgress = 0;
+
+                    // DOM content loaded - 30%
+                    if (domReady) {
+                        calculatedProgress += 30;
+                    }
+
+                    // Resources loaded - 50% (weighted)
+                    if (totalResources > 0) {
+                        calculatedProgress += (resourcesLoaded / totalResources) * 50;
+                    } else {
+                        // If no resources, give this portion when DOM is ready
+                        if (domReady) {
+                            calculatedProgress += 50;
+                        }
+                    }
+
+                    // Window loaded - 20%
+                    if (windowLoaded) {
+                        calculatedProgress += 20;
+                    }
+
+                    // Update progress if increased
+                    if (calculatedProgress > progress) {
+                        progress = calculatedProgress;
+                        startCountingAnimation();
+                    }
+
+                    // Update status messages
+                    updateStatusMessage();
+
+                    // Check if page is fully loaded (DOM ready + window loaded + all resources)
+                    if (domReady && windowLoaded && resourcesLoaded >= totalResources) {
+                        isPageFullyLoaded = true;
+                    }
+
+                    // Only complete when page is fully loaded AND we've reached 100%
+                    if (isPageFullyLoaded && progress >= 100) {
+                        completeLoading();
+                    }
+                }
+
+                function updateStatusMessage() {
+                    if (!domReady) {
+                        loadingText.textContent = 'Loading page structure...';
+                    } else if (resourcesLoaded < totalResources) {
+                        loadingText.textContent = `Loading assets... (${resourcesLoaded}/${totalResources})`;
+                    } else if (!windowLoaded) {
+                        loadingText.textContent = 'Finalizing setup...';
+                    } else if (!isPageFullyLoaded) {
+                        loadingText.textContent = 'Almost ready...';
+                    } else {
+                        loadingText.textContent = 'Ready!';
+                    }
+                }
+
+                function trackResources() {
+                    // Get all resources
+                    const images = document.images;
+                    const videos = document.querySelectorAll('video');
+                    const iframes = document.querySelectorAll('iframe');
+                    const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+                    const scripts = document.querySelectorAll('script[src]');
+
+                    const allResources = [
+                        ...Array.from(images),
+                        ...Array.from(videos),
+                        ...Array.from(iframes),
+                        ...Array.from(stylesheets),
+                        ...Array.from(scripts)
+                    ];
+
+                    totalResources = allResources.length;
+
+                    if (totalResources === 0) {
+                        return;
+                    }
+
+                    allResources.forEach(resource => {
+                        if (resource.tagName === 'IMG') {
+                            if (resource.complete && resource.naturalHeight !== 0) {
+                                markResourceLoaded();
+                            } else {
+                                resource.addEventListener('load', markResourceLoaded);
+                                resource.addEventListener('error', markResourceLoaded);
+                            }
+                        } else if (resource.tagName === 'VIDEO') {
+                            if (resource.readyState >= 4) {
+                                markResourceLoaded();
+                            } else {
+                                resource.addEventListener('loadeddata', markResourceLoaded);
+                                resource.addEventListener('error', markResourceLoaded);
+                            }
+                        } else if (resource.tagName === 'IFRAME') {
+                            if (resource.contentDocument && resource.contentDocument.readyState === 'complete') {
+                                markResourceLoaded();
+                            } else {
+                                resource.addEventListener('load', markResourceLoaded);
+                                resource.addEventListener('error', markResourceLoaded);
+                            }
+                        } else if (resource.rel === 'stylesheet') {
+                            if (resource.sheet) {
+                                markResourceLoaded();
+                            } else {
+                                resource.addEventListener('load', markResourceLoaded);
+                                resource.addEventListener('error', markResourceLoaded);
+                            }
+                        } else if (resource.tagName === 'SCRIPT') {
+                            // External scripts - assume they load
+                            setTimeout(markResourceLoaded, 200);
+                        }
+                    });
+                }
+
+                function markResourceLoaded() {
+                    resourcesLoaded++;
+                    updateProgress();
+                }
+
+                function completeLoading() {
+                    clearInterval(progressInterval);
+                    clearInterval(countingInterval);
+
+                    // Stop the spinner
+                    circleSpinner.style.animation = 'none';
+
+                    // Ensure we count to 100%
+                    if (displayProgress < 100) {
+                        let finalCount = displayProgress;
+                        const finalInterval = setInterval(() => {
+                            finalCount += 1;
+                            percentage.textContent = `${finalCount}%`;
+
+                            const degrees = (finalCount / 100) * 360;
+                            circleProgress.style.transform = `rotate(${45 + degrees}deg)`;
+
+                            if (finalCount >= 100) {
+                                clearInterval(finalInterval);
+                                showCompletion();
+                            }
+                        }, 30);
+                    } else {
+                        showCompletion();
+                    }
+                }
+
+                function showCompletion() {
+                    percentage.textContent = '100%';
+                    loadingText.textContent = 'Complete!';
+
+                    // Wait a moment to show completion, then fade out
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.transition = 'opacity 0.5s ease';
+
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+
+                            // Initialize page functionality
+                            if (typeof initializeHorizontalScrolling === 'function') {
+                                initializeHorizontalScrolling();
+                            }
+                            if (typeof initializeHomeAnimations === 'function') {
+                                initializeHomeAnimations();
+                            }
+                        }, 500);
+                    }, 1000);
+                }
+
+                // Main initialization
+                function init() {
+                    // Start at 0%
+                    initializeLoader();
+
+                    // Track DOM ready state
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', handleDOMReady);
+                    } else {
+                        handleDOMReady();
+                    }
+
+                    // Track window load
+                    window.addEventListener('load', handleWindowLoad);
+
+                    // Start progress monitoring
+                    progressInterval = setInterval(updateProgress, 100);
+
+                    // Extended safety timeout - wait longer for full page load
+                    setTimeout(() => {
+                        if (!isPageFullyLoaded) {
+                            console.log('Safety timeout - forcing completion');
+                            domReady = true;
+                            windowLoaded = true;
+                            resourcesLoaded = totalResources;
+                            isPageFullyLoaded = true;
+                            progress = 100;
+                            completeLoading();
+                        }
+                    }, 15000); // 15 second timeout
+                }
+
+                function handleDOMReady() {
+                    domReady = true;
+                    trackResources();
+                    updateProgress();
+                }
+
+                function handleWindowLoad() {
+                    windowLoaded = true;
+                    updateProgress();
+
+                    // Double-check resources after window load
+                    setTimeout(() => {
+                        trackResources();
+                        updateProgress();
+                    }, 100);
+                }
+
+                // Start the loader
+                init();
+            })();
+    </script>
     <!-- Loading Bar -->
     <div class="loading-bar" id="loadingBar"></div>
 
@@ -1214,10 +1443,11 @@
                 </div>
                 <!-- Enhanced Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-b from-dark-900/95 via-dark-900/70 to-dark-900/90 
-            lg:bg-gradient-to-r lg:from-dark-900 lg:via-dark-900/80 lg:to-transparent"></div>
+            lg:bg-gradient-to-r lg:from-dark-900/95 lg:via-dark-900/85 lg:to-transparent"></div>
+
                 <!-- Animated Grid Pattern -->
                 <div
-                    class="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(251,191,36,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.1)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]">
+                    class="absolute inset-0 opacity-15 bg-[linear-gradient(rgba(251,191,36,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.15)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]">
                 </div>
             </div>
 
@@ -1225,11 +1455,9 @@
             <div class="container max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
                 <div class="w-full">
                     <!-- Enhanced Desktop Content -->
-                    <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1000">
-                        <!-- Welcome Badge -->
-
-                        <!-- Enhanced Welcome Text -->
-                        <div class="mb-6">
+                    <div class="max-w-2xl hidden lg:block" data-aos="custom-fade-up" data-aos-duration="1200">
+                        <!-- Welcome Header -->
+                        <div class="mb-8">
                             <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight">
                                 <span
                                     class="block text-slate-200 text-xl md:text-2xl font-light tracking-wider mb-2">I'M</span>
@@ -1242,7 +1470,7 @@
                         </div>
 
                         <!-- Enhanced Rotating Titles -->
-                        <div class="fade-animation min-h-[80px] mb-8 ml-8">
+                        <div class="fade-animation min-h-[80px] mb-8">
                             <div
                                 class="fade-wrapper relative w-full text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-100">
                                 <div class="fade-text active flex items-center gap-4" id="text-1">
@@ -1279,7 +1507,7 @@
                         </div>
 
                         <!-- Enhanced Description -->
-                        <div class="mb-10 ml-8 relative">
+                        <div class="mb-10 relative">
                             <div
                                 class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-yellow to-accent-purple rounded-full">
                             </div>
@@ -1290,41 +1518,41 @@
                         </div>
 
                         <!-- Enhanced Stats -->
-                        <div class="flex flex-wrap gap-8 mb-10 ml-8">
-                            <div class="text-center group">
+                        <div class="flex flex-wrap gap-8 mb-10">
+                            <div class="text-center">
                                 <div class="relative mb-3">
                                     <div
-                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
                                         <i class="fas fa-project-diagram text-accent-yellow text-xl"></i>
                                     </div>
                                 </div>
                                 <div class="text-3xl font-bold text-accent-yellow">150+</div>
                                 <div class="text-slate-400 text-sm font-medium mt-1">Projects</div>
                             </div>
-                            <div class="text-center group">
+                            <div class="text-center">
                                 <div class="relative mb-3">
                                     <div
-                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:-rotate-6">
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple/20 to-accent-purple/5 border border-accent-purple/20 flex items-center justify-center mx-auto">
                                         <i class="fas fa-users text-accent-purple text-xl"></i>
                                     </div>
                                 </div>
                                 <div class="text-3xl font-bold text-accent-purple">50+</div>
                                 <div class="text-slate-400 text-sm font-medium mt-1">Clients</div>
                             </div>
-                            <div class="text-center group">
+                            <div class="text-center">
                                 <div class="relative mb-3">
                                     <div
-                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-indigo/20 to-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-indigo/20 to-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-center mx-auto">
                                         <i class="fas fa-calendar-alt text-accent-indigo text-xl"></i>
                                     </div>
                                 </div>
                                 <div class="text-3xl font-bold text-accent-indigo">10+</div>
                                 <div class="text-slate-400 text-sm font-medium mt-1">Years</div>
                             </div>
-                            <div class="text-center group">
+                            <div class="text-center">
                                 <div class="relative mb-3">
                                     <div
-                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-500 group-hover:-rotate-6">
+                                        class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-yellow/20 to-accent-yellow/5 border border-accent-yellow/20 flex items-center justify-center mx-auto">
                                         <i class="fas fa-trophy text-accent-yellow text-xl"></i>
                                     </div>
                                 </div>
@@ -1334,180 +1562,129 @@
                         </div>
 
                         <!-- Enhanced Buttons -->
-                        <div class="flex flex-col sm:flex-row gap-4 mb-10 ml-8">
+                        <div class="flex flex-col sm:flex-row gap-4 mb-10">
                             <button onclick="openVideoModal()"
-                                class="group relative overflow-hidden bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/30 flex items-center justify-center gap-3">
-                                <span class="relative z-10 flex items-center gap-3">
-                                    <i
-                                        class="fas fa-play-circle group-hover:scale-110 transition-transform duration-300"></i>
-                                    View Portfolio
-                                </span>
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000">
-                                </div>
+                                class="bg-gradient-to-br from-accent-indigo to-accent-purple text-white border-0 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3">
+                                <i class="fas fa-play-circle"></i>
+                                View Portfolio
                             </button>
                             <button onclick="scrollToSection('contact')"
-                                class="group bg-transparent text-white border-2 border-slate-500 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-500 hover:bg-white/10 hover:border-white hover:scale-105 flex items-center justify-center gap-3">
-                                <i class="fas fa-envelope group-hover:scale-110 transition-transform duration-300"></i>
+                                class="bg-transparent text-white border-2 border-slate-500 py-4 px-10 rounded-2xl text-lg font-semibold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3">
+                                <i class="fas fa-envelope"></i>
                                 Contact Me
                             </button>
                         </div>
 
                         <!-- Enhanced Social Links -->
-                        <div class="social-links flex gap-4 ml-8">
+                        <div class="social-links flex gap-4">
                             <a href="#"
-                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
-                                <i class="fab fa-instagram group-hover:scale-110 transition-transform duration-300"></i>
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-instagram"></i>
                             </a>
                             <a href="#"
-                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:-rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
-                                <i class="fab fa-youtube group-hover:scale-110 transition-transform duration-300"></i>
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-youtube"></i>
                             </a>
                             <a href="#"
-                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
-                                <i
-                                    class="fab fa-linkedin-in group-hover:scale-110 transition-transform duration-300"></i>
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-linkedin-in"></i>
                             </a>
                             <a href="#"
-                                class="group social-icon w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-500 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-translate-y-1 hover:-rotate-12 hover:shadow-lg hover:shadow-accent-yellow/30">
-                                <i class="fab fa-twitter group-hover:scale-110 transition-transform duration-300"></i>
+                                class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-accent-yellow text-xl transition-all duration-300">
+                                <i class="fab fa-twitter"></i>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Enhanced Mobile Profile Section - Bottom Right -->
+            <!-- Simple Mobile Profile Section -->
             <div class="lg:hidden absolute bottom-20 right-4 z-20">
-                <div class="mobile-profile group relative">
-                    <!-- Main Card -->
+                <div class="mobile-profile">
+                    <!-- Simple Mobile Card -->
                     <div
-                        class="glass-effect rounded-2xl p-4 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/30 relative overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:border-accent-yellow/30 max-w-[280px]">
-                        <!-- Background Gradient Effect -->
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 via-transparent to-accent-purple/5 opacity-50">
-                        </div>
-
-                        <!-- Animated Border -->
-                        <div
-                            class="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-yellow/0 via-accent-yellow/10 to-accent-purple/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-
+                        class="bg-dark-800/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/40 max-w-[280px]">
                         <!-- Content -->
-                        <div class="relative z-10">
+                        <div class="text-right">
                             <!-- Profile Header -->
-                            <div class="text-right mb-4">
-                                <!-- Name with Gradient -->
+                            <div class="mb-4">
                                 <h2 class="text-lg font-bold text-white mb-1 bg-gradient-to-r from-accent-yellow to-accent-purple bg-clip-text text-transparent"
-                                    style="font-family: 'Caveat', cursive; font-size: 1.25em; font-weight: 600;">
+                                    style="font-family: 'Caveat', cursive;">
                                     Amigo Johnson
                                 </h2>
-                                <!-- Title with Icon -->
                                 <div class="flex items-center justify-end gap-1 mb-2">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-accent-yellow animate-pulse"></div>
+                                    <div class="w-1.5 h-1.5 rounded-full bg-accent-yellow"></div>
                                     <p class="text-accent-yellow text-xs font-medium">Creative Director</p>
                                 </div>
-
-                                <!-- Compact Description -->
-                                <p
-                                    class="text-slate-300 text-xs leading-relaxed mb-3 bg-white/5 rounded-lg p-2 border border-white/10">
+                                <p class="text-slate-300 text-xs leading-relaxed mb-3">
                                     Crafting unforgettable experiences through stage direction, video production, and
                                     sound engineering.
                                 </p>
                             </div>
 
-                            <!-- Enhanced Action Buttons -->
+                            <!-- Action Buttons -->
                             <div class="flex justify-end gap-3 mb-4">
                                 <button onclick="openVideoModal()"
-                                    class="icon-btn group relative w-10 h-10 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-500/60"
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-indigo to-accent-purple text-white flex items-center justify-center"
                                     aria-label="View Portfolio">
-                                    <i
-                                        class="fas fa-play-circle text-xs group-hover:scale-110 transition-transform duration-300"></i>
-                                    <div
-                                        class="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
+                                    <i class="fas fa-play-circle text-xs"></i>
                                 </button>
                                 <button onclick="scrollToSection('contact')"
-                                    class="icon-btn group relative w-10 h-10 rounded-full bg-white/15 text-white border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white/25 hover:border-white/50"
+                                    class="w-10 h-10 rounded-full text-white border border-white/30 flex items-center justify-center"
                                     aria-label="Contact Me">
-                                    <i
-                                        class="fas fa-envelope text-xs group-hover:scale-110 transition-transform duration-300"></i>
-                                    <div
-                                        class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
+                                    <i class="fas fa-envelope text-xs"></i>
                                 </button>
                             </div>
 
-                            <!-- Enhanced Stats Grid -->
+                            <!-- Stats Grid -->
                             <div class="grid grid-cols-3 gap-2 text-xs mb-3">
-                                <div
-                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-yellow/30 transition-all duration-300">
-                                    <div
-                                        class="font-bold text-accent-yellow text-sm group-hover:scale-110 transition-transform duration-300">
-                                        150+</div>
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-yellow text-sm">150+</div>
                                     <div class="text-slate-400 text-[10px] mt-1">Projects</div>
                                 </div>
-                                <div
-                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-purple/30 transition-all duration-300">
-                                    <div
-                                        class="font-bold text-accent-purple text-sm group-hover:scale-110 transition-transform duration-300">
-                                        50+</div>
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-purple text-sm">50+</div>
                                     <div class="text-slate-400 text-[10px] mt-1">Clients</div>
                                 </div>
-                                <div
-                                    class="text-center p-2 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 group hover:border-accent-indigo/30 transition-all duration-300">
-                                    <div
-                                        class="font-bold text-accent-indigo text-sm group-hover:scale-110 transition-transform duration-300">
-                                        10+</div>
+                                <div class="text-center p-2 rounded-xl border border-white/10">
+                                    <div class="font-bold text-accent-indigo text-sm">10+</div>
                                     <div class="text-slate-400 text-[10px] mt-1">Years</div>
                                 </div>
                             </div>
 
-                            <!-- Enhanced Social Links -->
+                            <!-- Social Links -->
                             <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
                                 <a href="#"
-                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:rotate-12"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px]"
                                     aria-label="Instagram">
-                                    <i
-                                        class="fab fa-instagram group-hover:scale-110 transition-transform duration-300"></i>
+                                    <i class="fab fa-instagram"></i>
                                 </a>
                                 <a href="#"
-                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:-rotate-12"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px]"
                                     aria-label="YouTube">
-                                    <i
-                                        class="fab fa-youtube group-hover:scale-110 transition-transform duration-300"></i>
+                                    <i class="fab fa-youtube"></i>
                                 </a>
                                 <a href="#"
-                                    class="group w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px] transition-all duration-300 hover:bg-accent-yellow hover:text-dark-900 hover:scale-110 hover:rotate-12"
+                                    class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-accent-yellow text-[10px]"
                                     aria-label="LinkedIn">
-                                    <i
-                                        class="fab fa-linkedin-in group-hover:scale-110 transition-transform duration-300"></i>
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Floating Elements -->
-                    <div
-                        class="absolute -top-2 -right-2 w-4 h-4 bg-accent-yellow rounded-full opacity-60 animate-pulse">
-                    </div>
-                    <div
-                        class="absolute -bottom-2 -left-2 w-3 h-3 bg-accent-purple rounded-full opacity-40 animate-pulse delay-1000">
-                    </div>
                 </div>
             </div>
 
-            <!-- Horizontal Scroll Indicator -->
+            <!-- Scroll Indicators -->
             <div class="absolute bottom-8 right-8 z-20 hidden lg:flex items-center gap-3 text-slate-300">
-                <div class="flex items-center gap-2 animate-pulse">
+                <div class="flex items-center gap-2">
                     <span class="text-sm font-medium">Scroll horizontally</span>
                     <i class="fas fa-arrow-right text-accent-yellow"></i>
                 </div>
             </div>
 
-            <!-- Scroll Indicator (Vertical - for other sections) -->
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-                <div class="animate-bounce text-accent-yellow">
+                <div class="text-accent-yellow">
                     <i class="fas fa-chevron-down text-xl"></i>
                 </div>
             </div>
@@ -1529,41 +1706,6 @@
                 transform: translateY(0);
             }
 
-            /* Smooth hover transitions */
-            .social-icon,
-            .btn,
-            .icon-btn {
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            /* Gradient text animation */
-            @keyframes gradientShift {
-                0% {
-                    background-position: 0% 50%;
-                }
-
-                50% {
-                    background-position: 100% 50%;
-                }
-
-                100% {
-                    background-position: 0% 50%;
-                }
-            }
-
-            .bg-gradient-to-r {
-                background-size: 200% 200%;
-                animation: gradientShift 6s ease infinite;
-            }
-
-            /* Enhanced glass effect */
-            .glass-effect {
-                background: rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-                border: 1px solid rgba(255, 255, 255, 0.15);
-            }
-
             /* Mobile card entrance animation */
             @keyframes slideInUp {
                 from {
@@ -1579,6 +1721,30 @@
 
             .mobile-profile {
                 animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            /* Desktop hover effects (only on large screens) */
+            @media (min-width: 1024px) {
+                .social-links a:hover {
+                    background: #fbbf24;
+                    color: #1e293b;
+                    transform: scale(1.1);
+                }
+
+                button:hover {
+                    transform: scale(1.05);
+                }
+
+                .text-center:hover .w-16 {
+                    transform: scale(1.1);
+                }
+            }
+
+            /* Simple transitions for all devices */
+            .social-links a,
+            button,
+            .w-16 {
+                transition: all 0.3s ease;
             }
         </style>
 
@@ -1603,14 +1769,6 @@
 
                 // Start rotation
                 setInterval(rotateTitles, 3000);
-
-                // Mobile card interaction
-                const mobileCard = document.querySelector('.mobile-profile');
-                if (mobileCard) {
-                    mobileCard.addEventListener('click', function () {
-                        this.classList.toggle('active');
-                    });
-                }
             });
         </script>
         <!-- About Section -->
@@ -1993,9 +2151,9 @@
             }
 
             /* Hover animations */
-            .group:hover .group-hover\:scale-110 {
+            /* .group:hover .group-hover\:scale-110 {
                 transform: scale(1.1);
-            }
+            } */
 
             /* Smooth transitions */
             .transition-all {
@@ -3718,39 +3876,7 @@
             </div>
         </div>
     </div>
-    <div id="loadingScreen">
-        <div class="loading-container">
-            <!-- Logo -->
-            <div class="logo">
-                <div class="logo-inner"></div>
-            </div>
 
-            <!-- Name -->
-            <div class="name-line" id="nameLine">
-                <!-- Letters will be added by JavaScript -->
-            </div>
-
-            <!-- Title -->
-            <div class="title-line" id="titleLine">
-                <!-- Letters will be added by JavaScript -->
-            </div>
-
-            <!-- Progress -->
-            <div class="progress-section">
-                <div class="progress-text">Loading Portfolio</div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div class="percentage" id="percentage">0%</div>
-            </div>
-        </div>
-
-        <div class="completion-glow" id="completionGlow"></div>
-
-        <div class="brand-footer">
-            AMIJOJI COMPANY LIMITED
-        </div>
-    </div>
 
     <script>
         // Initialize AOS
